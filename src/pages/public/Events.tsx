@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Search, Calendar, MapPin, Star, Users, Video, Clock, ArrowRight } from 'lucide-react';
 
 export default function Events() {
@@ -9,6 +10,7 @@ export default function Events() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [timeFilter, setTimeFilter] = useState('Any Time');
+  const [registrationTarget, setRegistrationTarget] = useState<string | null>(null);
 
   const subNav = ['Search Events', 'Categories', 'Online Events', 'Free Events', 'Event Calendar'];
 
@@ -99,6 +101,15 @@ export default function Events() {
                 </div>
               </div>
 
+              {registrationTarget ? (
+                <QuickRegisterForm
+                  heading="Event Registration"
+                  targetLabel={registrationTarget}
+                  submitLabel="Submit Event Registration"
+                  onClose={() => setRegistrationTarget(null)}
+                />
+              ) : null}
+
               {/* Popular Events */}
               <div>
                 <div className="flex justify-between items-end mb-6">
@@ -151,9 +162,13 @@ export default function Events() {
                             <span className="text-xs text-slate-500 uppercase tracking-wider font-bold">Reward</span>
                             <span className="text-sm font-black text-emerald-600">+{event.points} Points</span>
                           </div>
-                          <Link to={`/events/${event.slug}`} className="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-colors">
+                          <button
+                            type="button"
+                            onClick={() => setRegistrationTarget(event.title)}
+                            className="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
+                          >
                             Register
-                          </Link>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -279,9 +294,13 @@ export default function Events() {
                           <span className="text-xs text-slate-500 uppercase tracking-wider font-bold">Reward</span>
                           <span className="text-sm font-black text-emerald-600">+{event.points} Points</span>
                         </div>
-                        <Link to={`/events/${event.slug}`} className="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-colors">
+                        <button
+                          type="button"
+                          onClick={() => setRegistrationTarget(event.title)}
+                          className="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
+                        >
                           Register
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -335,9 +354,13 @@ export default function Events() {
                           <span className="text-xs text-slate-500 uppercase tracking-wider font-bold">Reward</span>
                           <span className="text-sm font-black text-emerald-600">+{event.points} Points</span>
                         </div>
-                        <Link to={`/events/${event.slug}`} className="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-colors">
+                        <button
+                          type="button"
+                          onClick={() => setRegistrationTarget(event.title)}
+                          className="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
+                        >
                           Register
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   </div>

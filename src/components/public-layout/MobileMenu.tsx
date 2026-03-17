@@ -1,7 +1,7 @@
 import { ChevronDown, Search } from 'lucide-react';
 import type React from 'react';
 import { Link } from 'react-router-dom';
-import { mobileQuickLinks, serviceCategories, upcomingEvents } from './data';
+import { discoveryGroups, mobileQuickLinks, serviceCategories, upcomingEvents } from './menuData';
 
 type Props = {
   open: boolean;
@@ -15,7 +15,7 @@ type Props = {
   setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function MobileMenuDrawer({
+export default function MobileMenu({
   open,
   topOffsetVar = 'var(--site-header-height)',
   locationPathname,
@@ -121,6 +121,38 @@ export default function MobileMenuDrawer({
                     <span className="truncate">{event.name}</span>
                     <span className="text-[10px] text-slate-400 flex-shrink-0 ml-2">{event.date}</span>
                   </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden">
+            <button
+              type="button"
+              onClick={() => toggleMobileSection('discover')}
+              className="w-full px-4 py-3.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center justify-between transition-colors"
+            >
+              Discover
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === 'discover' ? 'rotate-180' : ''}`} />
+            </button>
+            {mobileExpanded === 'discover' && (
+              <div className="px-4 pb-4 space-y-3 mobile-section-enter border-t border-slate-100 bg-slate-50/70">
+                {discoveryGroups.map((group) => (
+                  <div key={group.title} className="pt-3">
+                    <p className="text-xs font-bold text-slate-900 mb-2">{group.title}</p>
+                    <div className="grid grid-cols-1 gap-1">
+                      {group.items.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          className="rounded-xl bg-white border border-slate-200 px-3 py-2 text-xs text-slate-600"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             )}

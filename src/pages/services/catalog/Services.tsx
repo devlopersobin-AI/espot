@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { serviceCategories } from '../../../components/public-layout/data';
+import { serviceCategories } from '../../../components/public-layout/menuData';
+import { getServiceImageByPath, getServiceSummaryByPath } from '../shared/serviceImage';
 
 const CATEGORY_ROUTE_BY_NAME: Record<string, string> = {
   Equestrian: 'equestrian',
@@ -57,10 +58,17 @@ export default function Services() {
                         to={service.path}
                         className="group bg-slate-50 rounded-xl border border-slate-200 px-4 py-3 hover:border-blue-300 hover:bg-blue-50/40 transition-colors"
                       >
+                        <img
+                          src={getServiceImageByPath(service.path, { width: 640, height: 360, variant: 'thumb' })}
+                          alt={service.name}
+                          className="w-full h-24 object-cover rounded-md mb-2"
+                        />
                         <h3 className="text-sm md:text-base font-semibold text-slate-900 group-hover:text-blue-700">
                           {service.name}
                         </h3>
-                        <p className="text-xs text-slate-500 mt-1">Open service details</p>
+                        <p className="text-xs text-slate-600 mt-1 line-clamp-2">
+                          {getServiceSummaryByPath(service.path, service.name, category.desc)}
+                        </p>
                       </Link>
                     ))}
                   </div>

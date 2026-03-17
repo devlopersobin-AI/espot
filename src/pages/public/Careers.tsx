@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { ArrowRight, Briefcase, MapPin, Clock } from 'lucide-react';
 
 export default function Careers() {
+  const [applicationTarget, setApplicationTarget] = useState<string | null>(null);
+
   const openPositions = [
     {
       id: 1,
@@ -130,6 +134,18 @@ export default function Careers() {
             <h2 className="text-3xl font-bold mb-3 text-slate-900">Open Positions</h2>
             <p className="text-slate-600 text-lg">Each role includes clear ownership, team context, and visible growth pathways.</p>
           </div>
+
+          {applicationTarget ? (
+            <div className="mb-6 max-w-3xl">
+              <QuickRegisterForm
+                heading="Career Application"
+                targetLabel={applicationTarget}
+                submitLabel="Submit Application"
+                onClose={() => setApplicationTarget(null)}
+              />
+            </div>
+          ) : null}
+
           <div className="space-y-6">
             {openPositions.map((position) => (
               <div key={position.id} className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
@@ -162,7 +178,11 @@ export default function Careers() {
                   </ul>
                 </div>
 
-                <button className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => setApplicationTarget(position.title)}
+                  className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                >
                   <span>Apply Now</span>
                   <ArrowRight size={18} />
                 </button>

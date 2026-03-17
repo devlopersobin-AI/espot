@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 import type React from 'react';
 import logo from '../../assets/espotclub_logo_withtext.png';
-import { eventTypes, mainNavItems, secondaryNavItems, serviceCategories, upcomingEvents } from './data';
-import type { MegaMenuId } from './types';
+import { discoveryGroups, eventTypes, mainNavItems, serviceCategories, upcomingEvents } from './menuData';
+import type { MegaMenuId } from './navTypes';
 
 type Props = {
   headerRef: React.RefObject<HTMLElement>;
@@ -59,7 +59,7 @@ function NavTrigger({
   );
 }
 
-export default function PublicHeader({
+export default function Navbar({
   headerRef,
   locationPathname,
   mobileMenuOpen,
@@ -103,6 +103,7 @@ export default function PublicHeader({
             ))}
             <NavTrigger id="services" label="Services" activeMega={activeMega} openMega={openMega} />
             <NavTrigger id="events" label="Events" activeMega={activeMega} openMega={openMega} />
+            <NavTrigger id="discover" label="Discover" activeMega={activeMega} openMega={openMega} />
           </nav>
 
           <div className="hidden xl:flex items-center gap-2.5">
@@ -145,26 +146,6 @@ export default function PublicHeader({
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
-        </div>
-      </div>
-
-      <div className="hidden xl:block border-t border-slate-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 xl:px-8">
-          <div className="flex items-center gap-0.5 h-9 overflow-x-auto hide-scrollbar">
-            {secondaryNavItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`px-3 py-1 rounded text-xs font-medium transition-colors whitespace-nowrap ${
-                  locationPathname === item.path
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -316,6 +297,52 @@ export default function PublicHeader({
                       className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-purple-600 hover:text-purple-700 transition-colors"
                     >
                       Register now <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeMega === 'discover' && (
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+              <div className="grid grid-cols-12 gap-8">
+                <div className="col-span-9 grid grid-cols-3 gap-4">
+                  {discoveryGroups.map((group) => (
+                    <div key={group.title} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                      <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 mb-3">{group.title}</h3>
+                      <div className="space-y-1">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                              locationPathname === item.path
+                                ? 'bg-blue-600 text-white'
+                                : 'text-slate-700 hover:bg-white hover:text-blue-700'
+                            }`}
+                          >
+                            <span>{item.name}</span>
+                            <ArrowRight className="w-3.5 h-3.5 opacity-70" />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="col-span-3">
+                  <div className="rounded-2xl bg-gradient-to-br from-blue-50 via-cyan-50 to-emerald-50 border border-blue-100/70 p-6 h-full">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-700">Quick Access</p>
+                    <h4 className="mt-3 text-xl font-bold text-slate-900">Explore More Modules</h4>
+                    <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                      Use Discover to jump into marketplace pages, growth tracks, and career opportunities from one place.
+                    </p>
+                    <Link
+                      to="/showcase"
+                      className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800"
+                    >
+                      Open Showcase <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </div>

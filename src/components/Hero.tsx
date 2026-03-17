@@ -15,21 +15,27 @@ const Hero: React.FC<HeroProps> = ({
   subtitle,
   label = 'Module',
 }) => (
-  <section className={`relative overflow-hidden ${bgColor} text-white`}>
-    <div className="pointer-events-none absolute -top-24 left-0 h-40 w-40 sm:h-56 sm:w-56 rounded-full bg-cyan-300/20 blur-3xl"></div>
-    <div className="pointer-events-none absolute -bottom-20 right-10 h-40 w-40 sm:h-56 sm:w-56 rounded-full bg-blue-500/20 blur-3xl"></div>
+  <section className={`relative overflow-hidden ${bgColor} text-white border-b border-slate-800/70`}>
+    <img
+      src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1800&h=900&fit=crop"
+      alt=""
+      aria-hidden="true"
+      className="absolute inset-0 w-full h-full object-cover opacity-[0.18]"
+    />
+    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:28px_28px] opacity-[0.08]" />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/45 via-black/20 to-black/45" />
 
-    <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 sm:py-12 md:py-18">
-      <div className="max-w-4xl">
+    <div className="relative max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 sm:py-14 md:py-20">
+      <div className="max-w-5xl">
         {label && (
-          <p className={`text-[11px] sm:text-sm font-semibold tracking-[0.18em] uppercase mb-2.5 ${accentColor}`}>
+          <p className={`inline-flex text-[11px] sm:text-xs font-semibold tracking-[0.18em] uppercase mb-3 px-3 py-1 border border-white/20 bg-white/10 ${accentColor}`}>
             {label}
           </p>
         )}
-        <h1 className="text-[1.9rem] sm:text-[2.35rem] md:text-[3.1rem] font-semibold tracking-[-0.02em] leading-[1.05] mb-3">
+        <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.4rem] font-bold tracking-[-0.02em] leading-[1.04] mb-3">
           {title}
         </h1>
-        <p className="text-[0.97rem] sm:text-[1rem] md:text-[1.1rem] text-white/80 leading-relaxed max-w-3xl">
+        <p className="text-[0.98rem] sm:text-[1.02rem] md:text-[1.15rem] text-white/85 leading-relaxed max-w-3xl">
           {subtitle}
         </p>
       </div>

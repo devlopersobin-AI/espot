@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Hero from '../../components/Hero';
 import { Link } from 'react-router-dom';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Star, ArrowRight, CheckCircle2, Target, Calendar, Users, Award, Search, TrendingUp, Handshake, ShieldCheck } from 'lucide-react';
 
 export default function Partner() {
@@ -9,6 +10,7 @@ export default function Partner() {
   const [activeTab, setActiveTab] = useState(subNav[0]);
   const [partnerQuery, setPartnerQuery] = useState('');
   const [industryFilter, setIndustryFilter] = useState<'All' | 'Technology' | 'Supply Chain' | 'Education' | 'Energy' | 'Healthcare' | 'Finance'>('All');
+  const [registrationTarget, setRegistrationTarget] = useState<string | null>(null);
 
   const topPartners = [
     { id: 1, name: 'TechCorp Solutions', rating: 4.9, reviews: 128, type: 'Technology', image: 'https://picsum.photos/seed/p1/400/300', growth: '+21%', campaigns: 34 },
@@ -257,6 +259,15 @@ export default function Partner() {
 
           {activeTab === 'Events' && (
             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {registrationTarget ? (
+                <QuickRegisterForm
+                  heading="Partner Event Registration"
+                  targetLabel={registrationTarget}
+                  submitLabel="Submit Registration"
+                  onClose={() => setRegistrationTarget(null)}
+                />
+              ) : null}
+
               {events.map((event, i) => (
                 <div key={i} className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-full md:w-48 h-32 bg-slate-100 rounded-xl overflow-hidden shrink-0">
@@ -270,7 +281,11 @@ export default function Partner() {
                     <h3 className="text-xl font-bold text-slate-900 mb-1">{event.title}</h3>
                     <p className="text-sm text-slate-500 mb-2">{event.format} • {event.city} • {event.seats} seats left</p>
                     <p className="text-slate-600 mb-4">Join top partners for networking, strategy sharing, and upcoming campaign previews.</p>
-                    <button className="text-blue-600 font-bold hover:text-blue-700 flex items-center text-sm">
+                    <button
+                      type="button"
+                      onClick={() => setRegistrationTarget(event.title)}
+                      className="text-blue-600 font-bold hover:text-blue-700 flex items-center text-sm"
+                    >
                       Register Now <ArrowRight className="w-4 h-4 ml-1" />
                     </button>
                   </div>

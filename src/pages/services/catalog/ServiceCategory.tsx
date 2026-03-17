@@ -1,7 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { serviceCategories } from '../../../components/public-layout/data';
+import { serviceCategories } from '../../../components/public-layout/menuData';
 import ServiceDetailTemplate from '../shared/ServiceDetailTemplate';
+import { getServiceImageByPath, getServiceSummaryByPath } from '../shared/serviceImage';
 
 const CATEGORY_BY_ROUTE: Record<string, string> = {
   equestrian: 'Equestrian',
@@ -51,8 +52,9 @@ export default function ServiceCategory() {
           categoryName={categoryKey}
           categoryDescription={categoryData.desc}
           serviceName={service.name}
-          image={categoryData.image}
+          image={getServiceImageByPath(service.path, { width: 1600, height: 900, variant: 'hero' })}
           servicePath={service.path}
+          summary={getServiceSummaryByPath(service.path, service.name, categoryData.desc)}
         />
       );
     }
@@ -73,13 +75,20 @@ export default function ServiceCategory() {
               to={service.path}
               className="group bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md hover:border-blue-300 transition-all"
             >
+              <img
+                src={getServiceImageByPath(service.path, { width: 960, height: 540, variant: 'card' })}
+                alt={service.name}
+                className="w-full h-32 object-cover rounded-lg mb-4"
+              />
               <div className="flex items-start justify-between">
                 <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                   {service.name}
                 </h3>
                 <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
               </div>
-              <p className="text-sm text-gray-600 mt-3">View service details</p>
+              <p className="text-sm text-slate-600 mt-2 line-clamp-2">
+                {getServiceSummaryByPath(service.path, service.name, categoryData.desc)}
+              </p>
             </Link>
           ))}
         </div>

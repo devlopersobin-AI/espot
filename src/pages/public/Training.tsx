@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Hero from '../../components/Hero';
 import { Link } from 'react-router-dom';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Search, Briefcase, GraduationCap, Users, Star, ArrowRight, BookOpen, Calendar, Target } from 'lucide-react';
 
 export default function Training() {
@@ -13,6 +14,7 @@ export default function Training() {
   const [experienceLevel, setExperienceLevel] = useState('Experience Level');
   const [talentQuery, setTalentQuery] = useState('');
   const [courseQuery, setCourseQuery] = useState('');
+  const [applicationTarget, setApplicationTarget] = useState<string | null>(null);
 
   const topTrainers = [
     { id: 1, name: 'Dr. Alice Smith', specialty: 'Data Science', rating: 4.9, students: 1200, image: 'https://picsum.photos/seed/t1/150/150' },
@@ -93,6 +95,15 @@ export default function Training() {
           
           {activeTab === 'Top Jobs' && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-4xl">
+              {applicationTarget ? (
+                <QuickRegisterForm
+                  heading="Job Application"
+                  targetLabel={applicationTarget}
+                  submitLabel="Submit Application"
+                  onClose={() => setApplicationTarget(null)}
+                />
+              ) : null}
+
               <h2 className="text-2xl font-bold text-slate-900 mb-6">Recommended Jobs</h2>
               {filteredJobs.map((job) => (
                 <div key={job.id} className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -115,7 +126,13 @@ export default function Training() {
                     <div className="font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-sm inline-block">
                       {job.salary}
                     </div>
-                    <button className="text-blue-600 font-bold text-sm hover:underline">Apply Now</button>
+                    <button
+                      type="button"
+                      onClick={() => setApplicationTarget(job.title)}
+                      className="text-blue-600 font-bold text-sm hover:underline"
+                    >
+                      Apply Now
+                    </button>
                   </div>
                 </div>
               ))}

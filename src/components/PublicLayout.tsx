@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import MobileMenuDrawer from './public-layout/MobileMenuDrawer';
-import PublicFooter from './public-layout/PublicFooter';
-import PublicHeader from './public-layout/PublicHeader';
-import type { MegaMenuId } from './public-layout/types';
+import MobileMenu from './public-layout/MobileMenu';
+import Footer from './public-layout/Footer';
+import Navbar from './public-layout/Navbar';
+import type { MegaMenuId } from './public-layout/navTypes';
 
 export default function PublicLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -76,7 +76,7 @@ export default function PublicLayout() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#f5f7f2] text-slate-900">
-      <PublicHeader
+      <Navbar
         headerRef={headerRef}
         locationPathname={location.pathname}
         mobileMenuOpen={mobileMenuOpen}
@@ -93,7 +93,7 @@ export default function PublicLayout() {
         setActiveMega={setActiveMega}
       />
 
-      <MobileMenuDrawer
+      <MobileMenu
         open={mobileMenuOpen}
         locationPathname={location.pathname}
         mobileExpanded={mobileExpanded}
@@ -108,7 +108,7 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
-      <PublicFooter />
+      <Footer />
     </div>
   );
 }

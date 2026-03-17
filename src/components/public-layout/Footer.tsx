@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function PublicFooter() {
+export default function Footer() {
   return (
     <footer className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white pt-16 pb-8 border-t border-slate-800/70">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

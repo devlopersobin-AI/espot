@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Hero from '../../components/Hero';
 import { Link } from 'react-router-dom';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Check, Star, Trophy, Gift, Users, Award, TrendingUp, Search, Calendar } from 'lucide-react';
 
 type MemberItem = {
@@ -16,6 +17,7 @@ export default function Membership() {
   const [activeTab, setActiveTab] = useState('Packages');
   const [memberQuery, setMemberQuery] = useState('');
   const [tierFilter, setTierFilter] = useState<'All' | 'Silver' | 'Gold' | 'Diamond'>('All');
+  const [registrationTarget, setRegistrationTarget] = useState<string | null>(null);
 
   const subNav = ['Overview', 'Packages', 'Achievements', 'Top Members', 'Events & Offers', 'Join Us', 'Reviews'];
 
@@ -170,6 +172,15 @@ export default function Membership() {
 
           {activeTab === 'Events & Offers' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto space-y-8">
+              {registrationTarget ? (
+                <QuickRegisterForm
+                  heading="Membership Event Registration"
+                  targetLabel={registrationTarget}
+                  submitLabel="Submit Registration"
+                  onClose={() => setRegistrationTarget(null)}
+                />
+              ) : null}
+
               <div>
                 <h2 className="text-3xl font-semibold text-gray-900 mb-5">Exclusive Member Events</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -186,7 +197,13 @@ export default function Membership() {
                       </div>
                       <div className="text-right">
                         <div className="text-emerald-600 font-semibold mb-2">{event.points}</div>
-                        <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm font-semibold rounded-lg transition-colors">Register</button>
+                        <button
+                          type="button"
+                          onClick={() => setRegistrationTarget(event.title)}
+                          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm font-semibold rounded-lg transition-colors"
+                        >
+                          Register
+                        </button>
                       </div>
                     </article>
                   ))}

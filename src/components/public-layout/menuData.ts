@@ -16,7 +16,8 @@ import type {
   ServiceCategories,
   UpcomingEvent,
   EventType,
-} from './types';
+  DiscoveryGroup,
+} from './navTypes';
 
 export const mainNavItems: NavItem[] = [
   { name: 'Home', path: '/' },
@@ -24,6 +25,7 @@ export const mainNavItems: NavItem[] = [
   { name: 'Franchise', path: '/franchise' },
   { name: 'Training', path: '/training' },
   { name: 'Membership', path: '/membership' },
+  { name: 'Contact Us', path: '/contact' },
 ];
 
 export const secondaryNavItems: NavItem[] = [
@@ -36,6 +38,36 @@ export const secondaryNavItems: NavItem[] = [
   { name: 'Leadership', path: '/leadership' },
   { name: 'Scholar', path: '/scholar' },
   { name: 'Careers', path: '/careers' },
+];
+
+export const discoveryGroups: DiscoveryGroup[] = [
+  {
+    title: 'Marketplace',
+    items: [
+      { name: 'Products', path: '/product' },
+      { name: 'Showcase', path: '/showcase' },
+      { name: 'Offers', path: '/offer' },
+      { name: 'Profiles', path: '/profiles' },
+    ],
+  },
+  {
+    title: 'Growth Programs',
+    items: [
+      { name: 'Entrepreneurship', path: '/entrepreneurship' },
+      { name: 'Investment', path: '/investment' },
+      { name: 'Leadership', path: '/leadership' },
+      { name: 'Scholar', path: '/scholar' },
+    ],
+  },
+  {
+    title: 'Community',
+    items: [
+      { name: 'Careers', path: '/careers' },
+      { name: 'Contact', path: '/contact' },
+      { name: 'Membership', path: '/membership' },
+      { name: 'Training', path: '/training' },
+    ],
+  },
 ];
 
 export const mobileQuickLinks: NavItem[] = [
