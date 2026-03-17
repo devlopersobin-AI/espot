@@ -1,10 +1,27 @@
 import { ArrowUpRight, Users, Calendar, DollarSign, Activity, MoreHorizontal } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { getAuthRole } from '../../auth/permissions';
+import type { AuthRole } from '../../auth/permissions';
 
 export default function Home() {
-  type Role = 'Member' | 'Partner' | 'Franchisee' | 'Entrepreneur' | 'Leader' | 'Scholar' | 'Jobseeker' | 'Trainer' | 'Admin';
-  const role = (localStorage.getItem('authRole') || 'Member') as Role;
+  const navigate = useNavigate();
+  const role = getAuthRole() ?? 'Member';
 
-  const roleHomeConfig: Record<Role, { title: string; subtitle: string; primaryAction: string; secondaryAction: string; metrics: Array<{ title: string; value: string; change: string; trend: 'up' | 'down'; icon: typeof Users }> }> = {
+  const dashboardBaseByRole: Record<AuthRole, string> = {
+    Member: '/dashboard/member',
+    Partner: '/dashboard/partner',
+    Franchisee: '/dashboard/franchise',
+    Entrepreneur: '/dashboard/member',
+    Leader: '/dashboard/leader',
+    Scholar: '/dashboard/scholar',
+    Jobseeker: '/dashboard/member',
+    Trainer: '/dashboard/member',
+    Admin: '/dashboard',
+  };
+
+  const dashboardBase = dashboardBaseByRole[role];
+
+  const roleHomeConfig: Record<AuthRole, { title: string; subtitle: string; primaryAction: string; secondaryAction: string; metrics: Array<{ title: string; value: string; change: string; trend: 'up' | 'down'; icon: typeof Users }> }> = {
     Member: {
       title: 'Member Overview',
       subtitle: 'Track your activity, events, and membership benefits.',
@@ -118,6 +135,22 @@ export default function Home() {
   const config = roleHomeConfig[role];
   const metrics = config.metrics;
 
+  const handlePrimaryAction = () => {
+    if (role === 'Admin') {
+      navigate('/dashboard/events');
+      return;
+    }
+    navigate(`${dashboardBase}/events`);
+  };
+
+  const handleSecondaryAction = () => {
+    if (role === 'Admin') {
+      navigate('/dashboard/membership');
+      return;
+    }
+    navigate(`${dashboardBase}/profile`);
+  };
+
   const recentActivity = [
     { id: 'ACT-1042', user: 'Sarah Jenkins', action: 'Registered for Global Tech Summit', time: '2 mins ago', status: 'Completed' },
     { id: 'ACT-1041', user: 'TechCorp Global', action: 'Posted new job: Senior Dev', time: '15 mins ago', status: 'Pending Review' },
@@ -134,10 +167,10 @@ export default function Home() {
           <p className="text-sm text-gray-500 mt-1">{config.subtitle}</p>
         </div>
         <div className="flex gap-3">
-          <button className="px-4 py-2 bg-white border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <button onClick={handleSecondaryAction} className="px-4 py-2 bg-white border border-gray-200 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
             {config.secondaryAction}
           </button>
-          <button className="px-4 py-2 bg-slate-900 text-white rounded-md text-sm font-medium hover:bg-slate-800 transition-colors">
+          <button onClick={handlePrimaryAction} className="px-4 py-2 bg-slate-900 text-white rounded-md text-sm font-medium hover:bg-slate-800 transition-colors">
             {config.primaryAction}
           </button>
         </div>
@@ -168,7 +201,7 @@ export default function Home() {
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
             <h3 className="text-base font-semibold text-gray-900">Recent Activity</h3>
-            <button className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+            <button onClick={handlePrimaryAction} className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
               View all <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
@@ -217,21 +250,21 @@ export default function Home() {
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
             <h3 className="text-base font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div className="space-y-3">
-              <button className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-slate-300 hover:bg-gray-50 transition-colors text-left">
+              <button onClick={() => navigate(role === 'Admin' ? '/dashboard/membership' : `${dashboardBase}/profile`)} className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-slate-300 hover:bg-gray-50 transition-colors text-left">
                 <div>
                   <div className="text-sm font-medium text-gray-900">Approve Memberships</div>
                   <div className="text-xs text-gray-500 mt-0.5">12 pending applications</div>
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-gray-400" />
               </button>
-              <button className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-slate-300 hover:bg-gray-50 transition-colors text-left">
+              <button onClick={() => navigate(role === 'Admin' ? '/dashboard/events' : `${dashboardBase}/events`)} className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-slate-300 hover:bg-gray-50 transition-colors text-left">
                 <div>
                   <div className="text-sm font-medium text-gray-900">Review Partner Offers</div>
                   <div className="text-xs text-gray-500 mt-0.5">5 new submissions</div>
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-gray-400" />
               </button>
-              <button className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-slate-300 hover:bg-gray-50 transition-colors text-left">
+              <button onClick={() => navigate(role === 'Admin' ? '/dashboard/membership' : `${dashboardBase}/profile`)} className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-slate-300 hover:bg-gray-50 transition-colors text-left">
                 <div>
                   <div className="text-sm font-medium text-gray-900">Manage Franchise Leads</div>
                   <div className="text-xs text-gray-500 mt-0.5">3 new inquiries</div>

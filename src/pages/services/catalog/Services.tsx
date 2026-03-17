@@ -1,40 +1,72 @@
 import { Link } from 'react-router-dom';
+import { serviceCategories } from '../../../components/public-layout/data';
 
-const equestrianServices = [
-  { name: 'Horse Back Riding', path: '/services/equestrian/horse-back-riding' },
-  { name: 'Buggy & Horse Rentals', path: '/services/equestrian/buggy-horse-rentals' },
-  { name: 'Horse Buy & Sale', path: '/services/equestrian/horse-buy-sale' },
-  { name: 'Horse Accessories Sale', path: '/services/equestrian/horse-accessories-sale' },
-  { name: 'Horse Show', path: '/services/equestrian/horse-show' },
-  { name: 'Horse Sports & Competition', path: '/services/equestrian/horse-sports-competition' },
-  { name: 'Horse Boarding & Breeding', path: '/services/equestrian/horse-boarding-breeding' },
-  { name: 'Horse Tourism', path: '/services/equestrian/horse-tourism' },
-];
+const CATEGORY_ROUTE_BY_NAME: Record<string, string> = {
+  Equestrian: 'equestrian',
+  'Beauty & Spa': 'beauty-spa',
+  'Wellness & Fitness': 'wellness',
+  'Tours & Travel': 'travel',
+  'Restaurants & Catering': 'restaurants',
+  'Multimedia Production': 'multimedia',
+  'Events & Wedding Mgmt': 'events',
+};
 
 export default function Services() {
+  const categories = Object.entries(serviceCategories).map(([name, value]) => ({
+    name,
+    ...value,
+    categoryPath: `/services/${CATEGORY_ROUTE_BY_NAME[name] || 'equestrian'}`,
+  }));
+
   return (
     <section className="w-full px-4 sm:px-6 lg:px-10 py-10 md:py-14 bg-slate-50 min-h-[calc(100vh-220px)]">
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="space-y-3">
           <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Services</p>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900">Equestrian</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900">All Service Categories</h1>
           <p className="text-slate-600 max-w-3xl">
-            Explore specialized horse-focused services for riding, rentals, trade, tourism, competitions, and more.
+            Explore all categories and open each service detail with the same rich page experience.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {equestrianServices.map((service) => (
-            <Link
-              key={service.path}
-              to={service.path}
-              className="group bg-white rounded-xl border border-slate-200 p-5 shadow-sm hover:shadow-md hover:border-blue-300 transition-all"
-            >
-              <h2 className="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">
-                {service.name}
-              </h2>
-              <p className="text-sm text-slate-500 mt-2">View service details</p>
-            </Link>
+        <div className="space-y-8">
+          {categories.map((category) => (
+            <article key={category.name} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
+                <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-slate-200">
+                  <img src={category.image} alt={category.name} className="w-full h-52 lg:h-full object-cover" />
+                </div>
+                <div className="lg:col-span-2 p-6 md:p-7">
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <div>
+                      <h2 className="text-2xl font-black text-slate-900">{category.name}</h2>
+                      <p className="text-slate-600 mt-1">{category.desc}</p>
+                    </div>
+                    <Link
+                      to={category.categoryPath}
+                      className="shrink-0 px-3 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                    >
+                      View Category
+                    </Link>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {category.services.map((service) => (
+                      <Link
+                        key={service.path}
+                        to={service.path}
+                        className="group bg-slate-50 rounded-xl border border-slate-200 px-4 py-3 hover:border-blue-300 hover:bg-blue-50/40 transition-colors"
+                      >
+                        <h3 className="text-sm md:text-base font-semibold text-slate-900 group-hover:text-blue-700">
+                          {service.name}
+                        </h3>
+                        <p className="text-xs text-slate-500 mt-1">Open service details</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </div>

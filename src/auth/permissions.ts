@@ -44,11 +44,39 @@ const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
   Admin: ALL_PERMISSIONS,
 };
 
-export function getAuthRole(): AuthRole {
-  const role = localStorage.getItem('authRole') as AuthRole | null;
-  return role || 'Member';
+const DASHBOARD_BY_ROLE: Record<AuthRole, string> = {
+  Member: '/dashboard/member',
+  Partner: '/dashboard/partner',
+  Franchisee: '/dashboard/franchise',
+  Entrepreneur: '/dashboard/member',
+  Leader: '/dashboard/leader',
+  Scholar: '/dashboard/scholar',
+  Jobseeker: '/dashboard/member',
+  Trainer: '/dashboard/member',
+  Admin: '/dashboard',
+};
+
+function isAuthRole(value: string): value is AuthRole {
+  return value in ROLE_PERMISSIONS;
 }
 
-export function hasPermission(role: AuthRole, permission: Permission): boolean {
+export function getAuthRole(): AuthRole | null {
+  const role = localStorage.getItem('authRole');
+  if (!role || !isAuthRole(role)) {
+    return null;
+  }
+
+  return role;
+}
+
+export function hasPermission(role: AuthRole | null, permission: Permission): boolean {
+  if (!role) {
+    return false;
+  }
+
   return ROLE_PERMISSIONS[role].includes(permission);
+}
+
+export function getDashboardPathForRole(role: AuthRole): string {
+  return DASHBOARD_BY_ROLE[role];
 }

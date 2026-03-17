@@ -1,24 +1,28 @@
-import { User, Briefcase, Award, Star, MapPin, Mail, Phone, Edit2 } from 'lucide-react';
+import { useState } from 'react';
+import { User, Briefcase, Award, Star, MapPin, Mail, Phone, Edit2, Save, X } from 'lucide-react';
 import { getAuthRole, hasPermission } from '../../auth/permissions';
 import type { AuthRole } from '../../auth/permissions';
 
-export default function Profile() {
-  const role = getAuthRole();
-  const canEditProfile = hasPermission(role, 'profile.update');
+type ProfileData = {
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  location: string;
+  bio: string;
+  points: number;
+  joinDate: string;
+  achievements: string[];
+  education: string;
+  interests: string[];
+};
 
-  const profileByRole: Record<AuthRole, {
-    name: string;
-    role: string;
-    email: string;
-    phone: string;
-    location: string;
-    bio: string;
-    points: number;
-    joinDate: string;
-    achievements: string[];
-    education: string;
-    interests: string[];
-  }> = {
+export default function Profile() {
+  const role = getAuthRole() ?? 'Member';
+  const canEditProfile = hasPermission(role, 'profile.update');
+  const storageKey = `profile-data-${role}`;
+
+  const profileByRole: Record<AuthRole, ProfileData> = {
     Member: {
       name: 'Mila Member', role: 'Member', email: 'member@demo.com', phone: '+977 9800000001', location: 'Kathmandu, Nepal',
       bio: 'Community member focused on networking and continuous learning opportunities.', points: 640, joinDate: 'Feb 2026',
@@ -66,16 +70,72 @@ export default function Profile() {
     },
   };
 
-  const user = profileByRole[role];
+  const [user, setUser] = useState<ProfileData>(() => {
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      try {
+        return JSON.parse(stored) as ProfileData;
+      } catch {
+        return profileByRole[role];
+      }
+    }
+    return profileByRole[role];
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState<ProfileData>(user);
+
+  const startEdit = () => {
+    setFormData(user);
+    setIsEditing(true);
+  };
+
+  const cancelEdit = () => {
+    setFormData(user);
+    setIsEditing(false);
+  };
+
+  const saveProfile = () => {
+    const next: ProfileData = {
+      ...formData,
+      name: formData.name.trim() || user.name,
+      email: formData.email.trim() || user.email,
+      phone: formData.phone.trim() || user.phone,
+      location: formData.location.trim() || user.location,
+      bio: formData.bio.trim() || user.bio,
+      education: formData.education.trim() || user.education,
+      interests: formData.interests,
+      achievements: user.achievements,
+      points: user.points,
+      role: user.role,
+      joinDate: user.joinDate,
+    };
+
+    setUser(next);
+    localStorage.setItem(storageKey, JSON.stringify(next));
+    setIsEditing(false);
+  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
         {canEditProfile ? (
-          <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">
-            <Edit2 className="w-4 h-4" /> Edit Profile
-          </button>
+          <div className="flex items-center gap-2">
+            {isEditing ? (
+              <>
+                <button onClick={saveProfile} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">
+                  <Save className="w-4 h-4" /> Save Profile
+                </button>
+                <button onClick={cancelEdit} className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-bold rounded-lg hover:bg-gray-50 transition-colors">
+                  <X className="w-4 h-4" /> Cancel
+                </button>
+              </>
+            ) : (
+              <button onClick={startEdit} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors">
+                <Edit2 className="w-4 h-4" /> Edit Profile
+              </button>
+            )}
+          </div>
         ) : (
           <button disabled className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-500 font-bold rounded-lg cursor-not-allowed">
             <Edit2 className="w-4 h-4" /> Edit restricted
@@ -124,19 +184,84 @@ export default function Profile() {
         <div className="lg:col-span-2 space-y-8">
           <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
             <h3 className="text-xl font-bold text-gray-900 mb-4">About Me</h3>
-            <p className="text-gray-600 leading-relaxed">{user.bio}</p>
+            {isEditing ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <label className="text-sm text-gray-600">
+                    Full Name
+                    <input
+                      value={formData.name}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                      className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                    />
+                  </label>
+                  <label className="text-sm text-gray-600">
+                    Email
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                      className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                    />
+                  </label>
+                  <label className="text-sm text-gray-600">
+                    Phone
+                    <input
+                      value={formData.phone}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+                      className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                    />
+                  </label>
+                  <label className="text-sm text-gray-600">
+                    Location
+                    <input
+                      value={formData.location}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
+                      className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                    />
+                  </label>
+                </div>
+                <label className="text-sm text-gray-600 block">
+                  Bio
+                  <textarea
+                    rows={4}
+                    value={formData.bio}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, bio: e.target.value }))}
+                    className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                  />
+                </label>
+                <label className="text-sm text-gray-600 block">
+                  Education
+                  <input
+                    value={formData.education}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, education: e.target.value }))}
+                    className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                  />
+                </label>
+                <label className="text-sm text-gray-600 block">
+                  Interests (comma separated)
+                  <input
+                    value={formData.interests.join(', ')}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, interests: e.target.value.split(',').map((item) => item.trim()).filter(Boolean) }))}
+                    className="mt-1 w-full bg-gray-50 border border-gray-200 rounded-md px-3 py-2 text-sm"
+                  />
+                </label>
+              </div>
+            ) : (
+              <p className="text-gray-600 leading-relaxed">{user.bio}</p>
+            )}
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div>
                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Education</h4>
                 <div className="flex items-start gap-2 text-gray-900 font-medium">
-                  <Briefcase className="w-5 h-5 text-blue-600 shrink-0" /> {user.education}
+                  <Briefcase className="w-5 h-5 text-blue-600 shrink-0" /> {isEditing ? formData.education : user.education}
                 </div>
               </div>
               <div>
                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Interests</h4>
                 <div className="flex flex-wrap gap-2">
-                  {user.interests.map(interest => (
+                  {(isEditing ? formData.interests : user.interests).map(interest => (
                     <span key={interest} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
                       {interest}
                     </span>

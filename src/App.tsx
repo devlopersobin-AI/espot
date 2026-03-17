@@ -17,15 +17,18 @@ import { DashboardHome, DashboardEvents, DashboardMembership, Profile } from './
 
 // Domain pages
 import { Services, ServiceCategory } from './pages/services/catalog';
-import { HorseBackRiding, BuggyHorseRentals, HorseBuySale, HorseAccessoriesSale, HorseShow, HorseSportsCompetition, HorseBoardingBreeding, HorseTourism } from './pages/services/equestrian';
 import { EventDetail } from './pages/events';
-import { getAuthRole } from './auth/permissions';
+import { getAuthRole, getDashboardPathForRole } from './auth/permissions';
 import type { AuthRole } from './auth/permissions';
 
 function RequireRole({ allowed, children }: { allowed: AuthRole[]; children: ReactElement }) {
   const currentRole = getAuthRole();
-  if (!allowed.includes(currentRole)) {
+  if (!currentRole) {
     return <Navigate to="/auth" replace />;
+  }
+
+  if (!allowed.includes(currentRole)) {
+    return <Navigate to={getDashboardPathForRole(currentRole)} replace />;
   }
 
   return children;
@@ -62,28 +65,11 @@ export default function App() {
             <Route path="profiles" element={<Profiles />} />
             <Route path="contact" element={<Contact />} />
             <Route path="services" element={<Services />} />
-            <Route path="services/equestrian/horse-back-riding" element={<HorseBackRiding />} />
-            <Route path="services/equestrian/buggy-horse-rentals" element={<BuggyHorseRentals />} />
-            <Route path="services/equestrian/horse-buy-sale" element={<HorseBuySale />} />
-            <Route path="services/equestrian/horse-accessories-sale" element={<HorseAccessoriesSale />} />
-            <Route path="services/equestrian/horse-show" element={<HorseShow />} />
-            <Route path="services/equestrian/horse-sports-competition" element={<HorseSportsCompetition />} />
-            <Route path="services/equestrian/horse-boarding-breeding" element={<HorseBoardingBreeding />} />
-            <Route path="services/equestrian/horse-tourism" element={<HorseTourism />} />
 
             {/* Service Category Routes */}
-            <Route path="services/beauty-spa" element={<ServiceCategory />} />
-            <Route path="services/beauty-spa/*" element={<ServiceCategory />} />
-            <Route path="services/wellness" element={<ServiceCategory />} />
-            <Route path="services/wellness/*" element={<ServiceCategory />} />
-            <Route path="services/travel" element={<ServiceCategory />} />
-            <Route path="services/travel/*" element={<ServiceCategory />} />
-            <Route path="services/restaurants" element={<ServiceCategory />} />
-            <Route path="services/restaurants/*" element={<ServiceCategory />} />
-            <Route path="services/multimedia" element={<ServiceCategory />} />
-            <Route path="services/multimedia/*" element={<ServiceCategory />} />
-            <Route path="services/events" element={<ServiceCategory />} />
-            <Route path="services/events/*" element={<ServiceCategory />} />
+            <Route path="services/:category" element={<ServiceCategory />} />
+            <Route path="services/:category/*" element={<ServiceCategory />} />
+            <Route path="services/*" element={<ServiceCategory />} />
 
             {/* Event Routes */}
             <Route path="events/:eventId" element={<EventDetail />} />
