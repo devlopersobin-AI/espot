@@ -141,15 +141,18 @@ export default function Investment() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Hero
+        bgColor="bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900"
+        accentColor="text-cyan-200"
         title="Investment"
         subtitle="Discover high-potential ventures, connect with active investors, and move from pitch to growth with structured support."
+        label="Module"
       />
 
       <SubNav
         items={subNav}
         active={activeTab}
         setActive={setActiveTab}
-        color="text-gray-900 border-gray-900 bg-gray-50"
+        color="text-emerald-700 border-emerald-500 bg-emerald-50"
       />
 
       <div className="flex-1 bg-slate-50 py-8 sm:py-12">

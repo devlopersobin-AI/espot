@@ -6,7 +6,6 @@ import {
   Globe,
   TrendingUp,
   Star,
-  ShieldCheck,
   Award,
   GraduationCap,
   Building2,
@@ -25,7 +24,7 @@ import {
   MapPin,
 } from "lucide-react";
 import Carousel from "../../components/Carousel";
-import heroBanner from "../../assets/main_page_espot_club.jpg";
+import heroBanner from "../../assets/hero-banner.mp4";
 
 type SpotlightItem = {
   title: string;
@@ -431,129 +430,145 @@ export default function Home() {
     </div>
   );
 
+  // Video ref for playback speed
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.75;
+    }
+  }, []);
+
   return (
     <div className="flex flex-col bg-white text-slate-900">
-      {/* ── 2. Hero Visual Banner ─────────────────────────────────────────── */}
-      <section className="bg-white">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-          <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-xl shadow-slate-900/10">
-            <img
-              src={heroBanner}
-              alt="E-Spot Club — Global Network Platform"
-              className="w-full h-auto object-cover block"
-            />
+      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      <section className="relative bg-slate-900 overflow-hidden">
+        <video
+          ref={videoRef}
+          src={heroBanner}
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/assets/main_page_espot_club.jpg"
+        >
+          <img
+            src="/assets/main_page_espot_club.jpg"
+            alt="E-Spot Club — Global Network Platform"
+            className="w-full h-full object-cover"
+          />
+        </video>
+        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 bg-white/10 backdrop-blur px-3 py-1.5 rounded-full mb-5">
+              <Star className="w-3.5 h-3.5" /> E-Spot Club · Global Network
+              Platform
+            </div>
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-[1.15] tracking-tight">
+              Build your network, business, and growth on one trusted platform.
+            </h1>
+            <p className="mt-5 text-base sm:text-lg text-white/70 max-w-xl leading-relaxed">
+              Connecting members, partners, entrepreneurs, and franchisees with
+              premium services, real events, and global investment
+              opportunities.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-8">
+              <Link
+                to="/auth?mode=signup&role=Member"
+                className="px-6 py-3 bg-white text-slate-900 text-sm font-semibold rounded-xl hover:bg-slate-100 transition-all flex items-center gap-2"
+              >
+                Join Now <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/auth?mode=signup&role=Partner"
+                className="px-6 py-3 bg-white/10 backdrop-blur text-white border border-white/20 text-sm font-semibold rounded-xl hover:bg-white/20 transition-all flex items-center gap-2"
+              >
+                Become a Partner
+              </Link>
+            </div>
+          </div>
+
+          {/* Trust stats inline */}
+          <div className="mt-12 grid grid-cols-3 gap-4 max-w-lg">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                  {stat.value}
+                </p>
+                <p className="text-xs text-white/50 font-medium mt-1">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── 3. Hero Action Block ─────────────────────────────────────────── */}
-      <section className="py-12 sm:py-14 bg-white">
+      {/* ── Explore Platform Modules ──────────────────────────────────── */}
+      <section className="py-14 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-10 items-center">
+          <div className="flex items-start justify-between mb-8 gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full mb-4 sm:mb-5">
-                <Star className="w-3.5 h-3.5" /> E-Spot Club · Global Network
-                Platform
-              </div>
-              <h1 className="text-[1.375rem] sm:text-[2.125rem] font-bold text-slate-900 leading-[1.2] sm:leading-[1.1] tracking-tight">
-                Build your network, business, and growth on one trusted
-                platform.
-              </h1>
-              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
-                E-Spot Club connects members, partners, entrepreneurs, and
-                franchisees with premium services, real events, and global
-                investment opportunities.
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                What We Offer
               </p>
-              <div className="flex flex-wrap gap-3 mt-6 sm:mt-8">
-                <Link
-                  to="/auth?mode=signup&role=Member"
-                  className="px-6 py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/25 hover:-translate-y-0.5 flex items-center gap-2"
-                >
-                  Join Now <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/auth?mode=signup&role=Partner"
-                  className="px-6 py-3 bg-white text-slate-700 border border-slate-200 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-all hover:-translate-y-0.5 flex items-center gap-2"
-                >
-                  Become a Partner
-                </Link>
-              </div>
-              <div className="mt-5 sm:mt-6 flex flex-wrap gap-2 sm:gap-3">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />{" "}
-                  Verified Profiles
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-full shadow-sm">
-                  <Star className="w-3.5 h-3.5 text-amber-500" /> Premium
-                  Programs
-                </span>
-              </div>
-            </div>
-
-            {/* 3 trust stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3">
-              {stats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <div
-                    key={stat.label}
-                    className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
-                  >
-                    <div
-                      className={`w-10 h-10 ${stat.bgCls} rounded-lg flex items-center justify-center flex-shrink-0`}
-                    >
-                      <Icon className={`w-5 h-5 ${stat.iconCls}`} />
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-slate-900 tracking-tight">
-                        {stat.value}
-                      </p>
-                      <p className="text-xs text-slate-500 font-medium mt-0.5">
-                        {stat.label}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+              <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
+                Explore the Platform
+              </h2>
+              <p className="text-slate-500 mt-2 text-sm max-w-xl">
+                Each module is built for a specific role and goal — from members
+                earning rewards to entrepreneurs raising capital.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ── 4. Explore Platform Modules ──────────────────────────────────── */}
-      <section className="py-14 bg-[#f3f4f6] border-y border-slate-200">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
-              What We Offer
-            </p>
-            <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
-              Explore the Platform
-            </h2>
-            <p className="text-slate-500 mt-2 text-sm max-w-xl">
-              Each module is built for a specific role and goal — from members
-              earning rewards to entrepreneurs raising capital.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {modules.map((mod) => {
+          {/* Featured pair */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            {modules.slice(0, 2).map((mod) => {
               const Icon = mod.icon;
               return (
                 <Link
                   key={mod.title}
                   to={mod.path}
-                  className="group bg-white border border-slate-200 rounded-xl p-5 flex flex-col transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  className="group bg-slate-900 rounded-xl p-6 sm:p-8 flex flex-col transition-all hover:shadow-lg relative overflow-hidden"
                 >
-                  <div className="w-10 h-10 bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center mb-4 flex-shrink-0">
-                    <Icon className="w-5 h-5 text-slate-800" />
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="font-bold text-slate-900 mb-1.5 tracking-tight">
+                  <h3 className="text-lg font-bold text-white mb-2 tracking-tight">
                     {mod.title}
                   </h3>
-                  <p className="text-sm text-slate-500 leading-relaxed flex-1">
+                  <p className="text-sm text-white/60 leading-relaxed flex-1">
                     {mod.desc}
                   </p>
-                  <span className="mt-4 text-xs font-semibold text-slate-800 group-hover:text-blue-700 flex items-center gap-1">
+                  <span className="mt-5 text-sm font-semibold text-white/80 group-hover:text-white flex items-center gap-1.5 transition-colors">
+                    {mod.cta} <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Rest in grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {modules.slice(2).map((mod) => {
+              const Icon = mod.icon;
+              return (
+                <Link
+                  key={mod.title}
+                  to={mod.path}
+                  className="group bg-white border border-slate-200 rounded-xl p-4 flex flex-col transition-all hover:shadow-md"
+                >
+                  <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
+                    <Icon className="w-4 h-4 text-slate-700" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900 text-sm mb-1 tracking-tight">
+                    {mod.title}
+                  </h3>
+                  <p className="text-xs text-slate-500 leading-relaxed flex-1 line-clamp-2">
+                    {mod.desc}
+                  </p>
+                  <span className="mt-3 text-xs font-semibold text-slate-500 group-hover:text-slate-900 flex items-center gap-1 transition-colors">
                     {mod.cta} <ArrowRight className="w-3 h-3" />
                   </span>
                 </Link>
@@ -563,12 +578,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 5. Featured Services Snapshot ────────────────────────────────── */}
-      <section className="py-14 bg-white">
+      {/* ── Services ────────────────────────────────────────────────────── */}
+      <section className="py-14 bg-slate-50 border-y border-slate-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-start justify-between mb-8 gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 Services
               </p>
               <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
@@ -577,32 +592,29 @@ export default function Home() {
             </div>
             <Link
               to="/services"
-              className="flex-shrink-0 text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1 mt-2"
+              className="flex-shrink-0 text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1 mt-2 transition-colors"
             >
               All Services <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3">
             {serviceCategories.map((cat) => {
               const Icon = cat.icon;
               return (
                 <Link
                   key={cat.name}
                   to={cat.path}
-                  className="group bg-white border border-slate-200 rounded-xl p-4 flex flex-col gap-3 transition-all hover:shadow-md"
+                  className="group bg-white border border-slate-200 rounded-xl p-4 text-center transition-all hover:shadow-md hover:border-slate-300"
                 >
-                  <div className="w-9 h-9 bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-slate-800" />
+                  <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                    <Icon className="w-4.5 h-4.5 text-slate-700" />
                   </div>
-                  <div>
-                    <p className="font-semibold text-slate-900 text-sm leading-tight">
-                      {cat.name}
-                    </p>
-                    <p className="text-xs text-slate-500 mt-1">{cat.desc}</p>
-                  </div>
-                  <span className="text-xs text-slate-500 group-hover:text-blue-700 transition-colors">
-                    {cat.count} services →
-                  </span>
+                  <p className="font-semibold text-slate-900 text-xs leading-tight mb-1">
+                    {cat.name}
+                  </p>
+                  <p className="text-[11px] text-slate-400">
+                    {cat.count} services
+                  </p>
                 </Link>
               );
             })}
@@ -610,12 +622,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 6. Upcoming Events Preview ────────────────────────────────────── */}
-      <section className="py-14 bg-slate-50 border-y border-slate-200">
+      {/* ── Upcoming Events ─────────────────────────────────────────────── */}
+      <section className="py-14 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-start justify-between mb-8 gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
                 What's On
               </p>
               <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
@@ -624,55 +636,79 @@ export default function Home() {
             </div>
             <Link
               to="/events"
-              className="flex-shrink-0 text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1 mt-2"
+              className="flex-shrink-0 text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1 mt-2 transition-colors"
             >
               View All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {events.map((event) => (
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-4">
+            {/* Featured event */}
+            {events[0] && (
               <Link
-                key={event.path}
-                to={event.path}
-                className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-all flex flex-col gap-4"
+                to={events[0].path}
+                className="bg-slate-900 rounded-xl p-6 sm:p-8 flex flex-col justify-between transition-all hover:shadow-lg group"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <span
-                    className={`text-xs font-bold px-2.5 py-1 rounded-lg ${eventTypeCls[event.type] ?? "bg-slate-100 text-slate-600"}`}
-                  >
-                    {event.type}
+                <div>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-white/10 text-white/80">
+                    {events[0].type}
                   </span>
-                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg">
-                    +50 pts
-                  </span>
-                </div>
-                <h3 className="font-bold text-slate-900 tracking-tight">
-                  {event.title}
-                </h3>
-                <div className="space-y-1.5 text-xs text-slate-500">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
-                    {event.date} · {event.time}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-rose-500 flex-shrink-0" />
-                    {event.location}
+                  <h3 className="text-lg sm:text-xl font-bold text-white mt-4 tracking-tight">
+                    {events[0].title}
+                  </h3>
+                  <div className="mt-3 space-y-1.5">
+                    <div className="flex items-center gap-2 text-sm text-white/50">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {events[0].date} · {events[0].time}
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-white/50">
+                      <MapPin className="w-3.5 h-3.5" />
+                      {events[0].location}
+                    </div>
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-blue-600 flex items-center gap-1 mt-auto">
-                  Register now <ArrowRight className="w-3 h-3" />
+                <span className="mt-6 text-sm font-semibold text-white/70 group-hover:text-white flex items-center gap-1.5 transition-colors">
+                  Register now <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
-            ))}
+            )}
+
+            {/* Remaining events */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {events.slice(1).map((event) => (
+                <Link
+                  key={event.path}
+                  to={event.path}
+                  className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-md transition-all flex flex-col gap-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span
+                      className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${eventTypeCls[event.type] ?? "bg-slate-100 text-slate-600"}`}
+                    >
+                      {event.type}
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      {event.date}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold text-slate-900 text-sm tracking-tight leading-tight">
+                    {event.title}
+                  </h3>
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-auto">
+                    <MapPin className="w-3 h-3" />
+                    {event.location}
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 7. Top Monthly Highlights ─────────────────────────────────────── */}
-      <section className="py-14 bg-white">
+      {/* ── Top Monthly Highlights ─────────────────────────────────────── */}
+      <section className="py-14 bg-slate-50 border-y border-slate-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Monthly Highlights
             </p>
             <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
@@ -685,36 +721,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 8. Testimonials / Trust Indicators ───────────────────────────── */}
-      <section className="py-14 bg-slate-50 border-y border-slate-200">
+      {/* ── Testimonials ─────────────────────────────────────────────────── */}
+      <section className="py-14 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Social Proof
             </p>
             <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
               What Our Community Says
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {testimonials.map((t) => (
               <div
                 key={t.name}
-                className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-md transition-all flex flex-col gap-4"
+                className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-sm transition-all flex flex-col gap-4"
               >
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 text-amber-400 fill-amber-400"
-                    />
-                  ))}
-                </div>
                 <p className="text-slate-700 text-sm leading-relaxed flex-1">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 mt-auto">
-                  <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center text-slate-800 font-semibold text-xs flex-shrink-0">
+                <div className="flex items-center gap-3 mt-auto pt-4 border-t border-slate-200">
+                  <div className="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center text-slate-700 font-semibold text-xs flex-shrink-0">
                     {t.name
                       .split(" ")
                       .map((n) => n[0])
@@ -735,26 +763,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 9. Final CTA Strip ────────────────────────────────────────────── */}
-      <section className="py-16 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700">
+      {/* ── Final CTA ─────────────────────────────────────────────────── */}
+      <section className="py-16 bg-slate-900">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             Start your E-Spot Club journey today.
           </h2>
-          <p className="mt-4 text-blue-100 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Join as a member, become a partner, or explore premium services and
             investment opportunities built to accelerate your growth.
           </p>
           <div className="mt-8 flex flex-wrap gap-4 justify-center">
             <Link
               to="/auth?mode=signup&role=Member"
-              className="px-7 py-3 bg-white text-blue-700 font-bold rounded-xl text-sm hover:bg-blue-50 transition-all shadow-lg hover:-translate-y-0.5"
+              className="px-7 py-3 bg-white text-slate-900 font-bold rounded-xl text-sm hover:bg-slate-100 transition-all"
             >
               Create Account
             </Link>
             <Link
               to="/contact"
-              className="px-7 py-3 border border-white/40 text-white font-semibold rounded-xl text-sm hover:bg-white/10 transition-all"
+              className="px-7 py-3 border border-white/20 text-white font-semibold rounded-xl text-sm hover:bg-white/10 transition-all"
             >
               Talk to Our Team
             </Link>

@@ -21,6 +21,17 @@ const Hero: React.FC<HeroProps> = ({
     <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
 
     <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 sm:py-12">
+      {/* Back to Home link for mobile/smaller screens */}
+      <div className="mb-3 block sm:hidden">
+        <a
+          href="/"
+          className="inline-flex items-center gap-1 text-blue-200 hover:text-white text-xs font-semibold px-2 py-1 rounded transition-colors bg-blue-800/60 hover:bg-blue-700/80"
+          style={{ textDecoration: "none" }}
+        >
+          <span style={{ fontSize: "16px", lineHeight: 1 }}>&#8592;</span> Back
+          to Home
+        </a>
+      </div>
       <div className="max-w-3xl">
         {label && (
           <p

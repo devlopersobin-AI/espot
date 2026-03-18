@@ -1,7 +1,12 @@
-import { ChevronDown, Search } from 'lucide-react';
-import type React from 'react';
-import { Link } from 'react-router-dom';
-import { discoveryGroups, mobileQuickLinks, serviceCategories, upcomingEvents } from './menuData';
+import { ChevronDown, Search } from "lucide-react";
+import type React from "react";
+import { Link } from "react-router-dom";
+import {
+  discoveryGroups,
+  mobileQuickLinks,
+  serviceCategories,
+  upcomingEvents,
+} from "./menuData";
 
 type Props = {
   open: boolean;
@@ -17,7 +22,7 @@ type Props = {
 
 export default function MobileMenu({
   open,
-  topOffsetVar = 'var(--site-header-height)',
+  topOffsetVar = "var(--site-header-height)",
   locationPathname,
   mobileExpanded,
   toggleMobileSection,
@@ -42,8 +47,24 @@ export default function MobileMenu({
         style={{ top: topOffsetVar }}
       >
         <div className="mx-auto max-w-3xl px-4 py-4 space-y-3 pb-8 sm:px-5">
+          {/* Back to Home link for mobile */}
+          <div className="mb-2 flex items-center gap-2">
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-blue-600 font-semibold text-sm hover:underline"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {/* Optionally, add a left arrow icon here if desired */}
+              <span className="material-icons" style={{ fontSize: "18px" }}>
+                &#8592;
+              </span>
+              Back to Home
+            </Link>
+          </div>
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-2 px-1">Quick Links</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400 mb-2 px-1">
+              Quick Links
+            </p>
             <div className="grid grid-cols-2 gap-2">
               {mobileQuickLinks.map((item) => (
                 <Link
@@ -51,8 +72,8 @@ export default function MobileMenu({
                   to={item.path}
                   className={`px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     locationPathname === item.path
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
+                      ? "bg-blue-600 text-white"
+                      : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-100"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -65,13 +86,15 @@ export default function MobileMenu({
           <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden">
             <button
               type="button"
-              onClick={() => toggleMobileSection('services')}
+              onClick={() => toggleMobileSection("services")}
               className="w-full px-4 py-3.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center justify-between transition-colors"
             >
               Services
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === 'services' ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === "services" ? "rotate-180" : ""}`}
+              />
             </button>
-            {mobileExpanded === 'services' && (
+            {mobileExpanded === "services" && (
               <div className="px-4 pb-4 space-y-3 mobile-section-enter border-t border-slate-100 bg-slate-50/70">
                 {Object.entries(serviceCategories).map(([category, data]) => {
                   const CatIcon = data.icon;
@@ -79,7 +102,9 @@ export default function MobileMenu({
                     <div key={category} className="pt-3">
                       <div className="flex items-center gap-2 mb-2">
                         <CatIcon className="w-3.5 h-3.5 text-slate-400" />
-                        <p className="text-xs font-bold text-slate-900">{category}</p>
+                        <p className="text-xs font-bold text-slate-900">
+                          {category}
+                        </p>
                       </div>
                       <div className="grid grid-cols-1 gap-1">
                         {data.services.map((service) => (
@@ -103,13 +128,15 @@ export default function MobileMenu({
           <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden">
             <button
               type="button"
-              onClick={() => toggleMobileSection('events')}
+              onClick={() => toggleMobileSection("events")}
               className="w-full px-4 py-3.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center justify-between transition-colors"
             >
               Events
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === 'events' ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === "events" ? "rotate-180" : ""}`}
+              />
             </button>
-            {mobileExpanded === 'events' && (
+            {mobileExpanded === "events" && (
               <div className="px-4 pb-4 space-y-2 mobile-section-enter border-t border-slate-100 bg-slate-50/70">
                 {upcomingEvents.map((event) => (
                   <Link
@@ -119,7 +146,9 @@ export default function MobileMenu({
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <span className="truncate">{event.name}</span>
-                    <span className="text-[10px] text-slate-400 flex-shrink-0 ml-2">{event.date}</span>
+                    <span className="text-[10px] text-slate-400 flex-shrink-0 ml-2">
+                      {event.date}
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -129,17 +158,21 @@ export default function MobileMenu({
           <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden">
             <button
               type="button"
-              onClick={() => toggleMobileSection('discover')}
+              onClick={() => toggleMobileSection("discover")}
               className="w-full px-4 py-3.5 text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center justify-between transition-colors"
             >
               Discover
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === 'discover' ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-200 ${mobileExpanded === "discover" ? "rotate-180" : ""}`}
+              />
             </button>
-            {mobileExpanded === 'discover' && (
+            {mobileExpanded === "discover" && (
               <div className="px-4 pb-4 space-y-3 mobile-section-enter border-t border-slate-100 bg-slate-50/70">
                 {discoveryGroups.map((group) => (
                   <div key={group.title} className="pt-3">
-                    <p className="text-xs font-bold text-slate-900 mb-2">{group.title}</p>
+                    <p className="text-xs font-bold text-slate-900 mb-2">
+                      {group.title}
+                    </p>
                     <div className="grid grid-cols-1 gap-1">
                       {group.items.map((item) => (
                         <Link
