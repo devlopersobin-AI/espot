@@ -16,6 +16,7 @@ import {
   User,
 } from "lucide-react";
 import { getDashboardPathForRole } from "../../auth/permissions";
+import { sanitizeInput, isValidEmail } from "../../lib/utils";
 
 type Role =
   | "Member"
@@ -524,19 +525,28 @@ export default function Auth() {
 
     if (isLogin) {
       const formData = new FormData(e.currentTarget as HTMLFormElement);
-      const email = String(formData.get("email") || "")
-        .trim()
-        .toLowerCase();
+      const email = sanitizeInput(
+        String(formData.get("email") || ""),
+      ).toLowerCase();
       const password = String(formData.get("password") || "");
+
+      if (!isValidEmail(email)) {
+        setAuthError("Please enter a valid email address.");
+        return;
+      }
+
+      if (!password || password.length < 4) {
+        setAuthError("Please enter your password.");
+        return;
+      }
+
       const expected = DUMMY_CREDENTIALS[loginRole];
 
       if (email === expected.email && password === expected.password) {
         localStorage.setItem("authRole", loginRole);
         navigate(getDashboardPathForRole(loginRole));
       } else {
-        setAuthError(
-          `Invalid demo credentials for ${loginRole}. Use ${expected.email} / ${expected.password}`,
-        );
+        setAuthError("Invalid email or password. Please try again.");
       }
       return;
     }

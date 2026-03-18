@@ -9,7 +9,14 @@ import {
   Package,
   Heart,
   Search,
+  Laptop,
+  Shirt,
+  Backpack,
+  Armchair,
+  Camera,
+  Compass,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export default function Product() {
   const subNav = [
@@ -81,12 +88,12 @@ export default function Product() {
     },
   ];
 
-  const categoryIcons: Record<string, string> = {
-    Electronics: "💻",
-    Apparel: "👕",
-    Accessories: "🎒",
-    Furniture: "🪑",
-    Photography: "📷",
+  const categoryIcons: Record<string, LucideIcon> = {
+    Electronics: Laptop,
+    Apparel: Shirt,
+    Accessories: Backpack,
+    Furniture: Armchair,
+    Photography: Camera,
   };
 
   const categories = useMemo(() => {
@@ -96,11 +103,11 @@ export default function Product() {
     }, {});
 
     return [
-      { name: "All", count: products.length, icon: "🧭" },
+      { name: "All", count: products.length, icon: Compass },
       ...Object.entries(counts).map(([name, count]) => ({
         name,
         count,
-        icon: categoryIcons[name] ?? "📦",
+        icon: categoryIcons[name] ?? Package,
       })),
     ];
   }, [products]);
@@ -158,8 +165,8 @@ export default function Product() {
                         : "border-slate-200 hover:border-blue-300"
                     }`}
                   >
-                    <div className="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
-                      {category.icon}
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 bg-slate-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <category.icon className="w-5 h-5 sm:w-6 sm:h-6 text-slate-700" />
                     </div>
                     <h3 className="font-bold text-slate-900 mb-1">
                       {category.name}
@@ -226,7 +233,7 @@ export default function Product() {
                     key={product.id}
                     className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all group"
                   >
-                    <div className="h-56 sm:h-64 w-full bg-slate-100 relative overflow-hidden">
+                    <div className="h-48 sm:h-56 w-full bg-slate-100 relative overflow-hidden">
                       <img
                         src={product.image}
                         alt={product.name}

@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Banknote,
@@ -14,31 +14,38 @@ import {
   Sparkles,
   TrendingUp,
   Users,
-} from 'lucide-react';
-import Hero from '../../components/Hero';
-import SubNav from '../../components/SubNav';
-import { investmentOpportunities } from './investmentContent';
+} from "lucide-react";
+import Hero from "../../components/Hero";
+import SubNav from "../../components/SubNav";
+import { investmentOpportunities } from "./investmentContent";
 
 export default function Investment() {
-  const subNav = ['Opportunities', 'Funding Stages', 'Investor Network', 'Advisory'];
+  const subNav = [
+    "Opportunities",
+    "Funding Stages",
+    "Investor Network",
+    "Advisory",
+  ];
   const [activeTab, setActiveTab] = useState(subNav[0]);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [sectorFilter, setSectorFilter] = useState<
-    | 'All'
-    | 'Equestrian'
-    | 'Events'
-    | 'Beauty & Spa'
-    | 'Wellness & Fitness'
-    | 'Tours & Travel'
-    | 'Restaurants & Catering'
-    | 'Multimedia Production'
-    | 'Events & Wedding Management'
-  >('All');
+    | "All"
+    | "Equestrian"
+    | "Events"
+    | "Beauty & Spa"
+    | "Wellness & Fitness"
+    | "Tours & Travel"
+    | "Restaurants & Catering"
+    | "Multimedia Production"
+    | "Events & Wedding Management"
+  >("All");
 
   const filteredOpportunities = useMemo(() => {
     return investmentOpportunities.filter((opportunity) => {
-      const matchesSector = sectorFilter === 'All' || opportunity.sector === sectorFilter;
-      const text = `${opportunity.title} ${opportunity.sector} ${opportunity.stage} ${opportunity.location}`.toLowerCase();
+      const matchesSector =
+        sectorFilter === "All" || opportunity.sector === sectorFilter;
+      const text =
+        `${opportunity.title} ${opportunity.sector} ${opportunity.stage} ${opportunity.location}`.toLowerCase();
       const matchesQuery = !query.trim() || text.includes(query.toLowerCase());
       return matchesSector && matchesQuery;
     });
@@ -46,67 +53,104 @@ export default function Investment() {
 
   const stageBlocks = [
     {
-      stage: 'Seed',
-      description: 'Validate product-market fit, lock in a repeatable use case, and prove first revenue loops.',
-      focus: 'MVP launch, founder-market fit, and early customer proof.',
-      metrics: ['3-6 month runway planning', 'Pilot revenue milestones', 'Core hiring blueprint'],
+      stage: "Seed",
+      description:
+        "Validate product-market fit, lock in a repeatable use case, and prove first revenue loops.",
+      focus: "MVP launch, founder-market fit, and early customer proof.",
+      metrics: [
+        "3-6 month runway planning",
+        "Pilot revenue milestones",
+        "Core hiring blueprint",
+      ],
     },
     {
-      stage: 'Series A',
-      description: 'Scale distribution channels, improve retention, and establish predictable growth economics.',
-      focus: 'Regional expansion and revenue engine standardization.',
-      metrics: ['CAC and LTV discipline', 'Ops playbooks for growth', 'Partner-led acquisition'],
+      stage: "Series A",
+      description:
+        "Scale distribution channels, improve retention, and establish predictable growth economics.",
+      focus: "Regional expansion and revenue engine standardization.",
+      metrics: [
+        "CAC and LTV discipline",
+        "Ops playbooks for growth",
+        "Partner-led acquisition",
+      ],
     },
     {
-      stage: 'Growth',
-      description: 'Strengthen governance, optimize margins, and prepare for strategic capital and market expansion.',
-      focus: 'Systemized growth and board-level investor readiness.',
-      metrics: ['Enterprise risk controls', 'Cross-market expansion', 'Strategic M&A positioning'],
+      stage: "Growth",
+      description:
+        "Strengthen governance, optimize margins, and prepare for strategic capital and market expansion.",
+      focus: "Systemized growth and board-level investor readiness.",
+      metrics: [
+        "Enterprise risk controls",
+        "Cross-market expansion",
+        "Strategic M&A positioning",
+      ],
     },
   ];
 
   const investorNetwork = [
     {
-      name: 'Himalayan Venture Circle',
-      thesis: 'Early-stage FinTech and digital infrastructure',
-      members: '42 active investors',
-      checkSize: '$75k - $300k',
-      speed: 'Avg. decision in 18 days',
+      name: "Himalayan Venture Circle",
+      thesis: "Early-stage FinTech and digital infrastructure",
+      members: "42 active investors",
+      checkSize: "$75k - $300k",
+      speed: "Avg. decision in 18 days",
     },
     {
-      name: 'Impact Growth Alliance',
-      thesis: 'Climate, AgriTech, and social impact ventures',
-      members: '31 active investors',
-      checkSize: '$120k - $500k',
-      speed: 'Avg. decision in 24 days',
+      name: "Impact Growth Alliance",
+      thesis: "Climate, AgriTech, and social impact ventures",
+      members: "31 active investors",
+      checkSize: "$120k - $500k",
+      speed: "Avg. decision in 24 days",
     },
     {
-      name: 'Scale Nepal Capital',
-      thesis: 'Series A/B growth-stage companies',
-      members: '24 active investors',
-      checkSize: '$400k - $2M',
-      speed: 'Avg. decision in 29 days',
+      name: "Scale Nepal Capital",
+      thesis: "Series A/B growth-stage companies",
+      members: "24 active investors",
+      checkSize: "$400k - $2M",
+      speed: "Avg. decision in 29 days",
     },
   ];
 
   const statCards = [
-    { label: 'Live Opportunities', value: '68', delta: '+12 this month', icon: Sparkles },
-    { label: 'Capital Matched', value: '$8.2M', delta: 'Across 2026 cohorts', icon: Banknote },
-    { label: 'Active Investors', value: '97', delta: 'Verified and onboarding', icon: Users },
-    { label: 'Success Rate', value: '74%', delta: 'Reached due diligence', icon: BadgeCheck },
+    {
+      label: "Live Opportunities",
+      value: "68",
+      delta: "+12 this month",
+      icon: Sparkles,
+    },
+    {
+      label: "Capital Matched",
+      value: "$8.2M",
+      delta: "Across 2026 cohorts",
+      icon: Banknote,
+    },
+    {
+      label: "Active Investors",
+      value: "97",
+      delta: "Verified and onboarding",
+      icon: Users,
+    },
+    {
+      label: "Success Rate",
+      value: "74%",
+      delta: "Reached due diligence",
+      icon: BadgeCheck,
+    },
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Hero
-        bgColor="bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900"
-        accentColor="text-cyan-200"
         title="Investment"
         subtitle="Discover high-potential ventures, connect with active investors, and move from pitch to growth with structured support."
-        label="Module"
       />
 
-      <SubNav items={subNav} active={activeTab} setActive={setActiveTab} color="text-emerald-700 border-emerald-500 bg-emerald-50" />
+      <SubNav
+        items={subNav}
+        active={activeTab}
+        setActive={setActiveTab}
+        color="text-gray-900 border-gray-900 bg-gray-50"
+      />
 
       <div className="flex-1 bg-slate-50 py-8 sm:py-12">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -115,29 +159,40 @@ export default function Investment() {
               const Icon = card.icon;
 
               return (
-                <article key={card.label} className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm">
+                <article
+                  key={card.label}
+                  className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm"
+                >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-slate-400">{card.label}</p>
-                      <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 mt-2">{card.value}</p>
+                      <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                        {card.label}
+                      </p>
+                      <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 mt-2">
+                        {card.value}
+                      </p>
                     </div>
                     <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
                       <Icon className="w-4.5 h-4.5" />
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm text-emerald-700 font-medium mt-3">{card.delta}</p>
+                  <p className="text-xs sm:text-sm text-emerald-700 font-medium mt-3">
+                    {card.delta}
+                  </p>
                 </article>
               );
             })}
           </div>
 
-          {activeTab === 'Opportunities' && (
+          {activeTab === "Opportunities" && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="space-y-5">
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                     <label className="md:col-span-2">
-                      <span className="block text-xs font-bold uppercase tracking-[0.14em] text-slate-400 mb-2">Search opportunities</span>
+                      <span className="block text-xs font-bold uppercase tracking-[0.14em] text-slate-400 mb-2">
+                        Search opportunities
+                      </span>
                       <div className="relative">
                         <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                         <input
@@ -150,21 +205,33 @@ export default function Investment() {
                     </label>
 
                     <label>
-                      <span className="block text-xs font-bold uppercase tracking-[0.14em] text-slate-400 mb-2">Sector</span>
+                      <span className="block text-xs font-bold uppercase tracking-[0.14em] text-slate-400 mb-2">
+                        Sector
+                      </span>
                       <select
                         value={sectorFilter}
-                        onChange={(e) => setSectorFilter(e.target.value as typeof sectorFilter)}
+                        onChange={(e) =>
+                          setSectorFilter(e.target.value as typeof sectorFilter)
+                        }
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       >
                         <option value="All">All sectors</option>
                         <option value="Equestrian">Equestrian</option>
                         <option value="Events">Events</option>
                         <option value="Beauty & Spa">Beauty and Spa</option>
-                        <option value="Wellness & Fitness">Wellness and Fitness</option>
+                        <option value="Wellness & Fitness">
+                          Wellness and Fitness
+                        </option>
                         <option value="Tours & Travel">Tours and Travel</option>
-                        <option value="Restaurants & Catering">Restaurants and Catering</option>
-                        <option value="Multimedia Production">Multimedia Production</option>
-                        <option value="Events & Wedding Management">Events and Wedding Management</option>
+                        <option value="Restaurants & Catering">
+                          Restaurants and Catering
+                        </option>
+                        <option value="Multimedia Production">
+                          Multimedia Production
+                        </option>
+                        <option value="Events & Wedding Management">
+                          Events and Wedding Management
+                        </option>
                       </select>
                     </label>
                   </div>
@@ -172,22 +239,41 @@ export default function Investment() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                   {filteredOpportunities.map((opportunity) => {
-                    const progress = Math.max(8, Math.min(100, Math.round((opportunity.raised / opportunity.target) * 100)));
+                    const progress = Math.max(
+                      8,
+                      Math.min(
+                        100,
+                        Math.round(
+                          (opportunity.raised / opportunity.target) * 100,
+                        ),
+                      ),
+                    );
 
                     return (
-                      <article key={opportunity.id} className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
+                      <article
+                        key={opportunity.id}
+                        className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+                      >
                         <div className="flex items-center justify-between mb-3 gap-3">
                           <span className="text-xs font-bold uppercase tracking-wide text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
                             {opportunity.sector}
                           </span>
-                          <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${opportunity.fit === 'High' ? 'text-cyan-700 bg-cyan-50' : 'text-amber-700 bg-amber-50'}`}>
+                          <span
+                            className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${opportunity.fit === "High" ? "text-cyan-700 bg-cyan-50" : "text-amber-700 bg-amber-50"}`}
+                          >
                             {opportunity.fit} fit
                           </span>
                         </div>
 
-                        <h3 className="text-lg font-semibold text-slate-900 leading-tight">{opportunity.title}</h3>
-                        <p className="text-sm text-slate-500 mt-1.5">{opportunity.stage} | {opportunity.location}</p>
-                        <p className="text-sm text-slate-700 mt-3">{opportunity.traction}</p>
+                        <h3 className="text-lg font-semibold text-slate-900 leading-tight">
+                          {opportunity.title}
+                        </h3>
+                        <p className="text-sm text-slate-500 mt-1.5">
+                          {opportunity.stage} | {opportunity.location}
+                        </p>
+                        <p className="text-sm text-slate-700 mt-3">
+                          {opportunity.traction}
+                        </p>
 
                         <div className="mt-4">
                           <div className="flex items-center justify-between text-xs font-medium text-slate-500 mb-1.5">
@@ -195,9 +281,15 @@ export default function Investment() {
                             <span>{progress}%</span>
                           </div>
                           <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
-                            <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500" style={{ width: `${progress}%` }} />
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500"
+                              style={{ width: `${progress}%` }}
+                            />
                           </div>
-                          <p className="text-xs text-slate-500 mt-2">Raised ${opportunity.raised}k of ${opportunity.target}k target</p>
+                          <p className="text-xs text-slate-500 mt-2">
+                            Raised ${opportunity.raised}k of $
+                            {opportunity.target}k target
+                          </p>
                         </div>
 
                         <div className="mt-4 rounded-xl bg-slate-50 border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700">
@@ -217,24 +309,35 @@ export default function Investment() {
 
                 {filteredOpportunities.length === 0 && (
                   <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center">
-                    <p className="text-lg font-semibold text-slate-700">No opportunities match your filters.</p>
-                    <p className="text-sm text-slate-500 mt-2">Try a broader keyword or switch sector to All.</p>
+                    <p className="text-lg font-semibold text-slate-700">
+                      No opportunities match your filters.
+                    </p>
+                    <p className="text-sm text-slate-500 mt-2">
+                      Try a broader keyword or switch sector to All.
+                    </p>
                   </div>
                 )}
               </div>
 
               <aside className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm h-fit">
                 <div className="p-5 sm:p-6 bg-gradient-to-br from-emerald-950 via-teal-900 to-cyan-900 text-white">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-cyan-200">Live Deal Room</p>
-                  <h3 className="text-2xl font-semibold tracking-tight mt-2">Investor Match Pulse</h3>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-cyan-200">
+                    Live Deal Room
+                  </p>
+                  <h3 className="text-2xl font-semibold tracking-tight mt-2">
+                    Investor Match Pulse
+                  </h3>
                   <p className="text-sm text-cyan-100/85 mt-2 leading-relaxed">
-                    Weekly-ranked opportunities based on traction quality, documentation score, and investor intent.
+                    Weekly-ranked opportunities based on traction quality,
+                    documentation score, and investor intent.
                   </p>
                 </div>
 
                 <div className="p-5 sm:p-6 space-y-4">
                   <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5">
-                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">This Week</p>
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+                      This Week
+                    </p>
                     <div className="mt-2 space-y-2">
                       <MetricRow label="New investor intros" value="31" />
                       <MetricRow label="Due diligence started" value="14" />
@@ -243,11 +346,22 @@ export default function Investment() {
                   </div>
 
                   <div className="rounded-xl border border-slate-200 p-3.5">
-                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Upcoming sessions</p>
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+                      Upcoming sessions
+                    </p>
                     <div className="mt-2.5 space-y-2.5 text-sm text-slate-700">
-                      <p className="flex items-center gap-2"><CalendarDays className="w-4 h-4 text-slate-400" /> Seed Round Clinic - Mar 21</p>
-                      <p className="flex items-center gap-2"><CalendarDays className="w-4 h-4 text-slate-400" /> Investor Q and A - Mar 24</p>
-                      <p className="flex items-center gap-2"><CalendarDays className="w-4 h-4 text-slate-400" /> Due Diligence Sprint - Mar 29</p>
+                      <p className="flex items-center gap-2">
+                        <CalendarDays className="w-4 h-4 text-slate-400" /> Seed
+                        Round Clinic - Mar 21
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <CalendarDays className="w-4 h-4 text-slate-400" />{" "}
+                        Investor Q and A - Mar 24
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <CalendarDays className="w-4 h-4 text-slate-400" /> Due
+                        Diligence Sprint - Mar 29
+                      </p>
                     </div>
                   </div>
 
@@ -262,27 +376,41 @@ export default function Investment() {
             </div>
           )}
 
-          {activeTab === 'Funding Stages' && (
+          {activeTab === "Funding Stages" && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  Each stage includes a structured checklist, capital readiness score, and timeline support so founders avoid random fundraising and enter investor meetings with clear narratives.
+                  Each stage includes a structured checklist, capital readiness
+                  score, and timeline support so founders avoid random
+                  fundraising and enter investor meetings with clear narratives.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                 {stageBlocks.map((block) => (
-                  <article key={block.stage} className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+                  <article
+                    key={block.stage}
+                    className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm"
+                  >
                     <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
                       <TrendingUp className="w-5 h-5" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-900">{block.stage}</h3>
-                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">{block.description}</p>
-                    <p className="text-sm text-emerald-700 mt-4 font-medium">Focus: {block.focus}</p>
+                    <h3 className="text-xl font-semibold text-slate-900">
+                      {block.stage}
+                    </h3>
+                    <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+                      {block.description}
+                    </p>
+                    <p className="text-sm text-emerald-700 mt-4 font-medium">
+                      Focus: {block.focus}
+                    </p>
 
                     <ul className="mt-4 space-y-2">
                       {block.metrics.map((item) => (
-                        <li key={item} className="text-sm text-slate-700 flex items-start gap-2">
+                        <li
+                          key={item}
+                          className="text-sm text-slate-700 flex items-start gap-2"
+                        >
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2" />
                           <span>{item}</span>
                         </li>
@@ -293,8 +421,12 @@ export default function Investment() {
               </div>
 
               <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-                <h3 className="text-lg font-semibold text-slate-900">Capital Readiness Trend</h3>
-                <p className="text-sm text-slate-500 mt-1">Average cohort score progression over the last three cycles.</p>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  Capital Readiness Trend
+                </h3>
+                <p className="text-sm text-slate-500 mt-1">
+                  Average cohort score progression over the last three cycles.
+                </p>
                 <div className="mt-5 grid grid-cols-3 gap-3">
                   <TrendBar label="Cycle 1" value={61} />
                   <TrendBar label="Cycle 2" value={74} />
@@ -304,14 +436,21 @@ export default function Investment() {
             </div>
           )}
 
-          {activeTab === 'Investor Network' && (
+          {activeTab === "Investor Network" && (
             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
               {investorNetwork.map((network) => (
-                <article key={network.name} className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+                <article
+                  key={network.name}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm"
+                >
                   <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                     <div>
-                      <h3 className="text-lg font-semibold text-slate-900">{network.name}</h3>
-                      <p className="text-sm text-slate-600 mt-1">{network.thesis}</p>
+                      <h3 className="text-lg font-semibold text-slate-900">
+                        {network.name}
+                      </h3>
+                      <p className="text-sm text-slate-600 mt-1">
+                        {network.thesis}
+                      </p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
@@ -331,28 +470,54 @@ export default function Investment() {
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-slate-600">
-                    <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-600" /> Verified profiles</span>
-                    <span className="inline-flex items-center gap-1.5"><Handshake className="w-4 h-4 text-cyan-600" /> Curated match process</span>
-                    <span className="inline-flex items-center gap-1.5"><BadgeCheck className="w-4 h-4 text-blue-600" /> Feedback in every cycle</span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />{" "}
+                      Verified profiles
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Handshake className="w-4 h-4 text-cyan-600" /> Curated
+                      match process
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <BadgeCheck className="w-4 h-4 text-blue-600" /> Feedback
+                      in every cycle
+                    </span>
                   </div>
                 </article>
               ))}
             </div>
           )}
 
-          {activeTab === 'Advisory' && (
+          {activeTab === "Advisory" && (
             <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                <InfoCard icon={<Landmark className="w-5 h-5" />} title="Deal Structuring" text="Define valuation range, dilution boundary, and clean term-sheet framing before investor outreach." />
-                <InfoCard icon={<Building2 className="w-5 h-5" />} title="Investor Readiness" text="Refine pitch narrative, financial model depth, and due diligence packaging for investor confidence." />
-                <InfoCard icon={<Banknote className="w-5 h-5" />} title="Capital Planning" text="Build 18-24 month runway scenarios tied to hiring velocity, burn controls, and growth milestones." />
+                <InfoCard
+                  icon={<Landmark className="w-5 h-5" />}
+                  title="Deal Structuring"
+                  text="Define valuation range, dilution boundary, and clean term-sheet framing before investor outreach."
+                />
+                <InfoCard
+                  icon={<Building2 className="w-5 h-5" />}
+                  title="Investor Readiness"
+                  text="Refine pitch narrative, financial model depth, and due diligence packaging for investor confidence."
+                />
+                <InfoCard
+                  icon={<Banknote className="w-5 h-5" />}
+                  title="Capital Planning"
+                  text="Build 18-24 month runway scenarios tied to hiring velocity, burn controls, and growth milestones."
+                />
               </div>
 
               <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-white to-emerald-50/70 p-5 sm:p-6">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900">Ready for an investment readiness audit?</h3>
-                    <p className="text-sm text-slate-600 mt-1.5">Get a tailored 45-minute review of traction metrics, investor fit, and round strategy.</p>
+                    <h3 className="text-xl font-semibold text-slate-900">
+                      Ready for an investment readiness audit?
+                    </h3>
+                    <p className="text-sm text-slate-600 mt-1.5">
+                      Get a tailored 45-minute review of traction metrics,
+                      investor fit, and round strategy.
+                    </p>
                   </div>
                   <Link
                     to="/contact"
@@ -370,13 +535,26 @@ export default function Investment() {
   );
 }
 
-function InfoCard({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
+function InfoCard({
+  icon,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+}) {
   return (
     <article className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
-      <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">{icon}</div>
+      <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
+        {icon}
+      </div>
       <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
       <p className="text-sm text-slate-600 mt-3 leading-relaxed">{text}</p>
-      <Link to="/contact" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800">
+      <Link
+        to="/contact"
+        className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-800"
+      >
         Talk to advisory team <ArrowRight className="w-4 h-4" />
       </Link>
     </article>
@@ -396,7 +574,10 @@ function TrendBar({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border border-slate-200 p-3.5 bg-slate-50">
       <div className="h-24 rounded-lg bg-white border border-slate-100 p-2 flex items-end">
-        <div className="w-full rounded bg-gradient-to-t from-emerald-500 to-cyan-500" style={{ height: `${value}%` }} />
+        <div
+          className="w-full rounded bg-gradient-to-t from-emerald-500 to-cyan-500"
+          style={{ height: `${value}%` }}
+        />
       </div>
       <div className="mt-2.5 flex items-center justify-between">
         <span className="text-sm font-medium text-slate-700">{label}</span>

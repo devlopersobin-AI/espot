@@ -2,10 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
-  Calendar,
   ChevronDown,
   ChevronRight,
-  Clock,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -101,6 +99,10 @@ export default function Navbar({
   const role = getAuthRole();
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
+  const [selectedEventType, setSelectedEventType] = useState("All");
+  const [selectedDiscoverGroup, setSelectedDiscoverGroup] = useState(
+    discoveryGroups[0]?.title ?? "",
+  );
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -379,41 +381,66 @@ export default function Navbar({
 
           {activeMega === "events" && (
             <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-              <div className="grid grid-cols-12 gap-8">
-                <div className="col-span-3">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+              <div className="flex gap-6">
+                {/* Panel 1: Event Types (filter) */}
+                <div className="w-44 flex-shrink-0">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">
                     Event Types
                   </h3>
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
+                    <button
+                      onMouseEnter={() => setSelectedEventType("All")}
+                      className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                        selectedEventType === "All"
+                          ? "bg-blue-50 text-blue-700 shadow-sm"
+                          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      }`}
+                    >
+                      <span className="truncate">All Events</span>
+                      {selectedEventType === "All" && (
+                        <ChevronRight className="w-3.5 h-3.5 ml-auto text-blue-400" />
+                      )}
+                    </button>
                     {eventTypes.map((type) => {
                       const TypeIcon = type.icon;
                       return (
-                        <Link
+                        <button
                           key={type.name}
-                          to={type.path}
-                          className="flex items-start gap-3 px-3 py-3 -mx-3 rounded-xl hover:bg-slate-50 transition-colors group"
+                          onMouseEnter={() => setSelectedEventType(type.name)}
+                          className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                            selectedEventType === type.name
+                              ? "bg-blue-50 text-blue-700 shadow-sm"
+                              : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                          }`}
                         >
-                          <div className="w-9 h-9 rounded-lg bg-purple-50 group-hover:bg-purple-100 flex items-center justify-center flex-shrink-0 transition-colors">
-                            <TypeIcon className="w-4 h-4 text-purple-600" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-slate-900 group-hover:text-purple-600 transition-colors">
-                              {type.name}
-                            </p>
-                            <p className="text-xs text-slate-500 mt-0.5">
-                              {type.desc}
-                            </p>
-                          </div>
-                        </Link>
+                          <TypeIcon
+                            className={`w-4 h-4 flex-shrink-0 ${selectedEventType === type.name ? "text-blue-600" : "text-slate-400"}`}
+                          />
+                          <span className="truncate">{type.name}</span>
+                          {selectedEventType === type.name && (
+                            <ChevronRight className="w-3.5 h-3.5 ml-auto text-blue-400" />
+                          )}
+                        </button>
                       );
                     })}
                   </div>
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <Link
+                      to="/events"
+                      className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      All events <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
 
-                <div className="col-span-6 border-l border-slate-100 pl-8">
+                {/* Panel 2: Filtered Events */}
+                <div className="flex-1 border-l border-slate-100 pl-6">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                      Upcoming Events
+                      {selectedEventType === "All"
+                        ? "Upcoming Events"
+                        : selectedEventType}
                     </h3>
                     <Link
                       to="/events"
@@ -422,54 +449,104 @@ export default function Navbar({
                       View all <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {upcomingEvents.slice(0, 6).map((event) => (
-                      <Link
-                        key={event.path}
-                        to={event.path}
-                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors group border border-transparent hover:border-slate-200"
-                      >
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center flex-shrink-0 border border-blue-100/50">
-                          <Calendar className="w-4 h-4 text-blue-500" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium text-slate-900 group-hover:text-blue-600 transition-colors truncate">
-                            {event.name}
-                          </p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                              <Clock className="w-3 h-3" /> {event.date}
-                            </span>
-                            <span className="text-[10px] font-semibold text-purple-600 bg-purple-50 px-1.5 py-0.5 rounded">
-                              {event.type}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
+                  <div className="grid grid-cols-2 gap-1">
+                    {upcomingEvents
+                      .filter((event) => {
+                        if (selectedEventType === "All") return true;
+                        if (selectedEventType === "Competitions")
+                          return event.type === "Competition";
+                        if (selectedEventType === "Workshops")
+                          return event.type === "Workshop";
+                        if (selectedEventType === "Networking")
+                          return event.type === "Networking";
+                        return ["Show", "Expo", "Corporate"].includes(
+                          event.type,
+                        );
+                      })
+                      .slice(0, 8)
+                      .map((event) => (
+                        <Link
+                          key={event.path}
+                          to={event.path}
+                          className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors group"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors flex-shrink-0" />
+                          <span className="truncate">{event.name}</span>
+                          <span className="text-[11px] text-slate-400 ml-auto whitespace-nowrap">
+                            {event.date}
+                          </span>
+                        </Link>
+                      ))}
+                    {upcomingEvents.filter((event) => {
+                      if (selectedEventType === "All") return true;
+                      if (selectedEventType === "Competitions")
+                        return event.type === "Competition";
+                      if (selectedEventType === "Workshops")
+                        return event.type === "Workshop";
+                      if (selectedEventType === "Networking")
+                        return event.type === "Networking";
+                      return ["Show", "Expo", "Corporate"].includes(event.type);
+                    }).length === 0 && (
+                      <p className="col-span-2 text-sm text-slate-400 px-3 py-2">
+                        No events in this category yet.
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                <div className="col-span-3">
-                  <div className="rounded-2xl bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50 border border-purple-100/60 p-6 h-full flex flex-col justify-between">
+                {/* Panel 3: Image */}
+                <div className="w-52 flex-shrink-0">
+                  <div className="rounded-2xl overflow-hidden h-full relative">
+                    <img
+                      src={
+                        selectedEventType === "All"
+                          ? "https://images.unsplash.com/photo-1540575467063-178a50c7e4e7?w=400&h=300&fit=crop"
+                          : (eventTypes.find(
+                              (t) => t.name === selectedEventType,
+                            )?.image ??
+                            "https://images.unsplash.com/photo-1540575467063-178a50c7e4e7?w=400&h=300&fit=crop")
+                      }
+                      alt={selectedEventType}
+                      className="w-full h-full object-cover min-h-[240px]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <p className="text-white text-sm font-semibold">
+                        {selectedEventType === "All"
+                          ? "E-SPOT Events"
+                          : selectedEventType}
+                      </p>
+                      <p className="text-white/80 text-xs mt-0.5">
+                        {selectedEventType === "All"
+                          ? "Shows & competitions"
+                          : eventTypes.find((t) => t.name === selectedEventType)
+                              ?.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Panel 4: Spotlight */}
+                <div className="w-56 flex-shrink-0">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 h-full flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                         Spotlight
                       </span>
-                      <h4 className="text-lg font-semibold text-slate-900 mt-3">
+                      <h4 className="text-base font-semibold text-slate-900 mt-2">
                         Nepal Talent 2026
                       </h4>
-                      <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+                      <p className="text-sm text-slate-500 mt-1.5 leading-relaxed">
                         The biggest talent competition in Nepal. Showcase your
                         skills and win amazing prizes.
                       </p>
-                      <div className="flex items-center gap-1.5 mt-3 text-xs text-slate-500">
-                        <Calendar className="w-3.5 h-3.5" /> Mar 25, 2026
-                      </div>
+                      <p className="text-xs text-slate-400 mt-2">
+                        Mar 25, 2026
+                      </p>
                     </div>
                     <Link
                       to="/events/nepal-talent-2026"
-                      className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-purple-600 hover:text-purple-700 transition-colors"
+                      className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
                     >
                       Register now <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -481,53 +558,149 @@ export default function Navbar({
 
           {activeMega === "discover" && (
             <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
-              <div className="grid grid-cols-12 gap-8">
-                <div className="col-span-9 grid grid-cols-3 gap-4">
-                  {discoveryGroups.map((group) => (
-                    <div
-                      key={group.title}
-                      className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
-                    >
-                      <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500 mb-3">
-                        {group.title}
-                      </h3>
-                      <div className="space-y-1">
-                        {group.items.map((item) => (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                              locationPathname === item.path
-                                ? "bg-blue-600 text-white"
-                                : "text-slate-700 hover:bg-white hover:text-blue-700"
-                            }`}
-                          >
-                            <span>{item.name}</span>
-                            <ArrowRight className="w-3.5 h-3.5 opacity-70" />
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="col-span-3">
-                  <div className="rounded-2xl bg-gradient-to-br from-blue-50 via-cyan-50 to-emerald-50 border border-blue-100/70 p-6 h-full">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-700">
-                      Quick Access
-                    </p>
-                    <h4 className="mt-3 text-xl font-bold text-slate-900">
-                      Explore More Modules
-                    </h4>
-                    <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                      Use Discover to jump into marketplace pages, growth
-                      tracks, and career opportunities from one place.
-                    </p>
+              <div className="flex gap-6">
+                {/* Panel 1: Categories */}
+                <div className="w-44 flex-shrink-0">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-3">
+                    Categories
+                  </h3>
+                  <div className="space-y-0.5">
+                    {discoveryGroups.map((group) => (
+                      <button
+                        key={group.title}
+                        onMouseEnter={() =>
+                          setSelectedDiscoverGroup(group.title)
+                        }
+                        className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                          selectedDiscoverGroup === group.title
+                            ? "bg-blue-50 text-blue-700 shadow-sm"
+                            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                        }`}
+                      >
+                        <span className="truncate">{group.title}</span>
+                        {selectedDiscoverGroup === group.title && (
+                          <ChevronRight className="w-3.5 h-3.5 ml-auto text-blue-400" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-slate-100">
                     <Link
                       to="/showcase"
-                      className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800"
+                      className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
                     >
                       Open Showcase <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Panel 2: Links */}
+                <div className="flex-1 border-l border-slate-100 pl-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <h3 className="text-base font-semibold text-slate-900">
+                      {selectedDiscoverGroup}
+                    </h3>
+                    <span className="text-xs text-slate-400 font-medium">
+                      {discoveryGroups.find(
+                        (g) => g.title === selectedDiscoverGroup,
+                      )?.items.length ?? 0}{" "}
+                      pages
+                    </span>
+                  </div>
+                  <div className="space-y-0.5">
+                    {(
+                      discoveryGroups.find(
+                        (g) => g.title === selectedDiscoverGroup,
+                      )?.items ?? []
+                    ).map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-colors group"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors flex-shrink-0" />
+                          {item.name}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Panel 3: Image */}
+                <div className="w-52 flex-shrink-0">
+                  <div className="rounded-2xl overflow-hidden h-full relative">
+                    <img
+                      src={
+                        discoveryGroups.find(
+                          (g) => g.title === selectedDiscoverGroup,
+                        )?.image
+                      }
+                      alt={selectedDiscoverGroup}
+                      className="w-full h-full object-cover min-h-[240px]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <p className="text-white text-sm font-semibold">
+                        {selectedDiscoverGroup}
+                      </p>
+                      <p className="text-white/80 text-xs mt-0.5">
+                        {
+                          discoveryGroups.find(
+                            (g) => g.title === selectedDiscoverGroup,
+                          )?.desc
+                        }
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Panel 4: Quick Stats */}
+                <div className="w-56 flex-shrink-0">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 h-full flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                      Platform Stats
+                    </span>
+                    <div className="mt-3 space-y-3 flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-600">Products</span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          420+
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-600">Members</span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          2,680+
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-600">Partners</span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          86
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-600">Programs</span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          24
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-slate-600">
+                          Countries
+                        </span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          12
+                        </span>
+                      </div>
+                    </div>
+                    <Link
+                      to="/profiles"
+                      className="mt-4 pt-3 border-t border-slate-200 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      Browse profiles <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </div>

@@ -15,6 +15,7 @@ const CATEGORY_BY_ROUTE: Record<string, string> = {
   restaurants: "Restaurants & Catering",
   multimedia: "Multimedia Production",
   events: "Events & Wedding Mgmt",
+  outsourcing: "Outsourcing",
 };
 
 export default function ServiceCategory() {

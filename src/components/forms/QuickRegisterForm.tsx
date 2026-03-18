@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from "react";
+import { sanitizeInput, isValidEmail, isValidPhone } from "../../lib/utils";
 
 type QuickRegisterFormProps = {
   heading: string;
@@ -15,16 +16,16 @@ type FormState = {
 };
 
 const initialState: FormState = {
-  name: '',
-  email: '',
-  phone: '',
-  notes: '',
+  name: "",
+  email: "",
+  phone: "",
+  notes: "",
 };
 
 export default function QuickRegisterForm({
   heading,
   targetLabel,
-  submitLabel = 'Submit Registration',
+  submitLabel = "Submit Registration",
   onClose,
 }: QuickRegisterFormProps) {
   const [form, setForm] = useState<FormState>(initialState);
@@ -37,18 +38,37 @@ export default function QuickRegisterForm({
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const existing = localStorage.getItem('quick-registrations');
-    const list = existing ? JSON.parse(existing) : [];
+    // Sanitize all inputs
+    const sanitized = {
+      name: sanitizeInput(form.name),
+      email: sanitizeInput(form.email).toLowerCase(),
+      phone: sanitizeInput(form.phone),
+      notes: sanitizeInput(form.notes),
+    };
+
+    // Validate
+    if (!sanitized.name || sanitized.name.length < 2) return;
+    if (!isValidEmail(sanitized.email)) return;
+    if (sanitized.phone && !isValidPhone(sanitized.phone)) return;
+
+    const existing = localStorage.getItem("quick-registrations");
+    let list: unknown[] = [];
+    try {
+      list = existing ? JSON.parse(existing) : [];
+      if (!Array.isArray(list)) list = [];
+    } catch {
+      list = [];
+    }
 
     list.push({
       id: Date.now(),
-      heading,
-      targetLabel,
-      ...form,
+      heading: sanitizeInput(heading),
+      targetLabel: sanitizeInput(targetLabel),
+      ...sanitized,
       createdAt: new Date().toISOString(),
     });
 
-    localStorage.setItem('quick-registrations', JSON.stringify(list));
+    localStorage.setItem("quick-registrations", JSON.stringify(list));
     setIsSubmitted(true);
     setForm(initialState);
   };
@@ -57,9 +77,14 @@ export default function QuickRegisterForm({
     <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600">Registration Form</p>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600">
+            Registration Form
+          </p>
           <h3 className="mt-1 text-xl font-bold text-slate-900">{heading}</h3>
-          <p className="mt-1 text-sm text-slate-600">You are registering for: <span className="font-semibold text-slate-900">{targetLabel}</span></p>
+          <p className="mt-1 text-sm text-slate-600">
+            You are registering for:{" "}
+            <span className="font-semibold text-slate-900">{targetLabel}</span>
+          </p>
         </div>
         {onClose ? (
           <button
@@ -78,46 +103,57 @@ export default function QuickRegisterForm({
         </div>
       ) : null}
 
-      <form className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
+      <form
+        className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+        onSubmit={handleSubmit}
+      >
         <label className="block">
-          <span className="mb-1 block text-sm font-semibold text-slate-700">Full Name</span>
+          <span className="mb-1 block text-sm font-semibold text-slate-700">
+            Full Name
+          </span>
           <input
             required
             value={form.name}
-            onChange={(event) => handleChange('name', event.target.value)}
+            onChange={(event) => handleChange("name", event.target.value)}
             className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Your name"
           />
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-sm font-semibold text-slate-700">Email</span>
+          <span className="mb-1 block text-sm font-semibold text-slate-700">
+            Email
+          </span>
           <input
             required
             type="email"
             value={form.email}
-            onChange={(event) => handleChange('email', event.target.value)}
+            onChange={(event) => handleChange("email", event.target.value)}
             className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="you@example.com"
           />
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-sm font-semibold text-slate-700">Phone</span>
+          <span className="mb-1 block text-sm font-semibold text-slate-700">
+            Phone
+          </span>
           <input
             value={form.phone}
-            onChange={(event) => handleChange('phone', event.target.value)}
+            onChange={(event) => handleChange("phone", event.target.value)}
             className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Optional"
           />
         </label>
 
         <label className="block md:col-span-2">
-          <span className="mb-1 block text-sm font-semibold text-slate-700">Notes</span>
+          <span className="mb-1 block text-sm font-semibold text-slate-700">
+            Notes
+          </span>
           <textarea
             rows={4}
             value={form.notes}
-            onChange={(event) => handleChange('notes', event.target.value)}
+            onChange={(event) => handleChange("notes", event.target.value)}
             className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Tell us what you are looking for"
           />

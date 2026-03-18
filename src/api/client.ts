@@ -15,29 +15,56 @@ class ApiError extends Error {
   }
 }
 
+function clearAuth() {
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("authRole");
+  window.location.href = "/auth";
+}
+
 async function request<T>(
   endpoint: string,
   options: RequestOptions = {},
 ): Promise<T> {
   const { body, headers: customHeaders, ...rest } = options;
 
+  // Validate endpoint to prevent SSRF — must start with /
+  if (!endpoint.startsWith("/")) {
+    throw new Error("API endpoint must be a relative path starting with /");
+  }
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
     ...(customHeaders as Record<string, string>),
   };
 
   const token = localStorage.getItem("authToken");
   if (token) {
+    // Basic token format validation — reject if it looks tampered
+    if (token.length > 4096 || /[<>"']/.test(token)) {
+      clearAuth();
+      throw new Error("Invalid auth token detected");
+    }
     headers["Authorization"] = `Bearer ${token}`;
   }
 
   const url = `${config.apiBaseUrl}${endpoint}`;
-  const init: RequestInit = { headers, ...rest };
+  const init: RequestInit = {
+    headers,
+    credentials: "same-origin",
+    ...rest,
+  };
   if (body !== undefined) {
     init.body = JSON.stringify(body);
   }
 
   const response = await fetch(url, init);
+
+  // Auto-logout on authentication failure
+  if (response.status === 401) {
+    clearAuth();
+    throw new ApiError(response.status, response.statusText, null);
+  }
 
   if (!response.ok) {
     const data = await response.json().catch(() => null);

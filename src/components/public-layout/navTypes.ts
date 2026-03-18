@@ -1,6 +1,6 @@
-import type { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from "lucide-react";
 
-export type MegaMenuId = 'services' | 'events' | 'discover' | null;
+export type MegaMenuId = "services" | "events" | "discover" | null;
 
 export type NavItem = {
   name: string;
@@ -33,9 +33,12 @@ export type EventType = {
   desc: string;
   icon: LucideIcon;
   path: string;
+  image: string;
 };
 
 export type DiscoveryGroup = {
   title: string;
   items: NavItem[];
+  image: string;
+  desc: string;
 };

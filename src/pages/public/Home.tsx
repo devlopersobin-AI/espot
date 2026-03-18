@@ -21,6 +21,7 @@ import {
   UtensilsCrossed,
   Camera,
   Calendar,
+  Briefcase,
   MapPin,
 } from "lucide-react";
 import Carousel from "../../components/Carousel";
@@ -190,6 +191,13 @@ export default function Home() {
       path: "/services/events",
       count: 8,
       desc: "Corporate, social & weddings",
+    },
+    {
+      name: "Outsourcing",
+      icon: Briefcase,
+      path: "/services/outsourcing",
+      count: 8,
+      desc: "Finance, IT, HR & business services",
     },
   ];
 
@@ -394,18 +402,18 @@ export default function Home() {
           <Link
             key={index}
             to={`/profile/${type}/${index + 1}`}
-            className="min-w-[220px] border border-slate-200 rounded-md p-4 flex flex-col cursor-pointer elevate-card bg-white"
+            className="min-w-[200px] sm:min-w-[220px] border border-slate-200 rounded-xl p-4 flex flex-col cursor-pointer hover:shadow-md transition-all bg-white"
           >
             <div className="flex justify-between items-start mb-4">
               <span className="text-xs font-bold text-blue-600">
                 #{String(index + 1).padStart(2, "0")}
               </span>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm">
+              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg">
                 {item.badge}
               </span>
             </div>
             <div className="flex-1 flex items-center justify-center mb-4">
-              <div className="w-14 h-14 bg-slate-100 rounded-md flex items-center justify-center text-slate-800 font-semibold text-sm">
+              <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center text-slate-800 font-semibold text-sm">
                 {item.initials}
               </div>
             </div>
@@ -489,10 +497,10 @@ export default function Home() {
                 return (
                   <div
                     key={stat.label}
-                    className="flex items-center gap-4 rounded-md border border-slate-200 bg-white px-5 py-4 shadow-sm"
+                    className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
                   >
                     <div
-                      className={`w-10 h-10 ${stat.bgCls} rounded-sm flex items-center justify-center flex-shrink-0`}
+                      className={`w-10 h-10 ${stat.bgCls} rounded-lg flex items-center justify-center flex-shrink-0`}
                     >
                       <Icon className={`w-5 h-5 ${stat.iconCls}`} />
                     </div>
@@ -534,9 +542,9 @@ export default function Home() {
                 <Link
                   key={mod.title}
                   to={mod.path}
-                  className="group bg-white border border-slate-300 rounded-sm p-5 flex flex-col transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                  className="group bg-white border border-slate-200 rounded-xl p-5 flex flex-col transition-all hover:-translate-y-0.5 hover:shadow-lg"
                 >
-                  <div className="w-10 h-10 bg-slate-100 border border-slate-200 rounded-sm flex items-center justify-center mb-4 flex-shrink-0">
+                  <div className="w-10 h-10 bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center mb-4 flex-shrink-0">
                     <Icon className="w-5 h-5 text-slate-800" />
                   </div>
                   <h3 className="font-bold text-slate-900 mb-1.5 tracking-tight">
@@ -581,9 +589,9 @@ export default function Home() {
                 <Link
                   key={cat.name}
                   to={cat.path}
-                  className="group bg-white border border-slate-300 rounded-sm p-4 flex flex-col gap-3 transition-all hover:shadow-md"
+                  className="group bg-white border border-slate-200 rounded-xl p-4 flex flex-col gap-3 transition-all hover:shadow-md"
                 >
-                  <div className="w-9 h-9 bg-slate-100 border border-slate-200 rounded-sm flex items-center justify-center">
+                  <div className="w-9 h-9 bg-slate-100 border border-slate-200 rounded-lg flex items-center justify-center">
                     <Icon className="w-4 h-4 text-slate-800" />
                   </div>
                   <div>
@@ -626,15 +634,15 @@ export default function Home() {
               <Link
                 key={event.path}
                 to={event.path}
-                className="bg-white border border-slate-300 rounded-sm p-5 elevate-card flex flex-col gap-4"
+                className="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-md transition-all flex flex-col gap-4"
               >
                 <div className="flex items-start justify-between gap-2">
                   <span
-                    className={`text-xs font-bold px-2.5 py-1 rounded-sm ${eventTypeCls[event.type] ?? "bg-slate-100 text-slate-600"}`}
+                    className={`text-xs font-bold px-2.5 py-1 rounded-lg ${eventTypeCls[event.type] ?? "bg-slate-100 text-slate-600"}`}
                   >
                     {event.type}
                   </span>
-                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-sm">
+                  <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg">
                     +50 pts
                   </span>
                 </div>
@@ -692,7 +700,7 @@ export default function Home() {
             {testimonials.map((t) => (
               <div
                 key={t.name}
-                className="bg-white border border-slate-300 rounded-sm p-6 elevate-card flex flex-col gap-4"
+                className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-md transition-all flex flex-col gap-4"
               >
                 <div className="flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -706,7 +714,7 @@ export default function Home() {
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div className="flex items-center gap-3 mt-auto">
-                  <div className="w-9 h-9 bg-slate-100 rounded-sm flex items-center justify-center text-slate-800 font-semibold text-xs flex-shrink-0">
+                  <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center text-slate-800 font-semibold text-xs flex-shrink-0">
                     {t.name
                       .split(" ")
                       .map((n) => n[0])

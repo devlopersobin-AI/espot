@@ -75,31 +75,26 @@ export default function Offer() {
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <Hero
-        bgColor="bg-rose-600"
-        accentColor="text-rose-200"
         title="Offers & Deals"
         subtitle="Unlock exclusive discounts, earn tokens, and get the best deals across the E-SPOT ecosystem."
-        label="Module"
       />
 
-      {/* Sub Navigation */}
       <SubNav
         items={subNav}
         active={activeTab}
         setActive={setActiveTab}
-        color="text-rose-700 border-rose-500 bg-rose-50"
+        color="text-gray-900 border-gray-900 bg-gray-50"
       />
 
-      {/* Content Section */}
-      <div className="flex-1 py-8 sm:py-12 bg-slate-50">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="flex-1 py-8 sm:py-12 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           {activeTab === "Top Offers" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {offers.map((offer) => (
                   <div
                     key={offer.id}
-                    className="bg-white rounded-[24px] sm:rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all flex flex-col sm:flex-row group"
+                    className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row group"
                   >
                     <div className="h-44 sm:h-auto sm:w-2/5 relative overflow-hidden">
                       <img
@@ -108,28 +103,26 @@ export default function Offer() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
-                      <div
-                        className={`absolute top-4 left-4 ${offer.color} text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm`}
-                      >
+                      <div className="absolute top-3 left-3 bg-slate-900 text-white text-xs font-medium px-2.5 py-1 rounded-md">
                         {offer.discount}
                       </div>
                     </div>
-                    <div className="p-5 sm:p-8 sm:w-3/5 flex flex-col justify-between">
+                    <div className="p-5 sm:p-6 sm:w-3/5 flex flex-col justify-between">
                       <div>
-                        <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1">
                           {offer.title}
                         </h3>
-                        <p className="text-slate-600 mb-4">
+                        <p className="text-sm text-gray-600">
                           {offer.description}
                         </p>
                       </div>
                       <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center text-sm font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg">
-                          <Clock className="w-4 h-4 mr-1.5" /> Ends in{" "}
+                        <div className="flex items-center text-xs font-medium text-gray-500">
+                          <Clock className="w-3.5 h-3.5 mr-1" /> Ends in{" "}
                           {offer.expires}
                         </div>
-                        <button className="flex items-center justify-center w-10 h-10 bg-slate-100 text-slate-600 rounded-full hover:bg-rose-600 hover:text-white transition-colors">
-                          <ArrowRight className="w-5 h-5" />
+                        <button className="flex items-center justify-center w-8 h-8 bg-gray-50 text-gray-600 rounded-md border border-gray-200 hover:bg-gray-100 transition-colors">
+                          <ArrowRight className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -141,50 +134,72 @@ export default function Offer() {
 
           {activeTab === "Exclusive" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto">
-              <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[24px] sm:rounded-3xl p-6 sm:p-8 md:p-12 text-white mb-10 sm:mb-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
-
+              <div className="bg-slate-900 rounded-xl p-6 sm:p-8 text-white mb-8 relative overflow-hidden">
                 <div className="relative z-10 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sm font-bold mb-6">
-                    <Star className="w-4 h-4 text-amber-400 fill-amber-400" />{" "}
-                    VIP Access
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 text-xs font-medium mb-4">
+                    <Star className="w-3.5 h-3.5" /> VIP Access
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-4 leading-tight">
+                  <h2 className="text-xl font-semibold mb-2">
                     Unlock Premium Partner Deals
                   </h2>
-                  <p className="text-sm text-slate-300 mb-6">
+                  <p className="text-sm text-slate-400 mb-5">
                     Get access to hidden discounts, early product launches, and
                     exclusive bundles reserved only for verified E-SPOT partners
                     and top-tier members.
                   </p>
-                  <button className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-rose-50 transition-colors flex items-center gap-2">
-                    Verify Status to Unlock <ArrowRight className="w-5 h-5" />
+                  <button className="bg-white text-slate-900 px-5 py-2.5 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors flex items-center gap-2">
+                    Verify Status to Unlock <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">
+              <h3 className="text-base font-semibold text-gray-900 mb-4">
                 Currently Locked Deals
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
+                {[
+                  {
+                    title: "Partner Pro Bundle",
+                    desc: "Premium tools & resources pack",
+                    discount: "40% OFF",
+                  },
+                  {
+                    title: "VIP Event Pass",
+                    desc: "All-access event tickets for 2026",
+                    discount: "Early Bird",
+                  },
+                  {
+                    title: "Enterprise License",
+                    desc: "Unlimited usage for teams of 10+",
+                    discount: "Special Rate",
+                  },
+                ].map((deal, i) => (
                   <div
                     key={i}
-                    className="bg-white border border-slate-200 rounded-2xl p-6 relative overflow-hidden group"
+                    className="bg-white border border-slate-200 rounded-2xl p-6 relative overflow-hidden group hover:shadow-md transition-all"
                   >
-                    <div className="absolute inset-0 bg-slate-900/5 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center transition-all group-hover:backdrop-blur-sm">
-                      <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg mb-3">
+                    <div className="absolute inset-0 bg-white/80 backdrop-blur-[3px] z-10 flex flex-col items-center justify-center transition-all group-hover:bg-white/90">
+                      <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center shadow-sm mb-3">
                         <Lock className="w-5 h-5 text-slate-400" />
                       </div>
-                      <span className="font-bold text-slate-700">
+                      <span className="font-bold text-slate-700 text-sm">
                         Partner Exclusive
                       </span>
+                      <span className="text-xs text-slate-500 mt-1">
+                        Verify to unlock
+                      </span>
                     </div>
-                    <div className="opacity-50 filter blur-[1px]">
-                      <div className="h-40 bg-slate-100 rounded-xl mb-4"></div>
-                      <div className="h-6 bg-slate-200 rounded w-3/4 mb-2"></div>
-                      <div className="h-4 bg-slate-100 rounded w-1/2"></div>
+                    <div className="opacity-40">
+                      <div className="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center mb-4">
+                        <Gift className="w-5 h-5 text-rose-500" />
+                      </div>
+                      <h4 className="font-bold text-slate-900 mb-1">
+                        {deal.title}
+                      </h4>
+                      <p className="text-sm text-slate-500 mb-3">{deal.desc}</p>
+                      <span className="inline-block text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-lg">
+                        {deal.discount}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -196,24 +211,26 @@ export default function Offer() {
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-8">
                 <div className="lg:col-span-1">
-                  <div className="bg-gradient-to-b from-amber-400 to-amber-600 rounded-[24px] sm:rounded-3xl p-6 sm:p-8 text-white shadow-lg">
-                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm">
-                      <Coins className="w-8 h-8 text-white" />
+                  <div className="bg-gradient-to-b from-amber-50 to-amber-100 rounded-xl p-5 sm:p-6 text-slate-900 shadow-sm border border-amber-200/60">
+                    <div className="w-10 h-10 bg-white/60 rounded-lg flex items-center justify-center mb-4">
+                      <Coins className="w-5 h-5 text-amber-700" />
                     </div>
-                    <h2 className="text-xl font-bold mb-2">E-SPOT Tokens</h2>
-                    <p className="text-amber-100 mb-8">
+                    <h2 className="text-lg font-semibold mb-1">
+                      E-SPOT Tokens
+                    </h2>
+                    <p className="text-sm text-slate-600 mb-6">
                       Earn tokens by participating in events, completing
                       courses, or making purchases. Use them to unlock
                       discounts!
                     </p>
 
-                    <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm border border-white/20">
-                      <div className="text-sm font-bold text-amber-100 uppercase tracking-wider mb-1">
+                    <div className="bg-white rounded-lg p-4 border border-amber-200/40">
+                      <div className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">
                         Your Balance
                       </div>
-                      <div className="text-2xl font-bold flex items-baseline gap-2">
+                      <div className="text-2xl font-bold text-slate-900 flex items-baseline gap-2">
                         2,450{" "}
-                        <span className="text-base font-medium text-amber-200">
+                        <span className="text-sm font-medium text-slate-500">
                           TKN
                         </span>
                       </div>
@@ -222,58 +239,48 @@ export default function Offer() {
                 </div>
 
                 <div className="lg:col-span-2 space-y-6">
-                  <h3 className="text-2xl font-bold text-slate-900">
+                  <h3 className="text-base font-semibold text-gray-900">
                     Ways to Earn
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
                       {
                         title: "Complete Profile",
                         tokens: "+500",
                         icon: User,
-                        color: "text-blue-600",
-                        bg: "bg-blue-50",
                       },
                       {
                         title: "Refer a Friend",
                         tokens: "+1000",
                         icon: Users,
-                        color: "text-emerald-600",
-                        bg: "bg-emerald-50",
                       },
                       {
                         title: "Write a Review",
                         tokens: "+50",
                         icon: MessageSquare,
-                        color: "text-purple-600",
-                        bg: "bg-purple-50",
                       },
                       {
                         title: "Daily Login",
                         tokens: "+10",
                         icon: Calendar,
-                        color: "text-rose-600",
-                        bg: "bg-rose-50",
                       },
                     ].map((way, i) => (
                       <div
                         key={i}
-                        className="bg-white border border-slate-200 rounded-2xl p-6 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer"
+                        className="bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3 hover:shadow-sm transition-shadow cursor-pointer"
                       >
-                        <div
-                          className={`w-12 h-12 ${way.bg} ${way.color} rounded-xl flex items-center justify-center shrink-0`}
-                        >
-                          <way.icon className="w-6 h-6" />
+                        <div className="w-9 h-9 bg-gray-50 text-gray-600 rounded-lg flex items-center justify-center shrink-0 border border-gray-100">
+                          <way.icon className="w-4 h-4" />
                         </div>
-                        <div className="flex-1">
-                          <h4 className="font-bold text-slate-900">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-gray-900 text-sm">
                             {way.title}
                           </h4>
-                          <p className="text-sm text-slate-500">
+                          <p className="text-xs text-gray-500">
                             Earn {way.tokens} tokens
                           </p>
                         </div>
-                        <div className="font-black text-amber-500">
+                        <div className="font-semibold text-gray-700 text-sm">
                           {way.tokens}
                         </div>
                       </div>
@@ -286,16 +293,16 @@ export default function Offer() {
 
           {activeTab === "Price Alerts" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-4xl mx-auto">
-              <div className="bg-white border border-slate-200 rounded-[24px] sm:rounded-3xl p-5 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center">
-                    <Bell className="w-6 h-6" />
+              <div className="bg-white border border-gray-200 rounded-xl p-5 sm:p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-gray-50 text-gray-600 rounded-lg flex items-center justify-center border border-gray-100">
+                    <Bell className="w-4 h-4" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-slate-900">
+                    <h2 className="text-base font-semibold text-gray-900">
                       Active Price Alerts
                     </h2>
-                    <p className="text-slate-500">
+                    <p className="text-sm text-gray-500">
                       We'll notify you when these items hit your target price.
                     </p>
                   </div>
@@ -324,12 +331,12 @@ export default function Offer() {
                   ].map((alert, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-4 p-4 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-colors"
+                      className="flex items-center gap-4 p-3 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       <img
                         src={alert.image}
                         alt={alert.item}
-                        className="w-16 h-16 rounded-xl object-cover"
+                        className="w-14 h-14 rounded-lg object-cover"
                         referrerPolicy="no-referrer"
                       />
                       <div className="flex-1">
@@ -348,15 +355,15 @@ export default function Offer() {
                           </span>
                         </div>
                       </div>
-                      <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors">
-                        <Trash2 className="w-5 h-5" />
+                      <button className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors">
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   ))}
                 </div>
 
-                <button className="w-full mt-6 py-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-500 font-bold hover:border-rose-300 hover:text-rose-600 hover:bg-rose-50 transition-all flex items-center justify-center gap-2">
-                  <Plus className="w-5 h-5" /> Add New Alert
+                <button className="w-full mt-5 py-3 border-2 border-dashed border-gray-200 rounded-lg text-gray-500 font-medium text-sm hover:border-gray-300 hover:text-gray-700 transition-all flex items-center justify-center gap-2">
+                  <Plus className="w-4 h-4" /> Add New Alert
                 </button>
               </div>
             </div>
@@ -364,8 +371,8 @@ export default function Offer() {
 
           {activeTab === "Reviews" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-slate-900">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-base font-semibold text-gray-900">
                   Deal Reviews
                 </h2>
                 <div className="flex items-center gap-2">
@@ -431,7 +438,7 @@ export default function Offer() {
                 ].map((review, i) => (
                   <div
                     key={i}
-                    className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
+                    className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
