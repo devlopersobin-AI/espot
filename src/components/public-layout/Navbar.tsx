@@ -63,10 +63,11 @@ function NavTrigger({
           openMega(id);
         }
       }}
-      className={`relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${activeMega === id
+      className={`relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+        activeMega === id
           ? "text-blue-600 bg-blue-50"
           : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
-        }`}
+      }`}
     >
       {label}
       <ChevronDown
@@ -144,10 +145,11 @@ export default function Navbar({
                 key={item.name}
                 to={item.path}
                 onMouseEnter={() => openMega(null)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${locationPathname === item.path
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+                  locationPathname === item.path
                     ? "text-blue-600 bg-blue-50"
                     : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
-                  }`}
+                }`}
               >
                 {item.name}
               </Link>
@@ -299,10 +301,11 @@ export default function Navbar({
                           <button
                             key={category}
                             onMouseEnter={() => setSelectedCategory(category)}
-                            className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${selectedCategory === category
+                            className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                              selectedCategory === category
                                 ? "bg-blue-50 text-blue-700 shadow-sm"
                                 : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                              }`}
+                            }`}
                           >
                             <CatIcon
                               className={`w-4 h-4 flex-shrink-0 ${selectedCategory === category ? "text-blue-600" : "text-slate-400"}`}
@@ -386,10 +389,11 @@ export default function Navbar({
                   <div className="space-y-0.5">
                     <button
                       onMouseEnter={() => setSelectedEventType("All")}
-                      className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${selectedEventType === "All"
+                      className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                        selectedEventType === "All"
                           ? "bg-blue-50 text-blue-700 shadow-sm"
                           : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                        }`}
+                      }`}
                     >
                       <span className="truncate">All Events</span>
                       {selectedEventType === "All" && (
@@ -402,10 +406,11 @@ export default function Navbar({
                         <button
                           key={type.name}
                           onMouseEnter={() => setSelectedEventType(type.name)}
-                          className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${selectedEventType === type.name
+                          className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                            selectedEventType === type.name
                               ? "bg-blue-50 text-blue-700 shadow-sm"
                               : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                            }`}
+                          }`}
                         >
                           <TypeIcon
                             className={`w-4 h-4 flex-shrink-0 ${selectedEventType === type.name ? "text-blue-600" : "text-slate-400"}`}
@@ -481,10 +486,10 @@ export default function Navbar({
                         return event.type === "Networking";
                       return ["Show", "Expo", "Corporate"].includes(event.type);
                     }).length === 0 && (
-                        <p className="col-span-2 text-sm text-slate-400 px-3 py-2">
-                          No events in this category yet.
-                        </p>
-                      )}
+                      <p className="col-span-2 text-sm text-slate-400 px-3 py-2">
+                        No events in this category yet.
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -496,8 +501,8 @@ export default function Navbar({
                         selectedEventType === "All"
                           ? "https://images.unsplash.com/photo-1540575467063-178a50c7e4e7?w=400&h=300&fit=crop"
                           : (eventTypes.find(
-                            (t) => t.name === selectedEventType,
-                          )?.image ??
+                              (t) => t.name === selectedEventType,
+                            )?.image ??
                             "https://images.unsplash.com/photo-1540575467063-178a50c7e4e7?w=400&h=300&fit=crop")
                       }
                       alt={selectedEventType}
@@ -514,7 +519,7 @@ export default function Navbar({
                         {selectedEventType === "All"
                           ? "Shows & competitions"
                           : eventTypes.find((t) => t.name === selectedEventType)
-                            ?.desc}
+                              ?.desc}
                       </p>
                     </div>
                   </div>
@@ -565,10 +570,11 @@ export default function Navbar({
                         onMouseEnter={() =>
                           setSelectedDiscoverGroup(group.title)
                         }
-                        className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${selectedDiscoverGroup === group.title
+                        className={`w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2.5 ${
+                          selectedDiscoverGroup === group.title
                             ? "bg-blue-50 text-blue-700 shadow-sm"
                             : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                          }`}
+                        }`}
                       >
                         <span className="truncate">{group.title}</span>
                         {selectedDiscoverGroup === group.title && (
