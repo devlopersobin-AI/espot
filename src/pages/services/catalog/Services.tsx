@@ -24,7 +24,7 @@ export default function Services() {
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="space-y-3">
           <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Services</p>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900">All Service Categories</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-slate-900">All Service Categories</h1>
           <p className="text-slate-600 max-w-3xl">
             Explore all categories and open each service detail with the same rich page experience.
           </p>
@@ -40,7 +40,7 @@ export default function Services() {
                 <div className="lg:col-span-2 p-6 md:p-7">
                   <div className="flex items-center justify-between gap-4 mb-4">
                     <div>
-                      <h2 className="text-2xl font-black text-slate-900">{category.name}</h2>
+                      <h2 className="text-lg font-bold text-slate-900">{category.name}</h2>
                       <p className="text-slate-600 mt-1">{category.desc}</p>
                     </div>
                     <Link

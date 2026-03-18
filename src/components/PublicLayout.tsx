@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import MobileMenu from './public-layout/MobileMenu';
-import Footer from './public-layout/Footer';
-import Navbar from './public-layout/Navbar';
-import type { MegaMenuId } from './public-layout/navTypes';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import MobileMenu from "./public-layout/MobileMenu";
+import Footer from "./public-layout/Footer";
+import Navbar from "./public-layout/Navbar";
+import type { MegaMenuId } from "./public-layout/navTypes";
 
 export default function PublicLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<MegaMenuId>(null);
-  const [selectedCategory, setSelectedCategory] = useState('Equestrian');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("Equestrian");
+  const [searchQuery, setSearchQuery] = useState("");
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   const location = useLocation();
@@ -21,12 +21,15 @@ export default function PublicLayout() {
   useEffect(() => {
     const syncHeaderHeight = () => {
       const height = headerRef.current?.offsetHeight ?? 88;
-      document.documentElement.style.setProperty('--site-header-height', `${height}px`);
+      document.documentElement.style.setProperty(
+        "--site-header-height",
+        `${height}px`,
+      );
     };
 
     syncHeaderHeight();
-    window.addEventListener('resize', syncHeaderHeight);
-    return () => window.removeEventListener('resize', syncHeaderHeight);
+    window.addEventListener("resize", syncHeaderHeight);
+    return () => window.removeEventListener("resize", syncHeaderHeight);
   }, []);
 
   useEffect(() => {
@@ -35,22 +38,22 @@ export default function PublicLayout() {
   }, [location.pathname]);
 
   useEffect(() => {
-    document.body.classList.toggle('mobile-menu-open', mobileMenuOpen);
+    document.body.classList.toggle("mobile-menu-open", mobileMenuOpen);
     return () => {
-      document.body.classList.remove('mobile-menu-open');
+      document.body.classList.remove("mobile-menu-open");
     };
   }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         searchInputRef.current?.focus();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const openMega = useCallback((id: MegaMenuId) => {

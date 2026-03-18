@@ -21,7 +21,7 @@ export default function InvestmentDetail() {
           <span className="inline-flex px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-emerald-200/20 text-emerald-100">
             {summary.sector}
           </span>
-          <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">{summary.title}</h1>
+          <h1 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">{summary.title}</h1>
           <p className="mt-3 text-cyan-100 max-w-4xl">{summary.traction}</p>
 
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">

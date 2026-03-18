@@ -32,10 +32,10 @@ const Hero: React.FC<HeroProps> = ({
             {label}
           </p>
         )}
-        <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.4rem] font-bold tracking-[-0.02em] leading-[1.04] mb-3">
+        <h1 className="text-[1.5rem] sm:text-[1.875rem] md:text-[2.25rem] font-bold tracking-[-0.02em] leading-[1.1] mb-3">
           {title}
         </h1>
-        <p className="text-[0.98rem] sm:text-[1.02rem] md:text-[1.15rem] text-white/85 leading-relaxed max-w-3xl">
+        <p className="text-xs sm:text-sm md:text-[0.9375rem] text-white/85 leading-relaxed max-w-3xl">
           {subtitle}
         </p>
       </div>

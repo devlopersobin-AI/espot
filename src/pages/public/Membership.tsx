@@ -89,7 +89,7 @@ export default function Membership() {
           {activeTab === 'Packages' && (
             <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="text-center max-w-3xl mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-900 mb-3">Membership Packages</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">Membership Packages</h2>
                 <p className="text-lg text-gray-600">Choose your tier and unlock increasing rewards, support levels, and point multipliers.</p>
               </div>
 
@@ -123,7 +123,7 @@ export default function Membership() {
 
           {activeTab === 'Achievements' && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h2 className="text-3xl font-semibold text-gray-900">Membership Achievements</h2>
+              <h2 className="text-xl font-semibold text-gray-900">Membership Achievements</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 <AchievementCard icon={<Star className="w-7 h-7" />} tone="bg-blue-100 text-blue-600" title="Talent of the Month" text="Awarded to Sarah Jenkins (+50 pts)" />
                 <AchievementCard icon={<Trophy className="w-7 h-7" />} tone="bg-purple-100 text-purple-600" title="Member of the Year" text="Awarded to Michael Chen (+500 pts)" />
@@ -182,7 +182,7 @@ export default function Membership() {
               ) : null}
 
               <div>
-                <h2 className="text-3xl font-semibold text-gray-900 mb-5">Exclusive Member Events</h2>
+                <h2 className="text-xl font-semibold text-gray-900 mb-5">Exclusive Member Events</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {[
                     { title: 'Annual Gala Dinner', date: 'Dec 15, 2026', type: 'Networking', points: '+100 pts' },
@@ -211,7 +211,7 @@ export default function Membership() {
               </div>
 
               <div>
-                <h2 className="text-3xl font-semibold text-gray-900 mb-5">Partner Offers</h2>
+                <h2 className="text-xl font-semibold text-gray-900 mb-5">Partner Offers</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   {[
                     { company: 'CloudHost Pro', offer: '30% Off Annual Plans', code: 'ESPOT30' },
@@ -234,7 +234,7 @@ export default function Membership() {
 
           {activeTab === 'Join Us' && (
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-2xl border border-gray-200 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <h2 className="text-3xl font-semibold text-gray-900 mb-5">Join E-SPOT Membership</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-5">Join E-SPOT Membership</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-700 mb-6">
                 <div className="rounded-xl border border-slate-200 p-3.5 bg-slate-50">Choose your package and set profile goals</div>
                 <div className="rounded-xl border border-slate-200 p-3.5 bg-slate-50">Submit identity and profile details</div>
@@ -249,7 +249,7 @@ export default function Membership() {
 
           {activeTab === 'Reviews' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto">
-              <h2 className="text-3xl font-semibold text-gray-900 mb-8 text-center">What Our Members Say</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-8 text-center">What Our Members Say</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
                   { name: 'David Lee', role: 'Gold Member', text: 'Networking quality here is excellent. I found multiple high-value clients through member events.', rating: 5, image: 'https://picsum.photos/seed/mrev1/100/100' },
@@ -329,7 +329,7 @@ function PackageCard({
         </div>
       ) : null}
       <h3 className={`text-2xl font-bold ${tone} mb-2`}>{title}</h3>
-      <div className="text-4xl font-extrabold mb-6">{price}<span className={`${dark ? 'text-slate-400' : 'text-gray-500'} text-lg font-medium`}>/yr</span></div>
+      <div className="text-2xl font-bold mb-6">{price}<span className={`${dark ? 'text-slate-400' : 'text-gray-500'} text-lg font-medium`}>/yr</span></div>
       <ul className="space-y-3 mb-8">
         {perks.map((perk) => (
           <li key={perk} className={`${dark ? 'text-slate-300' : 'text-gray-700'} flex items-center gap-2.5 text-sm`}><Check className="w-4.5 h-4.5" /> {perk}</li>

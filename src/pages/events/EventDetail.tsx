@@ -24,7 +24,7 @@ export default function EventDetail() {
           <span className="inline-flex items-center rounded-full bg-orange-400/90 text-slate-900 text-xs font-bold px-3 py-1">
             {event.label}
           </span>
-          <h1 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight max-w-4xl">{event.title}</h1>
+          <h1 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight max-w-4xl">{event.title}</h1>
           <p className="mt-3 text-cyan-100 text-sm sm:text-base font-medium italic">{event.strapline}</p>
           <p className="mt-5 text-blue-100 max-w-4xl leading-relaxed">{event.intro}</p>
 

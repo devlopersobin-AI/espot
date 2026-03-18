@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
-            <h2 className="text-2xl font-black tracking-tighter text-white mb-3">E-Spot Club</h2>
+            <h2 className="text-lg font-bold tracking-tight text-white mb-3">E-Spot Club</h2>
             <p className="text-slate-400 text-sm leading-relaxed">
               The ultimate platform connecting Members, Partners, Franchisees, Entrepreneurs, Leaders, and Scholars globally.
             </p>

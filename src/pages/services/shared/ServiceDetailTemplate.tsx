@@ -40,7 +40,7 @@ export default function ServiceDetailTemplate({
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
           <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.16em] text-blue-700">{categoryName}</p>
-          <h1 className="mt-2 text-3xl md:text-4xl font-black text-slate-900">{serviceName}</h1>
+          <h1 className="mt-2 text-xl md:text-2xl font-bold text-slate-900">{serviceName}</h1>
           <p className="mt-3 text-slate-600 text-base md:text-lg max-w-3xl">{summary || categoryDescription}</p>
         </div>
 
@@ -82,17 +82,17 @@ export default function ServiceDetailTemplate({
           <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="rounded-xl border border-slate-200 p-4 bg-slate-50">
               <h3 className="font-semibold text-slate-900">Starter</h3>
-              <p className="text-2xl font-black text-slate-900 mt-2">$20</p>
+              <p className="text-lg font-bold text-slate-900 mt-2">$20</p>
               <img src={gallery[0]} alt="Starter package" className="mt-3 h-24 w-full object-cover rounded-lg" />
             </div>
             <div className="rounded-xl border-2 border-blue-500 p-4 bg-blue-50/40">
               <h3 className="font-semibold text-slate-900">Standard</h3>
-              <p className="text-2xl font-black text-slate-900 mt-2">$60</p>
+              <p className="text-lg font-bold text-slate-900 mt-2">$60</p>
               <img src={gallery[1]} alt="Standard package" className="mt-3 h-24 w-full object-cover rounded-lg" />
             </div>
             <div className="rounded-xl border border-slate-200 p-4 bg-slate-50">
               <h3 className="font-semibold text-slate-900">Premium</h3>
-              <p className="text-2xl font-black text-slate-900 mt-2">$120</p>
+              <p className="text-lg font-bold text-slate-900 mt-2">$120</p>
               <img src={gallery[2]} alt="Premium package" className="mt-3 h-24 w-full object-cover rounded-lg" />
             </div>
           </div>

@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Hero from '../../components/Hero';
 import { Link } from 'react-router-dom';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Star, ArrowRight, CheckCircle2, MapPin, Award, Building, Search, Wallet, Clock3, Store, TrendingUp } from 'lucide-react';
 
 export default function Franchise() {
@@ -9,6 +10,14 @@ export default function Franchise() {
   const [activeTab, setActiveTab] = useState(subNav[0]);
   const [newQuery, setNewQuery] = useState('');
   const [region, setRegion] = useState<'All' | 'East' | 'Central' | 'West'>('All');
+  const [franchiseTarget, setFranchiseTarget] = useState<string | null>(null);
+  const franchiseFormRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!franchiseTarget || !franchiseFormRef.current) return;
+    franchiseFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    franchiseFormRef.current.focus({ preventScroll: true });
+  }, [franchiseTarget]);
 
   const topFranchises = [
     { id: 1, name: 'E-SPOT Central Hub', rating: 4.9, reviews: 312, location: 'Kathmandu', image: 'https://picsum.photos/seed/f1/400/300', monthlyRevenue: '$180k', growth: '+22%' },
@@ -154,6 +163,16 @@ export default function Franchise() {
 
           {activeTab === 'Process' && (
             <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {franchiseTarget ? (
+                <div ref={franchiseFormRef} tabIndex={-1} className="mb-6 focus:outline-none">
+                  <QuickRegisterForm
+                    heading="Franchise Application"
+                    targetLabel={franchiseTarget}
+                    submitLabel="Submit Application"
+                    onClose={() => setFranchiseTarget(null)}
+                  />
+                </div>
+              ) : null}
               <h2 className="text-2xl font-bold text-slate-900 mb-8">How to Start</h2>
               <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
                 {[
@@ -178,12 +197,13 @@ export default function Franchise() {
                 ))}
               </div>
               <div className="mt-8 pt-6 border-t border-slate-200 flex justify-end">
-                <Link
-                  to="/auth?mode=signup&role=Franchisee"
+                <button
+                  type="button"
+                  onClick={() => setFranchiseTarget('Franchise Application')}
                   className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors"
                 >
                   Become a Franchisee <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
+                </button>
               </div>
             </div>
           )}
@@ -261,7 +281,7 @@ export default function Franchise() {
                   <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-2 rounded-full font-bold text-sm mb-4">
                     <Award className="w-4 h-4" /> 2025 Winner
                   </div>
-                  <h2 className="text-4xl font-black text-slate-900 mb-2">Rajesh Shrestha</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 mb-2">Rajesh Shrestha</h2>
                   <h3 className="text-xl font-bold text-slate-700 mb-4">E-SPOT Central Hub, Kathmandu</h3>
                   <p className="text-slate-600 text-lg mb-6 max-w-2xl leading-relaxed">
                     "Rajesh has demonstrated exceptional leadership and commitment to the E-SPOT vision. Under his guidance, the Central Hub achieved record-breaking growth and set a new standard for customer service excellence."

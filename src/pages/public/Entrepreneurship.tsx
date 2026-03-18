@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Rocket, Lightbulb, Target, Star, ArrowRight, Briefcase, Search, Calendar, TrendingUp, Users, Banknote } from 'lucide-react';
 
 type Founder = {
@@ -20,6 +21,14 @@ export default function Entrepreneurship() {
   const [founderQuery, setFounderQuery] = useState('');
   const [industryFilter, setIndustryFilter] = useState<'All' | 'Clean Energy' | 'Healthcare Tech' | 'AgriTech' | 'FinTech'>('All');
   const [eventType, setEventType] = useState<'All' | 'Pitch Competition' | 'Networking' | 'Webinar' | 'Hackathon'>('All');
+  const [formTarget, setFormTarget] = useState<string | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!formTarget || !formRef.current) return;
+    formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    formRef.current.focus({ preventScroll: true });
+  }, [formTarget]);
 
   const founders: Founder[] = [
     { id: 1, name: 'Alex Rivera', company: 'EcoTech Solutions', industry: 'Clean Energy', rating: 4.9, image: 'https://picsum.photos/seed/e1/150/150', stage: 'Growth' },
@@ -68,6 +77,25 @@ export default function Entrepreneurship() {
             <MetricCard label="Scale Readiness" value="76%" note="Median cohort score" icon={<TrendingUp className="w-4.5 h-4.5" />} />
           </div>
 
+          {formTarget ? (
+            <div ref={formRef} tabIndex={-1} className="mb-6 max-w-3xl focus:outline-none">
+              <QuickRegisterForm
+                heading={
+                  formTarget.startsWith('Claim:') ? 'Claim Deal' :
+                  formTarget.startsWith('RSVP:') ? 'Event Registration' :
+                  'Join E-SPOT'
+                }
+                targetLabel={formTarget}
+                submitLabel={
+                  formTarget.startsWith('Claim:') ? 'Request Deal Access' :
+                  formTarget.startsWith('RSVP:') ? 'Confirm RSVP' :
+                  'Submit'
+                }
+                onClose={() => setFormTarget(null)}
+              />
+            </div>
+          ) : null}
+
           {activeTab === 'Essentials' && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
@@ -85,9 +113,9 @@ export default function Entrepreneurship() {
                   <li>Week 7-10: Revenue pilot and traction proof</li>
                   <li>Week 11-13: Investor-ready narrative and pipeline</li>
                 </ul>
-                <Link to="/auth?mode=signup&role=Entrepreneur" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-orange-200">
+                <button type="button" onClick={() => setFormTarget('Entrepreneur Program')} className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-orange-200">
                   Join as Entrepreneur <ArrowRight className="w-4 h-4" />
-                </Link>
+                </button>
               </aside>
             </div>
           )}
@@ -165,7 +193,7 @@ export default function Entrepreneurship() {
                   <p className="text-xs uppercase tracking-wide font-semibold text-slate-400">{deal.category}</p>
                   <h3 className="font-semibold text-slate-900 mt-1">{deal.company}</h3>
                   <p className="text-emerald-700 font-semibold mt-2">{deal.offer}</p>
-                  <button className="mt-4 w-full py-2 bg-orange-50 text-orange-700 font-semibold rounded-lg hover:bg-orange-100 transition-colors text-sm">Claim Deal</button>
+                  <button type="button" onClick={() => setFormTarget(`Claim: ${deal.company} – ${deal.offer}`)} className="mt-4 w-full py-2 bg-orange-50 text-orange-700 font-semibold rounded-lg hover:bg-orange-100 transition-colors text-sm">Claim Deal</button>
                 </article>
               ))}
             </div>
@@ -221,7 +249,7 @@ export default function Entrepreneurship() {
                       <h3 className="font-semibold text-slate-900">{event.title}</h3>
                       <p className="text-sm text-slate-500 mt-1">{event.date}</p>
                       <p className="text-sm text-slate-600 mt-1">{event.location}</p>
-                      <button className="mt-4 w-full py-2 border border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition-colors text-sm">RSVP Now</button>
+                      <button type="button" onClick={() => setFormTarget(`RSVP: ${event.title}`)} className="mt-4 w-full py-2 border border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition-colors text-sm">RSVP Now</button>
                     </div>
                   </article>
                 ))}

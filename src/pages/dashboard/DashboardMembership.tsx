@@ -164,7 +164,7 @@ export default function Membership() {
   return (
     <div className="space-y-8">
       <div className="text-center max-w-2xl mx-auto mb-12">
-        <h2 className="text-3xl font-bold text-gray-900">{currentMeta.title}</h2>
+        <h2 className="text-xl font-semibold text-gray-900">{currentMeta.title}</h2>
         <p className="text-base text-gray-500 mt-3">
           {currentMeta.subtitle}
         </p>
@@ -220,7 +220,7 @@ export default function Membership() {
             <p className="text-sm text-gray-500 mb-6 h-10">{plan.description}</p>
             
             <div className="mb-8">
-              <span className="text-4xl font-extrabold text-gray-900">${plan.price}</span>
+              <span className="text-2xl font-bold text-gray-900">${plan.price}</span>
               <span className="text-sm font-medium text-gray-500">/{billingCycle === 'annual' ? 'yr' : 'mo'}</span>
             </div>
             

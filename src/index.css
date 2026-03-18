@@ -24,6 +24,7 @@ body {
 html {
   scroll-padding-top: calc(var(--site-header-height) + 16px);
   font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 15px;
 }
 
 body {
@@ -67,6 +68,16 @@ h1, h2, h3 {
 
 a, button {
   transition: all 0.2s ease;
+}
+
+/* Normalize heavy font weights for a professional look */
+@layer utilities {
+  .font-black {
+    font-weight: 700;
+  }
+  .font-extrabold {
+    font-weight: 700;
+  }
 }
 
 ::selection {

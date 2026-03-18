@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero';
 import SubNav from '../../components/SubNav';
+import QuickRegisterForm from '../../components/forms/QuickRegisterForm';
 import { Users, Star, ArrowRight, Award, Target, Zap, Search, Calendar, TrendingUp } from 'lucide-react';
 
 type Leader = {
@@ -20,6 +21,14 @@ export default function Leadership() {
   const [leaderQuery, setLeaderQuery] = useState('');
   const [expertiseFilter, setExpertiseFilter] = useState<'All' | 'Strategic Vision' | 'Agile Leadership' | 'Change Management' | 'Team Building'>('All');
   const [workshopMode, setWorkshopMode] = useState<'All' | 'Online' | 'In-person' | 'Hybrid'>('All');
+  const [workshopTarget, setWorkshopTarget] = useState<string | null>(null);
+  const workshopFormRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!workshopTarget || !workshopFormRef.current) return;
+    workshopFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    workshopFormRef.current.focus({ preventScroll: true });
+  }, [workshopTarget]);
 
   const topLeaders: Leader[] = [
     { id: 1, name: 'Robert Johnson', role: 'CEO, TechCorp', expertise: 'Strategic Vision', rating: 4.9, image: 'https://picsum.photos/seed/l1/150/150', impact: 'Scaled team 4x in 18 months' },
@@ -231,6 +240,16 @@ export default function Leadership() {
 
           {activeTab === 'Workshops' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto space-y-4">
+              {workshopTarget ? (
+                <div ref={workshopFormRef} tabIndex={-1} className="focus:outline-none">
+                  <QuickRegisterForm
+                    heading="Workshop Registration"
+                    targetLabel={workshopTarget}
+                    submitLabel="Register"
+                    onClose={() => setWorkshopTarget(null)}
+                  />
+                </div>
+              ) : null}
               <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <h2 className="text-xl font-semibold text-slate-900">Upcoming leadership workshops</h2>
                 <select value={workshopMode} onChange={(e) => setWorkshopMode(e.target.value as typeof workshopMode)} className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -252,9 +271,9 @@ export default function Leadership() {
                       <h3 className="font-semibold text-slate-900">{workshop.title}</h3>
                       <p className="text-sm text-slate-500 mt-1">{workshop.date} | {workshop.duration}</p>
                       <p className="text-sm text-indigo-700 mt-2 font-medium">{workshop.seats} seats remaining</p>
-                      <Link to="/auth?mode=signup&role=Leader" className="mt-4 w-full inline-flex justify-center py-2 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100 transition-colors text-sm">
+                      <button type="button" onClick={() => setWorkshopTarget(workshop.title)} className="mt-4 w-full inline-flex justify-center py-2 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100 transition-colors text-sm">
                         Register
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 ))}

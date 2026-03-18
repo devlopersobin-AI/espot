@@ -118,7 +118,7 @@ export default function Profile() {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+        <h1 className="text-xl font-semibold text-gray-900">My Profile</h1>
         {canEditProfile ? (
           <div className="flex items-center gap-2">
             {isEditing ? (
@@ -173,7 +173,7 @@ export default function Profile() {
             <div className="flex items-center justify-between p-4 bg-orange-50 rounded-xl border border-orange-100">
               <div className="flex items-center gap-3">
                 <Star className="w-8 h-8 text-orange-500 fill-current" />
-                <span className="text-3xl font-black text-orange-600">{user.points}</span>
+                <span className="text-2xl font-bold text-orange-600">{user.points}</span>
               </div>
               <button className="text-sm font-bold text-orange-700 hover:underline">Redeem</button>
             </div>
