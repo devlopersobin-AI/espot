@@ -47,16 +47,8 @@ const MinimalCardSection: React.FC<MinimalCardSectionProps> = ({
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
           {items.map((item, idx) => {
-            return (
-              <div
-                key={idx}
-                className={
-                  dark
-                    ? "bg-[#18191c] border border-[#232428] rounded-xl p-8 flex flex-col h-full"
-                    : "bg-white rounded-xl p-8 flex flex-col h-full shadow-md"
-                }
-                style={{ minHeight: 340 }}
-              >
+            const CardContent = (
+              <>
                 {item.image && (
                   <img
                     src={item.image}
@@ -81,15 +73,33 @@ const MinimalCardSection: React.FC<MinimalCardSectionProps> = ({
                     Provided by: {item.provider.name}
                   </Link>
                 )}
-                {item.link && (
-                  <Link
-                    to={item.link}
-                    className="inline-flex items-center gap-1 px-4 py-2 rounded-md bg-slate-900 text-white font-semibold text-sm hover:bg-slate-800 transition-colors mt-auto"
-                  >
-                    {item.linkLabel || "View Product"}
-                    <span aria-hidden>→</span>
-                  </Link>
-                )}
+              </>
+            );
+            return item.link ? (
+              <Link
+                key={idx}
+                to={item.link}
+                className={
+                  (dark
+                    ? "bg-[#18191c] border border-[#232428] rounded-xl p-8 flex flex-col h-full"
+                    : "bg-white rounded-xl p-8 flex flex-col h-full shadow-md") +
+                  " transition hover:shadow-lg hover:ring-2 hover:ring-emerald-200 focus:outline-none"
+                }
+                style={{ minHeight: 340 }}
+              >
+                {CardContent}
+              </Link>
+            ) : (
+              <div
+                key={idx}
+                className={
+                  dark
+                    ? "bg-[#18191c] border border-[#232428] rounded-xl p-8 flex flex-col h-full"
+                    : "bg-white rounded-xl p-8 flex flex-col h-full shadow-md"
+                }
+                style={{ minHeight: 340 }}
+              >
+                {CardContent}
               </div>
             );
           })}

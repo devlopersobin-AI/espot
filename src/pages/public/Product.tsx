@@ -1,12 +1,4 @@
 import React, { useMemo, useState, useEffect } from "react";
-// Helper to get wishlist from localStorage
-function getWishlist() {
-  return JSON.parse(localStorage.getItem("wishlist") || "[]");
-}
-
-function setWishlist(wishlist) {
-  localStorage.setItem("wishlist", JSON.stringify(wishlist));
-}
 import { getAuthRole } from "../../auth/permissions";
 import CheckoutPage from "../../components/CheckoutPage";
 import Hero from "../../components/Hero";
@@ -16,17 +8,12 @@ import {
   ShoppingCart,
   Star,
   Filter,
-  Package,
   Heart,
   Search,
-  Laptop,
-  Shirt,
-  Backpack,
-  Armchair,
-  Camera,
+  Package,
   Compass,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { products } from "../../data/products";
 
 export default function Product() {
   const subNav = [
@@ -41,83 +28,29 @@ export default function Product() {
   const [productQuery, setProductQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const products = [
-    {
-      id: 1,
-      name: "E-SPOT Premium Backpack",
-      price: "$89.99",
-      rating: 4.8,
-      reviews: 124,
-      image: "https://picsum.photos/seed/prod1/400/400",
-      category: "Accessories",
-    },
-    {
-      id: 2,
-      name: "Wireless Noise-Cancelling Headphones",
-      price: "$199.99",
-      rating: 4.9,
-      reviews: 342,
-      image: "https://picsum.photos/seed/prod2/400/400",
-      category: "Electronics",
-    },
-    {
-      id: 3,
-      name: "Smart Fitness Watch",
-      price: "$149.50",
-      rating: 4.7,
-      reviews: 89,
-      image: "https://picsum.photos/seed/prod3/400/400",
-      category: "Electronics",
-    },
-    {
-      id: 4,
-      name: "Ergonomic Office Chair",
-      price: "$249.00",
-      rating: 4.6,
-      reviews: 56,
-      image: "https://picsum.photos/seed/prod4/400/400",
-      category: "Furniture",
-    },
-    {
-      id: 5,
-      name: "Organic Cotton T-Shirt",
-      price: "$29.99",
-      rating: 4.8,
-      reviews: 210,
-      image: "https://picsum.photos/seed/prod5/400/400",
-      category: "Apparel",
-    },
-    {
-      id: 6,
-      name: "Professional Camera Lens",
-      price: "$599.00",
-      rating: 4.9,
-      reviews: 45,
-      image: "https://picsum.photos/seed/prod6/400/400",
-      category: "Photography",
-    },
-  ];
+  // products are now imported from shared data
 
-  const categoryIcons: Record<string, LucideIcon> = {
-    Electronics: Laptop,
-    Apparel: Shirt,
-    Accessories: Backpack,
-    Furniture: Armchair,
-    Photography: Camera,
+  // Category icons are not used since shared products don't have category
+
+  // Build categories from product data
+  const categoryIcons = {
+    Electronics: Compass,
+    "Home Appliances": Package,
+    Furniture: Package,
+    Wearables: Heart,
+    Lifestyle: Heart,
   };
-
   const categories = useMemo(() => {
-    const counts = products.reduce<Record<string, number>>((acc, product) => {
+    const counts = products.reduce((acc, product) => {
       acc[product.category] = (acc[product.category] ?? 0) + 1;
       return acc;
     }, {});
-
     return [
       { name: "All", count: products.length, icon: Compass },
       ...Object.entries(counts).map(([name, count]) => ({
         name,
         count,
-        icon: categoryIcons[name] ?? Package,
+        icon: categoryIcons[name] || Package,
       })),
     ];
   }, [products]);
@@ -135,24 +68,7 @@ export default function Product() {
 
   const [checkoutProduct, setCheckoutProduct] = useState(null);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [wishlist, setWishlistState] = useState(() => getWishlist());
   const authRole = getAuthRole();
-
-  // Keep wishlist in sync with localStorage
-  useEffect(() => {
-    setWishlist(wishlist);
-  }, [wishlist]);
-
-  const isWishlisted = (product) => wishlist.some((p) => p.id === product.id);
-  const toggleWishlist = (product) => {
-    setWishlistState((prev) => {
-      if (prev.some((p) => p.id === product.id)) {
-        return prev.filter((p) => p.id !== product.id);
-      } else {
-        return [...prev, product];
-      }
-    });
-  };
 
   const handleBuy = (product) => {
     if (authRole !== "Member") {
@@ -284,35 +200,29 @@ export default function Product() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {filteredProducts.map((product) => (
                   <div
-                    key={product.id}
-                    className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all group"
+                    key={product.slug}
+                    className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all group flex flex-col"
                   >
-                    <div className="h-48 sm:h-56 w-full bg-slate-100 relative overflow-hidden">
+                    <div
+                      className="h-48 sm:h-56 w-full bg-slate-100 relative overflow-hidden cursor-pointer"
+                      onClick={() =>
+                        (window.location.href = `/products/${product.slug}`)
+                      }
+                    >
                       <img
                         src={product.image}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
-                      <button
-                        className={`absolute top-3 right-3 p-2 bg-white/90 backdrop-blur rounded-full transition-colors shadow-sm ${isWishlisted(product) ? "text-red-500" : "text-slate-400 hover:text-red-500"}`}
-                        onClick={() => toggleWishlist(product)}
-                        aria-label={
-                          isWishlisted(product)
-                            ? "Remove from wishlist"
-                            : "Add to wishlist"
+                    </div>
+                    <div className="p-4 sm:p-5 flex-1 flex flex-col">
+                      <h3
+                        className="font-bold text-lg text-slate-900 mb-1 line-clamp-1 cursor-pointer"
+                        onClick={() =>
+                          (window.location.href = `/products/${product.slug}`)
                         }
                       >
-                        <Heart
-                          className={`w-5 h-5 ${isWishlisted(product) ? "fill-red-500" : ""}`}
-                        />
-                      </button>
-                      <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur text-xs font-bold px-2 py-1 rounded text-slate-800">
-                        {product.category}
-                      </div>
-                    </div>
-                    <div className="p-4 sm:p-5">
-                      <h3 className="font-bold text-lg text-slate-900 mb-1 line-clamp-1">
                         {product.name}
                       </h3>
                       <div className="flex items-center gap-2 mb-3">
@@ -324,35 +234,33 @@ export default function Product() {
                           ({product.reviews})
                         </span>
                       </div>
-                      <div className="flex items-center justify-between mt-4">
-                        <div className="font-black text-xl text-slate-900">
-                          {product.price}
-                        </div>
-                        <button
-                          className="flex items-center justify-center w-10 h-10 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-colors"
-                          onClick={() => handleBuy(product)}
-                        >
-                          <ShoppingCart className="w-5 h-5" />
-                        </button>
-                        {showCheckout && checkoutProduct && (
-                          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                            <CheckoutPage
-                              amount={parseFloat(
-                                checkoutProduct.price.replace(/[^\d.]/g, ""),
-                              )}
-                              currency="USD"
-                              provider="esewa"
-                              description={checkoutProduct.name}
-                              onConfirm={handlePayment}
-                              onCancel={() => setShowCheckout(false)}
-                            />
-                          </div>
-                        )}
+                      <div className="font-black text-xl text-slate-900 mt-auto">
+                        {product.price}
                       </div>
+                      <button
+                        className="mt-4 w-full px-4 py-2 rounded bg-emerald-600 text-white font-bold text-base hover:bg-emerald-700 transition"
+                        onClick={() => handleBuy(product)}
+                      >
+                        Buy Now
+                      </button>
                     </div>
                   </div>
                 ))}
               </div>
+              {showCheckout && checkoutProduct && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                  <CheckoutPage
+                    amount={parseFloat(
+                      checkoutProduct.price.replace(/[^\d.]/g, ""),
+                    )}
+                    currency="USD"
+                    provider="esewa"
+                    description={checkoutProduct.name}
+                    onConfirm={handlePayment}
+                    onCancel={() => setShowCheckout(false)}
+                  />
+                </div>
+              )}
               {filteredProducts.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
                   No products match your current search and category filter.

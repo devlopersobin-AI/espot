@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import Carousel from "../../components/Carousel";
 import MinimalCardSection from "../../components/MinimalCardSection";
+import { products } from "../../data/products";
 import heroBanner from "../../assets/hero-banner.mp4";
 import bodybanner from "../../assets/hero-banner.jpg";
 
@@ -742,33 +743,16 @@ export default function Home() {
       {/* ── Top Monthly Highlights ─────────────────────────────────────── */}
       <section className="py-14 bg-slate-50 border-y border-slate-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-         
           <MinimalCardSection
             sectionLabel="Monthly Highlights"
             heading="Top 10 Products of the Month"
             subheading="Our most popular and trending products, handpicked for you."
-            items={topSections[1].items.map((item, idx) => ({
-              title: item.title,
-              description: item.subtitle,
-              image: `https://picsum.photos/seed/product${idx}/400/180`,
-              provider: {
-                name: [
-                  "TechMart",
-                  "SoundHub",
-                  "VisionWorld",
-                  "CleanAir Co.",
-                  "KeyPro",
-                ][idx % 5],
-                link: [
-                  "/providers/techmart",
-                  "/providers/soundhub",
-                  "/providers/visionworld",
-                  "/providers/cleanair",
-                  "/providers/keypro",
-                ][idx % 5],
-              },
-              link: `/products/${encodeURIComponent(item.title.toLowerCase().replace(/\s+/g, "-"))}`,
-              linkLabel: "View Product",
+            items={products.slice(0, 10).map((product) => ({
+              title: product.name,
+              description: product.description,
+              image: product.image,
+              provider: product.provider,
+              link: `/products/${product.slug}`,
             }))}
             dark={false}
           />
