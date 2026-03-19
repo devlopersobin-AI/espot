@@ -32,6 +32,7 @@ import {
   Contact,
   Investment,
 } from "./pages/public";
+import TraineeCourseRegister from "./pages/public/TraineeCourseRegister";
 import InvestmentDetail from "./pages/public/InvestmentDetail";
 
 // Dashboard Pages
@@ -101,6 +102,10 @@ export default function App() {
             <Route path="franchise" element={<Franchise />} />
             <Route path="careers" element={<Careers />} />
             <Route path="training" element={<Training />} />
+            <Route
+              path="trainee-course-register"
+              element={<TraineeCourseRegister />}
+            />
             <Route path="scholar" element={<Scholar />} />
             <Route path="leadership" element={<Leadership />} />
             <Route path="product" element={<Product />} />
@@ -138,7 +143,14 @@ export default function App() {
 
           {/* Role-based Dashboards — all use the same dynamic DashboardLayout */}
           {(
-            ["member", "partner", "franchise", "leader", "scholar"] as const
+            [
+              "member",
+              "partner",
+              "franchise",
+              "leader",
+              "scholar",
+              "trainee",
+            ] as const
           ).map((slug) => {
             const allowedMap: Record<string, AuthRole[]> = {
               member: ["Member", "Entrepreneur", "Jobseeker", "Trainer"],

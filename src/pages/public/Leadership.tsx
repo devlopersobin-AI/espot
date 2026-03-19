@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Hero from "../../components/Hero";
 import SubNav from "../../components/SubNav";
-import QuickRegisterForm from "../../components/forms/QuickRegisterForm";
+
+import { useNavigate } from "react-router-dom";
 import {
   Users,
   Star,
@@ -48,17 +49,7 @@ export default function Leadership() {
   const [workshopMode, setWorkshopMode] = useState<
     "All" | "Online" | "In-person" | "Hybrid"
   >("All");
-  const [workshopTarget, setWorkshopTarget] = useState<string | null>(null);
-  const workshopFormRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!workshopTarget || !workshopFormRef.current) return;
-    workshopFormRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-    workshopFormRef.current.focus({ preventScroll: true });
-  }, [workshopTarget]);
+  const navigate = useNavigate();
 
   const topLeaders: Leader[] = [
     {
@@ -159,6 +150,8 @@ export default function Leadership() {
       <Hero
         title="Leadership"
         subtitle="Develop modern leadership capabilities, benchmark your growth, and learn from top operators across sectors."
+        image="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=1200&q=80"
+        accentColor="text-yellow-400"
       />
 
       <SubNav
@@ -487,20 +480,7 @@ export default function Leadership() {
 
           {activeTab === "Workshops" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto space-y-4">
-              {workshopTarget ? (
-                <div
-                  ref={workshopFormRef}
-                  tabIndex={-1}
-                  className="focus:outline-none"
-                >
-                  <QuickRegisterForm
-                    heading="Workshop Registration"
-                    targetLabel={workshopTarget}
-                    submitLabel="Register"
-                    onClose={() => setWorkshopTarget(null)}
-                  />
-                </div>
-              ) : null}
+              {/* Navigation to signup page replaces QuickRegisterForm */}
               <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <h2 className="text-xl font-semibold text-slate-900">
                   Upcoming leadership workshops
@@ -548,7 +528,9 @@ export default function Leadership() {
                       </p>
                       <button
                         type="button"
-                        onClick={() => setWorkshopTarget(workshop.title)}
+                        onClick={() =>
+                          navigate("/auth?mode=signup&role=Leader")
+                        }
                         className="mt-4 w-full inline-flex justify-center py-2 rounded-lg bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100 transition-colors text-sm"
                       >
                         Register

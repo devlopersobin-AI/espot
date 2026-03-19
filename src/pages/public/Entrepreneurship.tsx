@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Hero from "../../components/Hero";
 import SubNav from "../../components/SubNav";
-import QuickRegisterForm from "../../components/forms/QuickRegisterForm";
+
+import { useNavigate } from "react-router-dom";
 import {
   Rocket,
   Lightbulb,
@@ -45,14 +46,7 @@ export default function Entrepreneurship() {
   const [eventType, setEventType] = useState<
     "All" | "Pitch Competition" | "Networking" | "Webinar" | "Hackathon"
   >("All");
-  const [formTarget, setFormTarget] = useState<string | null>(null);
-  const formRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!formTarget || !formRef.current) return;
-    formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    formRef.current.focus({ preventScroll: true });
-  }, [formTarget]);
+  const navigate = useNavigate();
 
   const founders: Founder[] = [
     {
@@ -148,6 +142,9 @@ export default function Entrepreneurship() {
       <Hero
         title="Entrepreneurship"
         subtitle="Build stronger ventures with startup playbooks, deal access, investor visibility, and founder community support."
+        image="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80"
+        accentColor="text-yellow-400"
+        overlayOpacity={0.7}
       />
 
       <SubNav
@@ -186,32 +183,7 @@ export default function Entrepreneurship() {
             />
           </div>
 
-          {formTarget ? (
-            <div
-              ref={formRef}
-              tabIndex={-1}
-              className="mb-6 max-w-3xl focus:outline-none"
-            >
-              <QuickRegisterForm
-                heading={
-                  formTarget.startsWith("Claim:")
-                    ? "Claim Deal"
-                    : formTarget.startsWith("RSVP:")
-                      ? "Event Registration"
-                      : "Join E-SPOT"
-                }
-                targetLabel={formTarget}
-                submitLabel={
-                  formTarget.startsWith("Claim:")
-                    ? "Request Deal Access"
-                    : formTarget.startsWith("RSVP:")
-                      ? "Confirm RSVP"
-                      : "Submit"
-                }
-                onClose={() => setFormTarget(null)}
-              />
-            </div>
-          ) : null}
+          {/* No modal logic needed; navigation used for application actions */}
 
           {activeTab === "Essentials" && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -248,7 +220,9 @@ export default function Entrepreneurship() {
                 </ul>
                 <button
                   type="button"
-                  onClick={() => setFormTarget("Entrepreneur Program")}
+                  onClick={() =>
+                    navigate("/auth?mode=signup&role=Entrepreneur")
+                  }
                   className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-orange-200"
                 >
                   Join as Entrepreneur <ArrowRight className="w-4 h-4" />
@@ -422,7 +396,7 @@ export default function Entrepreneurship() {
                   <button
                     type="button"
                     onClick={() =>
-                      setFormTarget(`Claim: ${deal.company} – ${deal.offer}`)
+                      navigate("/auth?mode=signup&role=Entrepreneur")
                     }
                     className="mt-4 w-full py-2 bg-orange-50 text-orange-700 font-semibold rounded-lg hover:bg-orange-100 transition-colors text-sm"
                   >
@@ -538,7 +512,9 @@ export default function Entrepreneurship() {
                       </p>
                       <button
                         type="button"
-                        onClick={() => setFormTarget(`RSVP: ${event.title}`)}
+                        onClick={() =>
+                          navigate("/auth?mode=signup&role=Entrepreneur")
+                        }
                         className="mt-4 w-full py-2 border border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition-colors text-sm"
                       >
                         RSVP Now

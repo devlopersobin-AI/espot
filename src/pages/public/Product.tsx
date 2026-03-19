@@ -1,4 +1,14 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+// Helper to get wishlist from localStorage
+function getWishlist() {
+  return JSON.parse(localStorage.getItem("wishlist") || "[]");
+}
+
+function setWishlist(wishlist) {
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+}
+import { getAuthRole } from "../../auth/permissions";
+import CheckoutPage from "../../components/CheckoutPage";
 import Hero from "../../components/Hero";
 import SubNav from "../../components/SubNav";
 import { Link } from "react-router-dom";
@@ -123,6 +133,50 @@ export default function Product() {
     });
   }, [productQuery, products, selectedCategory]);
 
+  const [checkoutProduct, setCheckoutProduct] = useState(null);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [wishlist, setWishlistState] = useState(() => getWishlist());
+  const authRole = getAuthRole();
+
+  // Keep wishlist in sync with localStorage
+  useEffect(() => {
+    setWishlist(wishlist);
+  }, [wishlist]);
+
+  const isWishlisted = (product) => wishlist.some((p) => p.id === product.id);
+  const toggleWishlist = (product) => {
+    setWishlistState((prev) => {
+      if (prev.some((p) => p.id === product.id)) {
+        return prev.filter((p) => p.id !== product.id);
+      } else {
+        return [...prev, product];
+      }
+    });
+  };
+
+  const handleBuy = (product) => {
+    if (authRole !== "Member") {
+      window.location.href = "/auth?mode=signup&role=Member";
+      return;
+    }
+    setCheckoutProduct(product);
+    setShowCheckout(true);
+  };
+
+  const handlePayment = () => {
+    setShowCheckout(false);
+    // Save purchase to localStorage
+    const purchases = JSON.parse(
+      localStorage.getItem("member-purchases") || "[]",
+    );
+    purchases.push({
+      ...checkoutProduct,
+      date: new Date().toISOString(),
+    });
+    localStorage.setItem("member-purchases", JSON.stringify(purchases));
+    alert("Purchase successful! Thank you for your order.");
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
@@ -240,8 +294,18 @@ export default function Product() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
-                      <button className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur rounded-full text-slate-400 hover:text-red-500 transition-colors shadow-sm">
-                        <Heart className="w-5 h-5" />
+                      <button
+                        className={`absolute top-3 right-3 p-2 bg-white/90 backdrop-blur rounded-full transition-colors shadow-sm ${isWishlisted(product) ? "text-red-500" : "text-slate-400 hover:text-red-500"}`}
+                        onClick={() => toggleWishlist(product)}
+                        aria-label={
+                          isWishlisted(product)
+                            ? "Remove from wishlist"
+                            : "Add to wishlist"
+                        }
+                      >
+                        <Heart
+                          className={`w-5 h-5 ${isWishlisted(product) ? "fill-red-500" : ""}`}
+                        />
                       </button>
                       <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur text-xs font-bold px-2 py-1 rounded text-slate-800">
                         {product.category}
@@ -264,9 +328,26 @@ export default function Product() {
                         <div className="font-black text-xl text-slate-900">
                           {product.price}
                         </div>
-                        <button className="flex items-center justify-center w-10 h-10 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                        <button
+                          className="flex items-center justify-center w-10 h-10 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white transition-colors"
+                          onClick={() => handleBuy(product)}
+                        >
                           <ShoppingCart className="w-5 h-5" />
                         </button>
+                        {showCheckout && checkoutProduct && (
+                          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                            <CheckoutPage
+                              amount={parseFloat(
+                                checkoutProduct.price.replace(/[^\d.]/g, ""),
+                              )}
+                              currency="USD"
+                              provider="esewa"
+                              description={checkoutProduct.name}
+                              onConfirm={handlePayment}
+                              onCancel={() => setShowCheckout(false)}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

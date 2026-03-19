@@ -396,6 +396,38 @@ const ROLE_NOTIFICATIONS: Record<string, Notification[]> = {
       read: true,
     },
   ],
+  Trainee: [
+    {
+      id: 1,
+      icon: GraduationCap,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50",
+      title: "Course Enrollment",
+      body: "You have successfully enrolled in Agile Fundamentals.",
+      time: "10 min ago",
+      read: false,
+    },
+    {
+      id: 2,
+      icon: Star,
+      iconColor: "text-amber-600",
+      iconBg: "bg-amber-50",
+      title: "Certificate Awarded",
+      body: "You earned a certificate for completing Digital Marketing 101.",
+      time: "2 hr ago",
+      read: false,
+    },
+    {
+      id: 3,
+      icon: Calendar,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-50",
+      title: "Upcoming Session",
+      body: "Your next training session is scheduled for tomorrow.",
+      time: "5 hr ago",
+      read: true,
+    },
+  ],
 };
 
 export default function DashboardLayout() {

@@ -49,6 +49,23 @@ export default function Profile() {
       education: "MBA, Hult International",
       interests: ["B2B Deals", "Branding", "Investments"],
     },
+    Trainee: {
+      name: "Tina Trainee",
+      role: "Trainee",
+      email: "trainee@demo.com",
+      phone: "+977 9800000010",
+      location: "Butwal, Nepal",
+      bio: "Aspiring professional enrolled in hands-on training programs to upskill and grow.",
+      points: 320,
+      joinDate: "Mar 2026",
+      achievements: [
+        "3 Courses Completed",
+        "Top Trainee",
+        "Certification Earned",
+      ],
+      education: "BBS, Butwal Multiple Campus",
+      interests: ["Learning", "Workshops", "Career Growth"],
+    },
     Franchisee: {
       name: "Farah Franchise",
       role: "Franchisee",

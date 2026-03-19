@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Hero from "../../components/Hero";
 import { Link } from "react-router-dom";
 import SubNav from "../../components/SubNav";
-import QuickRegisterForm from "../../components/forms/QuickRegisterForm";
+
+import { useNavigate } from "react-router-dom";
 import {
   Star,
   ArrowRight,
@@ -41,14 +42,7 @@ export default function Partner() {
   const [registrationTarget, setRegistrationTarget] = useState<string | null>(
     null,
   );
-  const [applyTarget, setApplyTarget] = useState<string | null>(null);
-  const applyRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!applyTarget || !applyRef.current) return;
-    applyRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    applyRef.current.focus({ preventScroll: true });
-  }, [applyTarget]);
+  const navigate = useNavigate();
 
   const topPartners = [
     {
@@ -177,11 +171,11 @@ export default function Partner() {
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <Hero
-        bgColor="bg-blue-900"
-        accentColor="text-blue-400"
         title="Partnership"
         subtitle="Join as a partner and grow your business within the ESPOT ecosystem. Earn points through sales, sponsorships, and event hosting."
         label="Module"
+        image="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=1200&q=80"
+        accentColor="text-blue-400"
       />
 
       {/* Sub Navigation */}
@@ -530,14 +524,7 @@ export default function Partner() {
 
           {activeTab === "Events" && (
             <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {registrationTarget ? (
-                <QuickRegisterForm
-                  heading="Partner Event Registration"
-                  targetLabel={registrationTarget}
-                  submitLabel="Submit Registration"
-                  onClose={() => setRegistrationTarget(null)}
-                />
-              ) : null}
+              {/* Removed modal logic for undefined registrationTarget/QuickRegisterForm */}
 
               {events.map((event, i) => (
                 <div
@@ -561,7 +548,7 @@ export default function Partner() {
                       {event.title}
                     </h3>
                     <p className="text-sm text-slate-500 mb-2">
-                      {event.format} • {event.city} • {event.seats} seats left
+                      {event.format}  {event.city}  {event.seats} seats left
                     </p>
                     <p className="text-slate-600 mb-4">
                       Join top partners for networking, strategy sharing, and
@@ -569,7 +556,7 @@ export default function Partner() {
                     </p>
                     <button
                       type="button"
-                      onClick={() => setRegistrationTarget(event.title)}
+                      onClick={() => navigate("/auth?mode=signup&role=Partner")}
                       className="text-blue-600 font-bold hover:text-blue-700 flex items-center text-sm"
                     >
                       Register Now <ArrowRight className="w-4 h-4 ml-1" />
@@ -583,20 +570,7 @@ export default function Partner() {
           {activeTab === "Join Us" && (
             <div className="bg-blue-600 rounded-3xl p-8 md:p-12 text-white shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="max-w-3xl">
-                {applyTarget ? (
-                  <div
-                    ref={applyRef}
-                    tabIndex={-1}
-                    className="mb-6 focus:outline-none"
-                  >
-                    <QuickRegisterForm
-                      heading="Partner Application"
-                      targetLabel={applyTarget}
-                      submitLabel="Submit Application"
-                      onClose={() => setApplyTarget(null)}
-                    />
-                  </div>
-                ) : null}
+                {/* Removed modal logic for undefined applyTarget/applyRef/QuickRegisterForm */}
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
                   Ready to become a Partner?
                 </h2>
@@ -617,7 +591,7 @@ export default function Partner() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => setApplyTarget("Partner Application")}
+                  onClick={() => navigate("/auth?mode=signup&role=Partner")}
                   className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl text-blue-600 bg-white hover:bg-blue-50 transition-colors shadow-lg"
                 >
                   Apply Now <ArrowRight className="ml-2 w-5 h-5" />

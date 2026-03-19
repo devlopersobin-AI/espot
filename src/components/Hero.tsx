@@ -6,6 +6,8 @@ interface HeroProps {
   title: string;
   subtitle: string;
   label?: string;
+  image?: string; // new: background image url
+  overlayOpacity?: number; // new: overlay darkness (0-1)
 }
 
 const Hero: React.FC<HeroProps> = ({
@@ -14,11 +16,25 @@ const Hero: React.FC<HeroProps> = ({
   title,
   subtitle,
   label = "Module",
+  image,
+  overlayOpacity = 0.6,
 }) => (
   <section
     className={`relative overflow-hidden ${bgColor} text-white border-b border-slate-800/70`}
+    style={
+      image
+        ? {
+            backgroundImage: `linear-gradient(rgba(20,20,30,${overlayOpacity}), rgba(20,20,30,${overlayOpacity})), url(${image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }
+        : undefined
+    }
   >
-    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
+    {/* fallback overlay for non-image mode */}
+    {!image && (
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
+    )}
 
     <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 sm:py-12">
       {/* Back to Home link for mobile/smaller screens */}

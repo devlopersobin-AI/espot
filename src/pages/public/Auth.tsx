@@ -27,6 +27,7 @@ type Role =
   | "Scholar"
   | "Jobseeker"
   | "Trainer"
+  | "Trainee"
   | "Admin";
 type SignupRole = Exclude<Role, "Admin">;
 
@@ -39,6 +40,7 @@ const LOGIN_ROLES: Role[] = [
   "Scholar",
   "Jobseeker",
   "Trainer",
+  "Trainee",
   "Admin",
 ];
 const SIGNUP_ROLES: SignupRole[] = [
@@ -50,6 +52,7 @@ const SIGNUP_ROLES: SignupRole[] = [
   "Scholar",
   "Jobseeker",
   "Trainer",
+  "Trainee",
 ];
 
 const DUMMY_CREDENTIALS: Record<Role, { email: string; password: string }> = {
@@ -61,6 +64,7 @@ const DUMMY_CREDENTIALS: Record<Role, { email: string; password: string }> = {
   Scholar: { email: "scholar@demo.com", password: "demo123" },
   Jobseeker: { email: "jobseeker@demo.com", password: "demo123" },
   Trainer: { email: "trainer@demo.com", password: "demo123" },
+  Trainee: { email: "trainee@demo.com", password: "demo123" },
   Admin: { email: "admin@demo.com", password: "admin123" },
 };
 
@@ -151,6 +155,15 @@ const ROLE_REQUIREMENTS: Record<
       "Language preference",
     ],
     docs: ["Trainer CV", "Certificates and credentials", "Government ID"],
+  },
+  Trainee: {
+    info: [
+      "Preferred training program",
+      "Current education or profession",
+      "Learning goals",
+      "Emergency contact",
+    ],
+    docs: ["Government ID (required)", "Recent profile photo"],
   },
 };
 
@@ -478,6 +491,48 @@ const ROLE_STEP2_FIELDS: Record<SignupRole, RoleFormField[]> = {
       required: true,
     },
   ],
+  Trainee: [
+    {
+      kind: "input",
+      label: "Preferred training program",
+      placeholder: "Agile Fundamentals",
+      icon: <Briefcase className="h-5 w-5 text-gray-400" />,
+      required: true,
+    },
+    {
+      kind: "input",
+      label: "Current education or profession",
+      placeholder: "BBA Student / Marketing Assistant",
+      icon: <Building className="h-5 w-5 text-gray-400" />,
+      required: true,
+    },
+    {
+      kind: "input",
+      label: "Learning goals",
+      placeholder: "Improve project management skills",
+      icon: <FileText className="h-5 w-5 text-gray-400" />,
+      required: true,
+    },
+    {
+      kind: "input",
+      label: "Emergency contact",
+      placeholder: "+977 98XXXXXXXX",
+      icon: <Phone className="h-5 w-5 text-gray-400" />,
+      required: true,
+    },
+    {
+      kind: "upload",
+      label: "Upload government ID",
+      id: "trainee-id",
+      required: true,
+    },
+    {
+      kind: "upload",
+      label: "Upload recent profile photo",
+      id: "trainee-photo",
+      required: true,
+    },
+  ],
 };
 
 function normalizeRole(input: string | null): Role {
@@ -493,6 +548,7 @@ export default function Auth() {
 
   const modeParam = searchParams.get("mode");
   const roleParam = searchParams.get("role");
+  const packageParam = searchParams.get("package");
   const roleFromQuery = normalizeRole(roleParam);
   const signupRoleFromQuery: SignupRole =
     roleFromQuery === "Admin" ? "Member" : roleFromQuery;
@@ -503,6 +559,8 @@ export default function Auth() {
   const [role, setRole] = useState<SignupRole>(signupRoleFromQuery);
   const [loginRole, setLoginRole] = useState<Role>(roleFromQuery);
   const [authError, setAuthError] = useState("");
+  // Store selected package for use in the form or next step
+  const [selectedPackage] = useState<string | null>(packageParam);
 
   useEffect(() => {
     setIsLogin(!signupFromQuery);
@@ -552,7 +610,11 @@ export default function Auth() {
     }
 
     localStorage.setItem("authRole", role);
-    navigate(getDashboardPathForRole(role));
+    if (role === "Trainee") {
+      navigate("/trainee-course-register");
+    } else {
+      navigate(getDashboardPathForRole(role));
+    }
   };
 
   const renderRoleSpecificFields = () => {
@@ -637,6 +699,12 @@ export default function Auth() {
                 ? `Join as ${role}`
                 : `${role} verification details`}
           </h2>
+          {selectedPackage && !isLogin && (
+            <div className="mt-2 text-base font-semibold text-blue-700">
+              Selected Package:{" "}
+              <span className="font-bold">{selectedPackage}</span>
+            </div>
+          )}
           <p className="mt-2 text-sm text-gray-600">
             {isLogin ? "Don't have an account? " : "Already registered? "}
             <button

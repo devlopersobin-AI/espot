@@ -2,7 +2,8 @@ import React, { useMemo, useState } from "react";
 import Hero from "../../components/Hero";
 import { Link } from "react-router-dom";
 import SubNav from "../../components/SubNav";
-import QuickRegisterForm from "../../components/forms/QuickRegisterForm";
+
+import { useNavigate } from "react-router-dom";
 import {
   Check,
   Star,
@@ -18,7 +19,7 @@ import {
 type MemberItem = {
   id: number;
   name: string;
-  tier: "Silver" | "Gold" | "Diamond";
+  tier: "Silver" | "Gold" | "Diamond" | "Platinum";
   points: number;
   avatar: string;
 };
@@ -27,11 +28,9 @@ export default function Membership() {
   const [activeTab, setActiveTab] = useState("Packages");
   const [memberQuery, setMemberQuery] = useState("");
   const [tierFilter, setTierFilter] = useState<
-    "All" | "Silver" | "Gold" | "Diamond"
+    "All" | "Silver" | "Gold" | "Diamond" | "Platinum"
   >("All");
-  const [registrationTarget, setRegistrationTarget] = useState<string | null>(
-    null,
-  );
+  const navigate = useNavigate();
 
   const subNav = [
     "Overview",
@@ -47,15 +46,15 @@ export default function Membership() {
     {
       id: 1,
       name: "Anita Thapa",
-      tier: "Diamond",
-      points: 6170,
+      tier: "Platinum",
+      points: 8000,
       avatar: "https://picsum.photos/seed/m1/100/100",
     },
     {
       id: 2,
       name: "Bikash Gurung",
-      tier: "Gold",
-      points: 5940,
+      tier: "Diamond",
+      points: 6170,
       avatar: "https://picsum.photos/seed/m2/100/100",
     },
     {
@@ -117,6 +116,8 @@ export default function Membership() {
       <Hero
         title="Membership"
         subtitle="Unlock premium access, measurable rewards, and growth opportunities through the E-SPOT member ecosystem."
+        image="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1200&q=80"
+        accentColor="text-blue-400"
       />
 
       <SubNav
@@ -185,7 +186,7 @@ export default function Membership() {
                   Membership Journey
                 </p>
                 <h3 className="text-2xl font-semibold mt-2 tracking-tight">
-                  Grow from Silver to Diamond
+                  Grow from Silver to Platinum
                 </h3>
                 <ul className="mt-4 space-y-2.5 text-sm text-blue-100/90">
                   <li>Build profile and attend your first events</li>
@@ -215,7 +216,7 @@ export default function Membership() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-7 max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-5 sm:gap-7 max-w-6xl mx-auto">
                 <PackageCard
                   title="Silver"
                   tone="text-slate-500"
@@ -253,6 +254,21 @@ export default function Membership() {
                     "Dedicated member success manager",
                   ]}
                   ctaClass="bg-blue-600 hover:bg-blue-700 text-white"
+                />
+                <PackageCard
+                  title="Platinum"
+                  tone="text-purple-700"
+                  price="$1,999"
+                  dark
+                  perks={[
+                    "Everything in Diamond",
+                    "Private Platinum-only events",
+                    "10x points multiplier",
+                    "Personal concierge service",
+                    "Lifetime achievement badge",
+                    "Direct access to board",
+                  ]}
+                  ctaClass="bg-purple-700 hover:bg-purple-800 text-white"
                 />
               </div>
             </div>
@@ -363,14 +379,7 @@ export default function Membership() {
 
           {activeTab === "Events & Offers" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto space-y-8">
-              {registrationTarget ? (
-                <QuickRegisterForm
-                  heading="Membership Event Registration"
-                  targetLabel={registrationTarget}
-                  submitLabel="Submit Registration"
-                  onClose={() => setRegistrationTarget(null)}
-                />
-              ) : null}
+              {/* Navigation to signup page replaces QuickRegisterForm */}
 
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-5">
@@ -418,7 +427,9 @@ export default function Membership() {
                         </div>
                         <button
                           type="button"
-                          onClick={() => setRegistrationTarget(event.title)}
+                          onClick={() =>
+                            navigate("/auth?mode=signup&role=Member")
+                          }
                           className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm font-semibold rounded-lg transition-colors"
                         >
                           Register
@@ -674,7 +685,7 @@ function PackageCard({
         ))}
       </ul>
       <Link
-        to="/auth?mode=signup&role=Member"
+        to={`/auth?mode=signup&role=Member&package=${encodeURIComponent(title)}`}
         className={`w-full inline-flex items-center justify-center py-3 font-semibold rounded-lg transition-colors ${ctaClass}`}
       >
         Select {title}

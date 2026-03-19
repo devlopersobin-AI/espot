@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import Carousel from "../../components/Carousel";
 import heroBanner from "../../assets/hero-banner.mp4";
+import bodybanner from "../../assets/hero-banner.jpg";
 
 type SpotlightItem = {
   title: string;
@@ -79,6 +80,8 @@ export default function Home() {
       title: "Membership",
       desc: "Join 300K+ members, earn reward points, and access exclusive perks, events, and services.",
       icon: Users,
+      image:
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80", // group of people
       path: "/membership",
       cta: "Explore Membership",
     },
@@ -86,6 +89,8 @@ export default function Home() {
       title: "Partner Program",
       desc: "Build strategic business alliances, co-market services, and grow revenue together.",
       icon: Handshake,
+      image:
+        "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80", // handshake
       path: "/partner",
       cta: "Become a Partner",
     },
@@ -93,6 +98,8 @@ export default function Home() {
       title: "Franchise",
       desc: "Own an E-Spot Club franchise in your city with proven systems and brand support.",
       icon: Building2,
+      image:
+        "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80", // building
       path: "/franchise",
       cta: "Own a Franchise",
     },
@@ -100,6 +107,8 @@ export default function Home() {
       title: "Training",
       desc: "Access certified courses, skill workshops, and career acceleration programs.",
       icon: GraduationCap,
+      image:
+        "https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=400&q=80", // classroom
       path: "/training",
       cta: "Start Learning",
     },
@@ -107,6 +116,8 @@ export default function Home() {
       title: "Investment",
       desc: "Early Bird, Premium & Elite investment tiers across 8 venture categories worldwide.",
       icon: TrendingUp,
+      image:
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", // finance
       path: "/investment",
       cta: "View Investment",
     },
@@ -114,6 +125,8 @@ export default function Home() {
       title: "Entrepreneurship",
       desc: "Launch and scale your startup with mentorship, funding connects, and community.",
       icon: Zap,
+      image:
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80", // startup
       path: "/entrepreneurship",
       cta: "Start Growing",
     },
@@ -121,6 +134,8 @@ export default function Home() {
       title: "Leadership",
       desc: "Develop leadership skills through structured programs, workshops, and mentors.",
       icon: Award,
+      image:
+        "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80", // leader
       path: "/leadership",
       cta: "Lead Better",
     },
@@ -128,6 +143,8 @@ export default function Home() {
       title: "Scholar",
       desc: "Connect with academic programs, scholarships, and international study pathways.",
       icon: BookOpen,
+      image:
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80", // books
       path: "/scholar",
       cta: "Explore Scholar",
     },
@@ -411,8 +428,14 @@ export default function Home() {
                 {item.badge}
               </span>
             </div>
-            <div className="flex-1 flex items-center justify-center mb-4">
-              <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center text-slate-800 font-semibold text-sm">
+            <div className="flex-1 flex flex-col items-center justify-center mb-4 gap-2">
+              <img
+                src={`https://picsum.photos/seed/highlight${type}${index}/80/80`}
+                alt="Highlight"
+                className="w-16 h-16 object-cover rounded-xl mb-1"
+                style={{ background: "#f1f5f9" }}
+              />
+              <div className="w-14 h-6 bg-slate-100 rounded-xl flex items-center justify-center text-slate-800 font-semibold text-xs">
                 {item.initials}
               </div>
             </div>
@@ -525,25 +548,31 @@ export default function Home() {
           {/* Featured pair */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             {modules.slice(0, 2).map((mod) => {
-              const Icon = mod.icon;
               return (
                 <Link
                   key={mod.title}
                   to={mod.path}
-                  className="group bg-slate-900 rounded-xl p-6 sm:p-8 flex flex-col transition-all hover:shadow-lg relative overflow-hidden"
+                  className="group rounded-xl p-0 flex flex-col transition-all hover:shadow-lg relative overflow-hidden"
+                  style={{
+                    background: `linear-gradient(rgba(20,20,30,0.7), rgba(20,20,30,0.7)), url(${mod.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
                 >
-                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5 text-white" />
+                  <div className="p-6 sm:p-8 flex flex-col flex-1">
+                    <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
+                      <mod.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2 tracking-tight">
+                      {mod.title}
+                    </h3>
+                    <p className="text-sm text-white/80 leading-relaxed flex-1">
+                      {mod.desc}
+                    </p>
+                    <span className="mt-5 text-sm font-semibold text-white/90 group-hover:text-white flex items-center gap-1.5 transition-colors">
+                      {mod.cta} <ArrowRight className="w-4 h-4" />
+                    </span>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 tracking-tight">
-                    {mod.title}
-                  </h3>
-                  <p className="text-sm text-white/60 leading-relaxed flex-1">
-                    {mod.desc}
-                  </p>
-                  <span className="mt-5 text-sm font-semibold text-white/80 group-hover:text-white flex items-center gap-1.5 transition-colors">
-                    {mod.cta} <ArrowRight className="w-4 h-4" />
-                  </span>
                 </Link>
               );
             })}
@@ -552,25 +581,31 @@ export default function Home() {
           {/* Rest in grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {modules.slice(2).map((mod) => {
-              const Icon = mod.icon;
               return (
                 <Link
                   key={mod.title}
                   to={mod.path}
-                  className="group bg-white border border-slate-200 rounded-xl p-4 flex flex-col transition-all hover:shadow-md"
+                  className="group border border-slate-200 rounded-xl p-0 flex flex-col transition-all hover:shadow-md overflow-hidden"
+                  style={{
+                    background: `linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url(${mod.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
                 >
-                  <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
-                    <Icon className="w-4 h-4 text-slate-700" />
+                  <div className="p-4 flex flex-col flex-1">
+                    <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
+                      <mod.icon className="w-4 h-4 text-slate-700" />
+                    </div>
+                    <h3 className="font-semibold text-slate-900 text-sm mb-1 tracking-tight">
+                      {mod.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed flex-1 line-clamp-2">
+                      {mod.desc}
+                    </p>
+                    <span className="mt-3 text-xs font-semibold text-slate-700 group-hover:text-slate-900 flex items-center gap-1 transition-colors">
+                      {mod.cta} <ArrowRight className="w-3 h-3" />
+                    </span>
                   </div>
-                  <h3 className="font-semibold text-slate-900 text-sm mb-1 tracking-tight">
-                    {mod.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed flex-1 line-clamp-2">
-                    {mod.desc}
-                  </p>
-                  <span className="mt-3 text-xs font-semibold text-slate-500 group-hover:text-slate-900 flex items-center gap-1 transition-colors">
-                    {mod.cta} <ArrowRight className="w-3 h-3" />
-                  </span>
                 </Link>
               );
             })}
@@ -704,6 +739,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Meet Our Members ───────────────────────────────────────────── */}
+      <section className="py-14 bg-white border-b border-slate-100">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-xl font-bold text-slate-900 mb-6 text-center tracking-tight">
+            Meet Our Members
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6 justify-items-center">
+            {clubMembers.map((member) => (
+              <div key={member.name} className="flex flex-col items-center">
+                <img
+                  src={member.avatar}
+                  alt={member.name}
+                  className="w-20 h-20 rounded-full object-cover border-4 border-blue-100 shadow mb-2"
+                />
+                <div className="font-semibold text-slate-900 text-sm">
+                  {member.name}
+                </div>
+                <div className="text-xs text-blue-700 font-bold mt-0.5">
+                  {member.tier} Member
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Top Monthly Highlights ─────────────────────────────────────── */}
       <section className="py-14 bg-slate-50 border-y border-slate-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -733,7 +794,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {testimonials.map((t) => (
+            {testimonials.map((t, i) => (
               <div
                 key={t.name}
                 className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-sm transition-all flex flex-col gap-4"
@@ -742,12 +803,11 @@ export default function Home() {
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div className="flex items-center gap-3 mt-auto pt-4 border-t border-slate-200">
-                  <div className="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center text-slate-700 font-semibold text-xs flex-shrink-0">
-                    {t.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </div>
+                  <img
+                    src={`https://i.pravatar.cc/64?img=${i + 10}`}
+                    alt={t.name}
+                    className="w-9 h-9 rounded-full object-cover flex-shrink-0 border border-slate-200 bg-slate-100"
+                  />
                   <div>
                     <p className="font-semibold text-slate-900 text-sm">
                       {t.name}
@@ -764,12 +824,19 @@ export default function Home() {
       </section>
 
       {/* ── Final CTA ─────────────────────────────────────────────────── */}
-      <section className="py-16 bg-slate-900">
+      <section
+        className="py-16 relative"
+        style={{
+          backgroundImage: `linear-gradient(rgba(20,20,30,0.7), rgba(20,20,30,0.7)), url(${bodybanner})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
             Start your E-Spot Club journey today.
           </h2>
-          <p className="mt-4 text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 text-slate-200 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Join as a member, become a partner, or explore premium services and
             investment opportunities built to accelerate your growth.
           </p>
@@ -792,3 +859,47 @@ export default function Home() {
     </div>
   );
 }
+
+// Dummy member data for 'Meet Our Members' grid
+const clubMembers = [
+  {
+    name: "Anita Thapa",
+    tier: "Platinum",
+    avatar: "https://picsum.photos/seed/m1/100/100",
+  },
+  {
+    name: "Bikash Gurung",
+    tier: "Diamond",
+    avatar: "https://picsum.photos/seed/m2/100/100",
+  },
+  {
+    name: "Nisha Rai",
+    tier: "Diamond",
+    avatar: "https://picsum.photos/seed/m3/100/100",
+  },
+  {
+    name: "Pratik KC",
+    tier: "Gold",
+    avatar: "https://picsum.photos/seed/m4/100/100",
+  },
+  {
+    name: "Suman Shahi",
+    tier: "Silver",
+    avatar: "https://picsum.photos/seed/m5/100/100",
+  },
+  {
+    name: "Rita Sharma",
+    tier: "Gold",
+    avatar: "https://picsum.photos/seed/m6/100/100",
+  },
+  {
+    name: "Ajay Karki",
+    tier: "Silver",
+    avatar: "https://picsum.photos/seed/m7/100/100",
+  },
+  {
+    name: "Kabita Magar",
+    tier: "Diamond",
+    avatar: "https://picsum.photos/seed/m8/100/100",
+  },
+];

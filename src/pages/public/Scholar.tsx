@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   GraduationCap,
@@ -10,7 +10,9 @@ import {
   Handshake,
 } from "lucide-react";
 import SubNav from "../../components/SubNav";
-import QuickRegisterForm from "../../components/forms/QuickRegisterForm";
+
+import { useNavigate } from "react-router-dom";
+import Hero from "../../components/Hero";
 
 export default function Scholar() {
   const subNav = [
@@ -21,14 +23,7 @@ export default function Scholar() {
     "Reviews",
   ];
   const [activeTab, setActiveTab] = useState(subNav[0]);
-  const [formTarget, setFormTarget] = useState<string | null>(null);
-  const formRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!formTarget || !formRef.current) return;
-    formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    formRef.current.focus({ preventScroll: true });
-  }, [formTarget]);
+  const navigate = useNavigate();
 
   const scholarships = [
     {
@@ -153,23 +148,13 @@ export default function Scholar() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="bg-emerald-900 text-white pt-16 pb-12">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-3xl">
-            <p className="text-sm font-bold tracking-widest text-emerald-400 uppercase mb-2">
-              Module
-            </p>
-            <h1 className="text-2xl font-bold tracking-tight mb-4">
-              Scholarships
-            </h1>
-            <p className="text-sm text-emerald-100 leading-relaxed mb-6">
-              Discover funding opportunities, connect with top universities, and
-              meet inspiring scholars. Empowering the next generation of
-              leaders.
-            </p>
-          </div>
-        </div>
-      </div>
+      <Hero
+        title="Scholarships"
+        subtitle="Discover funding opportunities, connect with top universities, and meet inspiring scholars. Empowering the next generation of leaders."
+        label="Module"
+        image="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80"
+        accentColor="text-emerald-400"
+      />
 
       <SubNav
         items={subNav}
@@ -183,20 +168,7 @@ export default function Scholar() {
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
           {activeTab === "Scholarships" && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-4xl">
-              {formTarget && activeTab === "Scholarships" ? (
-                <div
-                  ref={formRef}
-                  tabIndex={-1}
-                  className="mb-6 focus:outline-none"
-                >
-                  <QuickRegisterForm
-                    heading="Scholarship Application"
-                    targetLabel={formTarget}
-                    submitLabel="Submit Application"
-                    onClose={() => setFormTarget(null)}
-                  />
-                </div>
-              ) : null}
+              {/* Navigation to signup page replaces QuickRegisterForm */}
               <h2 className="text-2xl font-bold text-slate-900 mb-6">
                 Available Scholarships
               </h2>
@@ -236,7 +208,7 @@ export default function Scholar() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => setFormTarget(scholarship.title)}
+                      onClick={() => navigate("/auth?mode=signup&role=Scholar")}
                       className="text-emerald-600 font-bold text-sm hover:underline"
                     >
                       Start Application
@@ -381,29 +353,10 @@ export default function Scholar() {
                   Join our network of generous donors and organizations making
                   education accessible to talented individuals worldwide.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setFormTarget("Donor Program")}
-                  className="bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
-                >
-                  Become a Donor
-                </button>
               </div>
 
-              {formTarget && activeTab === "Donors" ? (
-                <div
-                  ref={formRef}
-                  tabIndex={-1}
-                  className="mb-6 focus:outline-none"
-                >
-                  <QuickRegisterForm
-                    heading="Donor Registration"
-                    targetLabel={formTarget}
-                    submitLabel="Become a Donor"
-                    onClose={() => setFormTarget(null)}
-                  />
-                </div>
-              ) : null}
+              {/* Navigation to signup page replaces QuickRegisterForm for Donors */}
+              {/* You may add a donor-specific role if needed, e.g., role=Scholar */}
               <h3 className="text-2xl font-bold text-slate-900 mb-6">
                 Featured Contributors
               </h3>
