@@ -12,9 +12,7 @@ export default function Footer() {
               alt="E-Spot Club Logo"
               className="h-12 w-auto mb-4"
             />
-            <h2 className="text-lg font-bold tracking-tight text-white mb-3">
-              E-Spot Club
-            </h2>
+            {/* Removed E-Spot Club text for logo-only branding */}
             <p className="text-slate-400 text-sm leading-relaxed">
               The ultimate platform connecting Members, Partners, Franchisees,
               Entrepreneurs, Leaders, and Scholars globally.
@@ -122,7 +120,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm font-medium">
-          &copy; {new Date().getFullYear()} E-Spot Club. All rights reserved.
+          &copy; {new Date().getFullYear()} All rights reserved.
         </div>
       </div>
     </footer>

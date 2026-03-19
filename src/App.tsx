@@ -25,6 +25,7 @@ import {
   Scholar,
   Leadership,
   Product,
+  ProductDetail,
   Showcase,
   Offer,
   Entrepreneurship,
@@ -109,6 +110,7 @@ export default function App() {
             <Route path="scholar" element={<Scholar />} />
             <Route path="leadership" element={<Leadership />} />
             <Route path="product" element={<Product />} />
+            <Route path="products/:slug" element={<ProductDetail />} />
             <Route path="showcase" element={<Showcase />} />
             <Route path="offer" element={<Offer />} />
             <Route path="entrepreneurship" element={<Entrepreneurship />} />

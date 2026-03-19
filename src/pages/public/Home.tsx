@@ -24,6 +24,7 @@ import {
   MapPin,
 } from "lucide-react";
 import Carousel from "../../components/Carousel";
+import MinimalCardSection from "../../components/MinimalCardSection";
 import heroBanner from "../../assets/hero-banner.mp4";
 import bodybanner from "../../assets/hero-banner.jpg";
 
@@ -468,7 +469,7 @@ export default function Home() {
         <video
           ref={videoRef}
           src={heroBanner}
-          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover opacity-90 pointer-events-none sharpened-lg"
           autoPlay
           loop
           muted
@@ -738,47 +739,159 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ── Meet Our Members ───────────────────────────────────────────── */}
-      <section className="py-14 bg-white border-b border-slate-100">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-bold text-slate-900 mb-6 text-center tracking-tight">
-            Meet Our Members
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6 justify-items-center">
-            {clubMembers.map((member) => (
-              <div key={member.name} className="flex flex-col items-center">
-                <img
-                  src={member.avatar}
-                  alt={member.name}
-                  className="w-20 h-20 rounded-full object-cover border-4 border-blue-100 shadow mb-2"
-                />
-                <div className="font-semibold text-slate-900 text-sm">
-                  {member.name}
-                </div>
-                <div className="text-xs text-blue-700 font-bold mt-0.5">
-                  {member.tier} Member
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Top Monthly Highlights ─────────────────────────────────────── */}
       <section className="py-14 bg-slate-50 border-y border-slate-200">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Monthly Highlights
-            </p>
-            <h2 className="text-xl font-semibold text-slate-900 mt-2 tracking-tight">
-              Top Performers of the Month
-            </h2>
-          </div>
-          {topSections.map((sec) =>
-            renderTopSection(sec.title, sec.items, sec.type),
+         
+          <MinimalCardSection
+            sectionLabel="Monthly Highlights"
+            heading="Top 10 Products of the Month"
+            subheading="Our most popular and trending products, handpicked for you."
+            items={topSections[1].items.map((item, idx) => ({
+              title: item.title,
+              description: item.subtitle,
+              image: `https://picsum.photos/seed/product${idx}/400/180`,
+              provider: {
+                name: [
+                  "TechMart",
+                  "SoundHub",
+                  "VisionWorld",
+                  "CleanAir Co.",
+                  "KeyPro",
+                ][idx % 5],
+                link: [
+                  "/providers/techmart",
+                  "/providers/soundhub",
+                  "/providers/visionworld",
+                  "/providers/cleanair",
+                  "/providers/keypro",
+                ][idx % 5],
+              },
+              link: `/products/${encodeURIComponent(item.title.toLowerCase().replace(/\s+/g, "-"))}`,
+              linkLabel: "View Product",
+            }))}
+            dark={false}
+          />
+
+          {/* Render the rest as before, except Top 10 Products */}
+          {topSections
+            .filter((_, i) => i !== 1)
+            .map((sec) => renderTopSection(sec.title, sec.items, sec.type))}
+
+          {/* Top 10 Lucky Draws */}
+          {renderTopSection(
+            "Top 10 Lucky Draws",
+            Array.from({ length: 10 }, (_, i) => ({
+              title: [
+                "Win a Dream Vacation!",
+                "iPhone 15 Pro Max Winner!",
+                "Luxury Spa Weekend",
+                "MacBook Air Giveaway",
+                "Dinner for Two at Hyatt",
+                "Adventure Trekking Pass",
+                "Smart TV Mega Draw",
+                "Gold Coin Bonanza",
+                "Gadget Hamper",
+                "Surprise Mystery Box",
+              ][i],
+              subtitle: [
+                "Congratulations to our lucky members!",
+                "Life-changing prizes every month.",
+                "Your chance to win big is here!",
+                "Stay tuned for the next draw.",
+                "Winners announced live at our event!",
+                "Be inspired. Be lucky. Be next!",
+                "Unbox happiness with E-Spot Club.",
+                "Dreams do come true!",
+                "Join, participate, and win!",
+                "Every member is a winner.",
+              ][i],
+              badge: "Lucky #" + (i + 1),
+              initials: "LD" + (i + 1),
+            })),
+            "lucky",
           )}
+
+          {/* Top 10 Entrepreneurs */}
+          {renderTopSection(
+            "Top 10 Entrepreneurs",
+            Array.from({ length: 10 }, (_, i) => ({
+              title: [
+                "Sujan Shrestha",
+                "Anisha Karki",
+                "Ramesh Bista",
+                "Priya Joshi",
+                "Kiran Lama",
+                "Sita Gurung",
+                "Manish Thapa",
+                "Nisha Adhikari",
+                "Bipin Shakya",
+                "Ritu Pandey",
+              ][i],
+              subtitle: [
+                "Founder, TechNova",
+                "CEO, Green Foods",
+                "Co-Founder, EduSmart",
+                "Director, HealthX",
+                "Owner, Kiran Designs",
+                "MD, Sita Travels",
+                "Founder, CodeCraft",
+                "CEO, Nisha Cosmetics",
+                "Lead, Shakya Robotics",
+                "Entrepreneur, InspireMe",
+              ][i],
+              badge: "Inspiring Leader",
+              initials: "EN" + (i + 1),
+            })),
+            "entrepreneur",
+          )}
+
+          {/* Top 10 Leaders */}
+          {renderTopSection(
+            "Top 10 Leaders",
+            Array.from({ length: 10 }, (_, i) => ({
+              title: [
+                "Amit Sharma",
+                "Bina Rai",
+                "Chirag Joshi",
+                "Deepa Lama",
+                "Elina Shrestha",
+                "Firoz Khan",
+                "Gita Pandey",
+                "Hari KC",
+                "Isha Thapa",
+                "Jeevan Gurung",
+              ][i],
+              subtitle: [
+                "Visionary Mentor",
+                "Community Builder",
+                "Leadership Coach",
+                "Women in Business",
+                "Youth Icon",
+                "Industry Pioneer",
+                "Social Impact Leader",
+                "Growth Strategist",
+                "Innovation Champion",
+                "Team Motivator",
+              ][i],
+              badge: "Role Model",
+              initials: "LD" + (i + 1),
+            })),
+            "leader",
+          )}
+
+          {/* Inspiring/Catchy/Engaging Banner */}
+          <div className="mt-12 flex flex-col items-center justify-center text-center py-10 px-4 bg-gradient-to-r from-blue-50 via-cyan-50 to-emerald-50 rounded-2xl shadow-lg border border-blue-100">
+            <h3 className="text-2xl sm:text-3xl font-bold text-blue-700 mb-3">
+              "Every connection is a new opportunity. Every member is a story.
+              Every day is a chance to win, lead, and inspire!"
+            </h3>
+            <p className="text-lg text-slate-700 max-w-2xl mx-auto">
+              Join the E-Spot Club community and be part of something bigger.
+              Celebrate success, embrace growth, and let your journey inspire
+              others!
+            </p>
+          </div>
         </div>
       </section>
 

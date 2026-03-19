@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import espotLogo from "../../assets/espotclub_logo_withtext.png";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -673,26 +674,21 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl w-full bg-white p-6 sm:p-10 rounded-3xl shadow-xl border border-gray-100">
-        <div className="flex items-center justify-between mb-5">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-4 sm:py-6 px-2 sm:px-4 lg:px-8">
+      <div className="max-w-md w-full bg-white p-3 sm:p-5 rounded-2xl shadow-lg border border-gray-100">
+        <div className="flex items-center justify-between mb-2">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-gray-900"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-gray-600 hover:text-gray-900"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
-          <Link
-            to="/"
-            className="font-bold text-lg sm:text-xl tracking-tight text-blue-700"
-          >
-            E-SPOT
-          </Link>
+          <img src={espotLogo} alt="E-SPOT Logo" className="h-9 sm:h-11" />
         </div>
 
         <div className="text-center">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">
             {isLogin
               ? "Sign in to your account"
               : step === 1
@@ -705,7 +701,7 @@ export default function Auth() {
               <span className="font-bold">{selectedPackage}</span>
             </div>
           )}
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-1 text-xs text-gray-600">
             {isLogin ? "Don't have an account? " : "Already registered? "}
             <button
               type="button"
@@ -720,20 +716,20 @@ export default function Auth() {
             </button>
           </p>
           {!isLogin && (
-            <div className="mt-4 flex items-center justify-center space-x-2">
+            <div className="mt-2 flex items-center justify-center space-x-1">
               <div
-                className={`h-2 w-14 rounded-full ${step >= 1 ? "bg-blue-600" : "bg-gray-200"}`}
+                className={`h-1.5 w-8 rounded-full ${step >= 1 ? "bg-blue-600" : "bg-gray-200"}`}
               ></div>
               <div
-                className={`h-2 w-14 rounded-full ${step >= 2 ? "bg-blue-600" : "bg-gray-200"}`}
+                className={`h-1.5 w-8 rounded-full ${step >= 2 ? "bg-blue-600" : "bg-gray-200"}`}
               ></div>
             </div>
           )}
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleAuth}>
+        <form className="mt-5 space-y-3" onSubmit={handleAuth}>
           {isLogin || step === 1 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
               {!isLogin && (
                 <div className="sm:col-span-2">
                   <InputField
@@ -847,17 +843,17 @@ export default function Auth() {
               )}
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
+            <div className="space-y-3">
+              <div className="rounded-lg border border-blue-100 bg-blue-50 p-2">
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-700 mb-2">
                   Required information for {role}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div>
-                    <p className="text-sm font-semibold text-slate-900 mb-1.5">
+                    <p className="text-xs font-semibold text-slate-900 mb-1">
                       Information
                     </p>
-                    <ul className="space-y-1.5">
+                    <ul className="space-y-1">
                       {roleRequirements.info.map((item) => (
                         <li
                           key={item}
@@ -870,10 +866,10 @@ export default function Auth() {
                     </ul>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900 mb-1.5">
+                    <p className="text-xs font-semibold text-slate-900 mb-1">
                       Documents
                     </p>
-                    <ul className="space-y-1.5">
+                    <ul className="space-y-1">
                       {roleRequirements.docs.map((item) => (
                         <li
                           key={item}
@@ -895,22 +891,22 @@ export default function Auth() {
           {isLogin && (
             <>
               {authError && (
-                <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                <div className="rounded-lg border border-rose-200 bg-rose-50 px-2 py-2 text-xs text-rose-700">
                   {authError}
                 </div>
               )}
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 text-sm text-gray-700">
+                <label className="flex items-center gap-1 text-xs text-gray-700">
                   <input
                     id="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-3 w-3 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   Remember me
                 </label>
                 <button
                   type="button"
-                  className="text-sm font-bold text-blue-600 hover:text-blue-500"
+                  className="text-xs font-bold text-blue-600 hover:text-blue-500"
                 >
                   Forgot password?
                 </button>
@@ -918,19 +914,19 @@ export default function Auth() {
             </>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             {!isLogin && step === 2 && (
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="flex-1 flex justify-center py-3 px-4 border border-gray-300 text-sm font-bold rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 flex justify-center py-2 px-2 border border-gray-300 text-xs font-bold rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <ArrowLeft className="mr-2 h-5 w-5" /> Previous
+                <ArrowLeft className="mr-2 h-4 w-4" /> Previous
               </button>
             )}
             <button
               type="submit"
-              className={`${!isLogin && step === 2 ? "flex-1" : "w-full"} group relative flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg shadow-blue-600/20`}
+              className={`${!isLogin && step === 2 ? "flex-1" : "w-full"} group relative flex justify-center py-2 px-2 border border-transparent text-xs font-bold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md shadow-blue-600/10`}
             >
               {isLogin
                 ? "Sign In"
@@ -938,7 +934,7 @@ export default function Auth() {
                   ? "Continue"
                   : "Complete Registration"}
               {(isLogin || step === 1) && (
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               )}
             </button>
           </div>
@@ -965,12 +961,12 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="block text-sm font-bold text-gray-700 mb-1">
+      <label className="block text-xs font-bold text-gray-700 mb-1">
         {label}
       </label>
       <div className="relative">
         {icon ? (
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
             {icon}
           </div>
         ) : null}
@@ -978,7 +974,7 @@ function InputField({
           name={name}
           type={type}
           required={required}
-          className={`appearance-none block w-full ${icon ? "pl-10" : "pl-3"} pr-3 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all`}
+          className={`appearance-none block w-full ${icon ? "pl-8" : "pl-2"} pr-2 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs transition-all`}
           placeholder={placeholder}
         />
       </div>
@@ -997,13 +993,13 @@ function UploadField({
 }) {
   return (
     <div>
-      <label className="block text-sm font-bold text-gray-700 mb-1">
+      <label className="block text-xs font-bold text-gray-700 mb-1">
         {label}
       </label>
-      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-blue-500 transition-colors cursor-pointer bg-gray-50">
+      <div className="mt-1 flex justify-center px-4 pt-3 pb-4 border-2 border-gray-300 border-dashed rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-gray-50">
         <div className="space-y-1 text-center">
-          <Upload className="mx-auto h-10 w-10 text-gray-400" />
-          <div className="flex text-sm text-gray-600 justify-center">
+          <Upload className="mx-auto h-8 w-8 text-gray-400" />
+          <div className="flex text-xs text-gray-600 justify-center">
             <label
               htmlFor={id}
               className="relative cursor-pointer bg-transparent rounded-md font-bold text-blue-600 hover:text-blue-500"
@@ -1018,7 +1014,7 @@ function UploadField({
               />
             </label>
           </div>
-          <p className="text-xs text-gray-500">PNG, JPG, PDF up to 10MB</p>
+          <p className="text-[10px] text-gray-500">PNG, JPG, PDF up to 10MB</p>
         </div>
       </div>
     </div>

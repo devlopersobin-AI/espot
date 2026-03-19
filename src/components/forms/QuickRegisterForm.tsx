@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import espotLogo from "../../assets/espotclub_logo_withtext.png";
 import { sanitizeInput, isValidEmail, isValidPhone } from "../../lib/utils";
 
 type QuickRegisterFormProps = {
@@ -75,6 +76,9 @@ export default function QuickRegisterForm({
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+      <div className="flex flex-col items-center mb-3">
+        <img src={espotLogo} alt="E-SPOT Logo" className="h-10 sm:h-12 mb-2" />
+      </div>
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600">
