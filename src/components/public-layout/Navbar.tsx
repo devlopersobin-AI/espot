@@ -244,20 +244,29 @@ export default function Navbar({
         {/* Second line navigation */}
         <div className="hidden xl:flex items-center justify-between h-12">
           <nav className="flex items-center gap-1 flex-1">
-            {secondaryClubNav.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                  locationPathname === item.path
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-           
+            {secondaryClubNav.map((item) => {
+              const boldNames = [
+                "Product",
+                "Service",
+                "Training",
+                "Career",
+                "Events",
+              ];
+              const isBold = boldNames.includes(item.name);
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-colors whitespace-nowrap ${
+                    locationPathname === item.path
+                      ? "text-blue-600 bg-blue-50"
+                      : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
+                  } ${isBold ? "font-bold" : "font-medium"}`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </nav>
           <form onSubmit={handleSearch} className="relative w-36 2xl:w-44">
             <div className="absolute left-3 top-1/2 -translate-y-1/2">
