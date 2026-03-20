@@ -163,33 +163,6 @@ export default function Leadership() {
 
       <div className="flex-1 py-8 sm:py-12 bg-slate-50">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-7">
-            <TopMetric
-              label="Active Leaders"
-              value="12.8k"
-              note="Across public and private cohorts"
-              icon={<Users className="w-4.5 h-4.5" />}
-            />
-            <TopMetric
-              label="Avg Leadership Score"
-              value="81%"
-              note="Quarterly performance benchmark"
-              icon={<Target className="w-4.5 h-4.5" />}
-            />
-            <TopMetric
-              label="Workshops Completed"
-              value="340+"
-              note="This year"
-              icon={<Calendar className="w-4.5 h-4.5" />}
-            />
-            <TopMetric
-              label="Team Impact Lift"
-              value="+23%"
-              note="Post-program improvement"
-              icon={<TrendingUp className="w-4.5 h-4.5" />}
-            />
-          </div>
-
           {activeTab === "Overview" && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm">

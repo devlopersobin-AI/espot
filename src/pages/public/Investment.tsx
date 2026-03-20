@@ -158,39 +158,79 @@ export default function Investment() {
 
       <div className="flex-1 bg-slate-50 py-8 sm:py-12">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-7 sm:mb-9">
-            {statCards.map((card) => {
-              const Icon = card.icon;
-
-              return (
-                <article
-                  key={card.label}
-                  className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
-                        {card.label}
-                      </p>
-                      <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 mt-2">
-                        {card.value}
-                      </p>
-                    </div>
-                    <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                      <Icon className="w-4.5 h-4.5" />
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-emerald-700 font-medium mt-3">
-                    {card.delta}
-                  </p>
-                </article>
-              );
-            })}
-          </div>
-
           {activeTab === "Opportunities" && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="space-y-5">
+                {/* Insource and Outsource Venture Section */}
+                <div className="rounded-2xl border border-emerald-200 bg-white p-4 sm:p-6 mb-6">
+                  <h2 className="text-xl font-bold text-emerald-900 mb-2">
+                    Venture Types
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Link
+                      to="/investment/insource"
+                      className="bg-emerald-50 rounded-xl p-4 hover:shadow-lg transition-shadow block"
+                    >
+                      <h3 className="text-lg font-semibold text-emerald-800 mb-1">
+                        Insource Venture
+                      </h3>
+                      <p className="text-sm text-emerald-900">
+                        Venture projects and investments managed, operated, and
+                        executed within the E-SPOT platform and its core team.
+                        Full support, resources, and oversight are provided by
+                        our in-house experts.
+                      </p>
+                    </Link>
+                    <Link
+                      to="/investment/outsource"
+                      className="bg-cyan-50 rounded-xl p-4 hover:shadow-lg transition-shadow block"
+                    >
+                      <h3 className="text-lg font-semibold text-cyan-800 mb-1">
+                        Outsource Venture
+                      </h3>
+                      <p className="text-sm text-cyan-900">
+                        Venture projects and investments where E-SPOT acts as a
+                        facilitator, connecting external founders, teams, or
+                        partners to our investor network. Execution and
+                        management are handled by the external party with E-SPOT
+                        support.
+                      </p>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Investment Models Section */}
+                <div className="rounded-2xl border border-emerald-200 bg-white p-4 sm:p-6 mb-6">
+                  <h2 className="text-xl font-bold text-emerald-900 mb-2">
+                    Investment Models
+                  </h2>
+                  <ul className="list-disc pl-6 space-y-2 text-emerald-900">
+                    <li>
+                      <span className="font-semibold">
+                        Standard Membership & Partnership Investment (SMPI):
+                      </span>{" "}
+                      Entry-level investment for standard members and partners,
+                      offering access to curated opportunities and basic
+                      support.
+                    </li>
+                    <li>
+                      <span className="font-semibold">
+                        Elite Membership & Partnership Investment (EMPI):
+                      </span>{" "}
+                      Enhanced investment model for elite members and partners,
+                      with priority access, higher ticket sizes, and advanced
+                      support services.
+                    </li>
+                    <li>
+                      <span className="font-semibold">
+                        Premium Membership & Partnership Investment (PMPI):
+                      </span>{" "}
+                      Top-tier investment model for premium members and
+                      partners, featuring bespoke deal flow, personal advisory,
+                      and maximum flexibility.
+                    </li>
+                  </ul>
+                </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                     <label className="md:col-span-2">

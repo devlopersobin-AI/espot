@@ -36,6 +36,20 @@ export default function UserProfile() {
         { label: "Avg Deal Size", value: "$24,000" },
       ],
       awards: ["Top Partner 2025", "Innovation Award", "Best B2B Service"],
+      achievements: [
+        {
+          title: "100+ Projects Delivered",
+          icon: <Package className="w-5 h-5 text-blue-500" />,
+        },
+        {
+          title: "Global Expansion 2024",
+          icon: <Star className="w-5 h-5 text-amber-400 fill-amber-400" />,
+        },
+      ],
+      badges: [
+        { label: "Verified Partner", color: "bg-blue-100 text-blue-700" },
+        { label: "Top Rated", color: "bg-amber-100 text-amber-700" },
+      ],
       offers: [
         { id: 1, title: "20% Off Annual Contract", validUntil: "Dec 31, 2026" },
         { id: 2, title: "Free Consultation", validUntil: "Sep 30, 2026" },
@@ -182,6 +196,215 @@ export default function UserProfile() {
                 </li>
               ))}
             </ul>
+            {/* Achievements Section */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+                <Package className="w-5 h-5 text-blue-500" />
+                Achievements
+              </h2>
+              <ul className="space-y-3">
+                {partnerData.achievements.map((ach, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    {ach.icon}
+                    <span className="font-medium text-slate-800">
+                      {ach.title}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Badges Section */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+                <CheckCircle2 className="w-5 h-5 text-blue-500" />
+                Badges
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {partnerData.badges.map((badge, idx) => (
+                  <span
+                    key={idx}
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 ${badge.color}`}
+                  >
+                    {badge.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "member") {
+    // Member profile layout
+    const memberData = {
+      name: "Jane Doe",
+      avatar: `https://i.pravatar.cc/150?u=member${id}`,
+      cover:
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      joined: "Feb 2023",
+      location: "London, UK",
+      verified: true,
+      about:
+        "Jane is an active member of the E-SPOT community, participating in events and contributing to member discussions.",
+      stats: [
+        { label: "Events Attended", value: "12" },
+        { label: "Membership Tier", value: "Gold" },
+        { label: "Connections", value: "58" },
+      ],
+      interests: ["Entrepreneurship", "Leadership", "Investment"],
+      achievements: [
+        {
+          title: "Attended 10+ Events",
+          icon: <Calendar className="w-5 h-5 text-green-500" />,
+        },
+        {
+          title: "Gold Tier Member",
+          icon: <Award className="w-5 h-5 text-amber-500" />,
+        },
+      ],
+      badges: [
+        { label: "Active Member", color: "bg-green-100 text-green-700" },
+        { label: "Community Helper", color: "bg-emerald-100 text-emerald-700" },
+      ],
+    };
+    return (
+      <div className="min-h-screen bg-slate-50 pb-24">
+        {/* Cover Image */}
+        <div className="h-64 md:h-80 w-full relative">
+          <img
+            src={memberData.cover}
+            alt="Cover"
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+          <div className="absolute top-0 left-0 w-full p-4 sm:p-6 lg:p-8 z-20">
+            <div className="max-w-[1200px] mx-auto">
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 text-white bg-white/15 hover:bg-white/25 backdrop-blur-sm px-4 py-2 rounded-xl transition-colors font-medium"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                Back
+              </button>
+            </div>
+          </div>
+          {/* Achievements Section */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+              <Package className="w-5 h-5 text-green-500" />
+              Achievements
+            </h2>
+            <ul className="space-y-3">
+              {memberData.achievements.map((ach, idx) => (
+                <li key={idx} className="flex items-center gap-3">
+                  {ach.icon}
+                  <span className="font-medium text-slate-800">
+                    {ach.title}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Badges Section */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+              <CheckCircle2 className="w-5 h-5 text-green-500" />
+              Badges
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {memberData.badges.map((badge, idx) => (
+                <span
+                  key={idx}
+                  className={`px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 ${badge.color}`}
+                >
+                  {badge.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 relative z-10 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start">
+            <img
+              src={memberData.avatar}
+              alt={memberData.name}
+              className="w-28 h-28 md:w-32 md:h-32 rounded-2xl border-2 border-white shadow-lg object-cover bg-white shrink-0"
+              referrerPolicy="no-referrer"
+            />
+            <div className="flex-1 pt-2 w-full">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h1 className="text-2xl font-bold text-slate-900">
+                      {memberData.name}
+                    </h1>
+                    {memberData.verified && (
+                      <CheckCircle2 className="w-5 h-5 text-green-500" />
+                    )}
+                  </div>
+                  <p className="text-green-600 font-semibold tracking-wide uppercase text-xs">
+                    Member
+                  </p>
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button className="px-5 py-2 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors shadow-sm">
+                    Message
+                  </button>
+                  <button className="px-5 py-2 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">
+                    Connect
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-3 md:gap-6 text-sm text-slate-600 mb-4">
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4" />
+                  <span>{memberData.location}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4" />
+                  <span>Joined {memberData.joined}</span>
+                </div>
+              </div>
+              <p className="text-slate-600 leading-relaxed">
+                {memberData.about}
+              </p>
+            </div>
+          </div>
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 max-w-2xl mx-auto w-full">
+            {memberData.stats.map((stat, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-xl p-4 border border-slate-200 text-center shadow-sm"
+              >
+                <div className="text-xl md:text-2xl font-bold text-slate-900 mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Interests Section */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+              <Package className="w-5 h-5 text-green-500" />
+              Interests
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {memberData.interests.map((interest, idx) => (
+                <span
+                  key={idx}
+                  className="px-4 py-2 bg-green-50 text-green-700 rounded-xl text-sm font-medium border border-green-100"
+                >
+                  {interest}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -208,6 +431,20 @@ export default function UserProfile() {
         { label: "Events Hosted", value: "34" },
       ],
       awards: ["Franchise of the Year 2025", "Best Customer Experience"],
+      achievements: [
+        {
+          title: "Hosted 30+ Events",
+          icon: <Calendar className="w-5 h-5 text-indigo-600" />,
+        },
+        {
+          title: "2,000+ Active Members",
+          icon: <Star className="w-5 h-5 text-amber-400 fill-amber-400" />,
+        },
+      ],
+      badges: [
+        { label: "Flagship Franchise", color: "bg-indigo-100 text-indigo-700" },
+        { label: "Customer Favorite", color: "bg-amber-100 text-amber-700" },
+      ],
       offers: [
         {
           id: 1,
@@ -356,6 +593,40 @@ export default function UserProfile() {
                 </li>
               ))}
             </ul>
+            {/* Achievements Section */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+                <Package className="w-5 h-5 text-indigo-600" />
+                Achievements
+              </h2>
+              <ul className="space-y-3">
+                {franchiseData.achievements.map((ach, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    {ach.icon}
+                    <span className="font-medium text-slate-800">
+                      {ach.title}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Badges Section */}
+            <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+                <CheckCircle2 className="w-5 h-5 text-indigo-600" />
+                Badges
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {franchiseData.badges.map((badge, idx) => (
+                  <span
+                    key={idx}
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 ${badge.color}`}
+                  >
+                    {badge.label}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

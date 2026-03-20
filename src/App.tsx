@@ -32,7 +32,11 @@ import {
   Profiles,
   Contact,
   Investment,
+  OfferDetail,
 } from "./pages/public";
+import Insource from "./pages/public/investment/Insource";
+import Outsource from "./pages/public/investment/Outsource";
+import Payment from "./pages/public/Payment"; // New import for Payment
 import TraineeCourseRegister from "./pages/public/TraineeCourseRegister";
 import InvestmentDetail from "./pages/public/InvestmentDetail";
 
@@ -90,14 +94,17 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="events" element={<Events />} />
             <Route path="membership" element={<Membership />} />
+            <Route path="payment" element={<Payment />} />{" "}
+            {/* New route for Payment */}
             <Route path="investment" element={<Investment />} />
+            <Route path="investment/insource" element={<Insource />} />
+            <Route path="investment/outsource" element={<Outsource />} />
             <Route
               path="investment/:opportunityId"
               element={<InvestmentDetail />}
             />
             <Route path="search" element={<Search />} />
             <Route path="profile/:type/:id" element={<UserProfile />} />
-
             {/* Other public pages */}
             <Route path="partner" element={<Partner />} />
             <Route path="franchise" element={<Franchise />} />
@@ -113,16 +120,15 @@ export default function App() {
             <Route path="products/:slug" element={<ProductDetail />} />
             <Route path="showcase" element={<Showcase />} />
             <Route path="offer" element={<Offer />} />
+            <Route path="offer/:id" element={<OfferDetail />} />
             <Route path="entrepreneurship" element={<Entrepreneurship />} />
             <Route path="profiles" element={<Profiles />} />
             <Route path="contact" element={<Contact />} />
             <Route path="services" element={<Services />} />
-
             {/* Service Category Routes */}
             <Route path="services/:category" element={<ServiceCategory />} />
             <Route path="services/:category/*" element={<ServiceCategory />} />
             <Route path="services/*" element={<ServiceCategory />} />
-
             {/* Event Routes */}
             <Route path="events/:eventId" element={<EventDetail />} />
           </Route>

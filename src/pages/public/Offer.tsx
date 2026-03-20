@@ -92,9 +92,11 @@ export default function Offer() {
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {offers.map((offer) => (
-                  <div
+                  <Link
+                    to={`/offer/${offer.id}`}
                     key={offer.id}
-                    className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row group"
+                    className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row group focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ textDecoration: "none" }}
                   >
                     <div className="h-44 sm:h-auto sm:w-2/5 relative overflow-hidden">
                       <img
@@ -121,12 +123,12 @@ export default function Offer() {
                           <Clock className="w-3.5 h-3.5 mr-1" /> Ends in{" "}
                           {offer.expires}
                         </div>
-                        <button className="flex items-center justify-center w-8 h-8 bg-gray-50 text-gray-600 rounded-md border border-gray-200 hover:bg-gray-100 transition-colors">
+                        <span className="flex items-center justify-center w-8 h-8 bg-gray-50 text-gray-600 rounded-md border border-gray-200 group-hover:bg-gray-100 transition-colors">
                           <ArrowRight className="w-4 h-4" />
-                        </button>
+                        </span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

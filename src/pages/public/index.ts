@@ -1,3 +1,4 @@
+export { default as OfferDetail } from "./OfferDetail";
 export { default as Home } from "./Home";
 export { default as Events } from "./Events";
 export { default as Membership } from "./Membership";

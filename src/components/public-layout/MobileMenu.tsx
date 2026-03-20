@@ -95,7 +95,10 @@ export default function MobileMenu({
               />
             </button>
             {mobileExpanded === "services" && (
-              <div className="px-4 pb-4 space-y-3 mobile-section-enter border-t border-slate-100 bg-slate-50/70">
+              <div
+                className="px-4 pb-4 space-y-3 mobile-section-enter border-t border-slate-100 bg-slate-50/70 overflow-y-auto"
+                style={{ maxHeight: "100vh" }}
+              >
                 {Object.entries(serviceCategories).map(([category, data]) => {
                   const CatIcon = data.icon;
                   return (

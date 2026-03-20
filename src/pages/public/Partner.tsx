@@ -189,32 +189,7 @@ export default function Partner() {
       {/* Content Section */}
       <div className="flex-1 pb-24">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 py-7">
-            <MetricCard
-              label="Active Partners"
-              value="860+"
-              trend="+6.3%"
-              icon={<Users className="w-4.5 h-4.5" />}
-            />
-            <MetricCard
-              label="Campaign Revenue"
-              value="$2.7M"
-              trend="Q1 2026"
-              icon={<TrendingUp className="w-4.5 h-4.5" />}
-            />
-            <MetricCard
-              label="Joint Campaigns"
-              value="340"
-              trend="Across 14 sectors"
-              icon={<Handshake className="w-4.5 h-4.5" />}
-            />
-            <MetricCard
-              label="Verified Partners"
-              value="97%"
-              trend="Quality screened"
-              icon={<ShieldCheck className="w-4.5 h-4.5" />}
-            />
-          </div>
+          {/* Partner stats UI block removed as requested */}
 
           {activeTab === "Overview" && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_380px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">

@@ -16,7 +16,8 @@ import logo from "../../assets/espotclub_logo_withtext.png";
 import {
   discoveryGroups,
   eventTypes,
-  mainNavItems,
+  mainClubNav,
+  secondaryClubNav,
   serviceCategories,
   upcomingEvents,
 } from "./menuData";
@@ -132,19 +133,16 @@ export default function Navbar({
       className="bg-white/95 backdrop-blur-xl sticky top-0 z-50 border-b border-slate-200/80 shadow-sm supports-[backdrop-filter]:bg-white/85"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-5 xl:px-8">
-        <div className="flex items-center justify-between h-14">
+        {/* First line navigation */}
+        <div className="flex items-center justify-between h-12 border-b border-slate-100">
           <Link to="/" className="flex-shrink-0 flex items-center">
-            <img src={logo} alt="E-Spot Club" className="h-14 sm:h-12 w-auto" />
+            <img src={logo} alt="E-Spot Club" className="h-10 w-auto" />
           </Link>
-          <nav
-            className="hidden xl:flex items-center gap-1 flex-1 ml-4"
-            onMouseLeave={closeMega}
-          >
-            {mainNavItems.map((item) => (
+          <nav className="hidden xl:flex items-center gap-1 flex-1 ml-4">
+            {mainClubNav.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                onMouseEnter={() => openMega(null)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                   locationPathname === item.path
                     ? "text-blue-600 bg-blue-50"
@@ -154,41 +152,8 @@ export default function Navbar({
                 {item.name}
               </Link>
             ))}
-            <NavTrigger
-              id="services"
-              label="Services"
-              activeMega={activeMega}
-              openMega={openMega}
-            />
-            <NavTrigger
-              id="events"
-              label="Events"
-              activeMega={activeMega}
-              openMega={openMega}
-            />
-            <NavTrigger
-              id="discover"
-              label="Discover"
-              activeMega={activeMega}
-              openMega={openMega}
-            />
           </nav>
-
           <div className="hidden xl:flex items-center gap-2.5">
-            <form onSubmit={handleSearch} className="relative w-36 2xl:w-44">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                <Search className="h-3.5 w-3.5 text-slate-400" />
-              </div>
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 bg-slate-50/60 font-sans"
-                placeholder="Search... Ctrl+K"
-              />
-            </form>
-
             {role ? (
               <div className="relative" ref={profileRef}>
                 <button
@@ -211,7 +176,6 @@ export default function Navbar({
                     className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${profileOpen ? "rotate-180" : ""}`}
                   />
                 </button>
-
                 {profileOpen && (
                   <div className="absolute right-0 top-full mt-1.5 w-52 bg-white rounded-xl border border-slate-200 shadow-lg py-1.5 z-50">
                     <div className="px-3.5 py-2.5 border-b border-slate-100">
@@ -248,18 +212,17 @@ export default function Navbar({
                   className="px-3.5 py-1.5 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5 whitespace-nowrap"
                 >
                   <User className="w-3.5 h-3.5" />
-                  Sign In
+                  Login
                 </Link>
                 <Link
                   to="/auth?mode=signup&role=Member"
                   className="px-3.5 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap shadow-sm shadow-blue-600/20"
                 >
-                  Join Now
+                  Signup
                 </Link>
               </>
             )}
           </div>
-
           <button
             type="button"
             aria-label={
@@ -277,6 +240,38 @@ export default function Navbar({
               <Menu className="w-6 h-6" />
             )}
           </button>
+        </div>
+        {/* Second line navigation */}
+        <div className="hidden xl:flex items-center justify-between h-12">
+          <nav className="flex items-center gap-1 flex-1">
+            {secondaryClubNav.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+                  locationPathname === item.path
+                    ? "text-blue-600 bg-blue-50"
+                    : "text-slate-700 hover:text-blue-600 hover:bg-slate-50"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+           
+          </nav>
+          <form onSubmit={handleSearch} className="relative w-36 2xl:w-44">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2">
+              <Search className="h-3.5 w-3.5 text-slate-400" />
+            </div>
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 bg-slate-50/60 font-sans"
+              placeholder="Search... Ctrl+K"
+            />
+          </form>
         </div>
       </div>
 

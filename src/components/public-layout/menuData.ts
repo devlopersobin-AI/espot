@@ -20,13 +20,25 @@ import type {
   DiscoveryGroup,
 } from "./navTypes";
 
-export const mainNavItems: NavItem[] = [
+// First line navigation: Home, Membership, Partnership, Franchise, Leadership, Entrepreneurship, Sponsorship, Investment
+export const mainClubNav: NavItem[] = [
   { name: "Home", path: "/" },
-  { name: "Partner", path: "/partner" },
-  { name: "Franchise", path: "/franchise" },
-  { name: "Training", path: "/training" },
   { name: "Membership", path: "/membership" },
-  { name: "Contact Us", path: "/contact" },
+  { name: "Partnership", path: "/partner" },
+  { name: "Franchise", path: "/franchise" },
+  { name: "Leadership", path: "/leadership" },
+  { name: "Entrepreneurship", path: "/entrepreneurship" },
+  { name: "Sponsorship", path: "/sponsorship" },
+  { name: "Investment", path: "/investment" },
+];
+
+// Second line navigation: Product, Service, Training, Career, Events, Search
+export const secondaryClubNav: NavItem[] = [
+  { name: "Product", path: "/product" },
+  { name: "Service", path: "/services" },
+  { name: "Training", path: "/training" },
+  { name: "Career", path: "/careers" },
+  { name: "Events", path: "/events" },
 ];
 
 export const secondaryNavItems: NavItem[] = [
