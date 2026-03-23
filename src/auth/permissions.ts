@@ -34,7 +34,7 @@ const ALL_PERMISSIONS: Permission[] = [
 ];
 
 const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
-  Member: ["events.read", "membership.read", "profile.read", "profile.update"],
+  Member: ["events.read", "membership.read", "membership.update", "profile.read", "profile.update"],
   Partner: [
     "events.read",
     "events.create",
@@ -71,10 +71,11 @@ const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
     "profile.read",
     "profile.update",
   ],
-  Scholar: ["events.read", "membership.read", "profile.read", "profile.update"],
+  Scholar: ["events.read", "membership.read", "membership.update", "profile.read", "profile.update"],
   Jobseeker: [
     "events.read",
     "membership.read",
+    "membership.update",
     "profile.read",
     "profile.update",
   ],
@@ -87,7 +88,7 @@ const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
     "profile.read",
     "profile.update",
   ],
-  Trainee: ["events.read", "membership.read", "profile.read", "profile.update"],
+  Trainee: ["events.read", "membership.read", "membership.update", "profile.read", "profile.update"],
   Admin: ALL_PERMISSIONS,
 };
 

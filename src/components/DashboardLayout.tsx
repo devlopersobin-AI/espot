@@ -47,20 +47,85 @@ const DASHBOARD_CONFIG: Record<string, { title: string; nav: NavItem[] }> = {
       { name: "Membership", path: "/dashboard/membership", icon: Users },
     ],
   },
-  Member: { title: "Member", nav: buildNav("/dashboard/member") },
+  Member: {
+    title: "Member",
+    nav: [
+      ...buildNav("/dashboard/member"),
+      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+    ],
+  },
   Partner: {
     title: "Partner",
-    nav: buildNav("/dashboard/partner", "Company Profile"),
+    nav: [
+      ...buildNav("/dashboard/partner", "Company Profile"),
+      {
+        name: "Membership",
+        path: "/dashboard/partner/membership",
+        icon: Users,
+      },
+    ],
   },
   Franchisee: {
     title: "Franchise",
-    nav: buildNav("/dashboard/franchise", "Franchise Profile"),
+    nav: [
+      ...buildNav("/dashboard/franchise", "Franchise Profile"),
+      {
+        name: "Membership",
+        path: "/dashboard/franchise/membership",
+        icon: Users,
+      },
+    ],
   },
-  Entrepreneur: { title: "Member", nav: buildNav("/dashboard/member") },
-  Leader: { title: "Leader", nav: buildNav("/dashboard/leader") },
-  Scholar: { title: "Scholar", nav: buildNav("/dashboard/scholar") },
-  Jobseeker: { title: "Member", nav: buildNav("/dashboard/member") },
-  Trainer: { title: "Member", nav: buildNav("/dashboard/member") },
+  Entrepreneur: {
+    title: "Member",
+    nav: [
+      ...buildNav("/dashboard/member"),
+      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+    ],
+  },
+  Leader: {
+    title: "Leader",
+    nav: [
+      ...buildNav("/dashboard/leader"),
+      { name: "Membership", path: "/dashboard/leader/membership", icon: Users },
+    ],
+  },
+  Scholar: {
+    title: "Scholar",
+    nav: [
+      ...buildNav("/dashboard/scholar"),
+      {
+        name: "Membership",
+        path: "/dashboard/scholar/membership",
+        icon: Users,
+      },
+    ],
+  },
+  Jobseeker: {
+    title: "Member",
+    nav: [
+      ...buildNav("/dashboard/member"),
+      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+    ],
+  },
+  Trainer: {
+    title: "Member",
+    nav: [
+      ...buildNav("/dashboard/member"),
+      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+    ],
+  },
+  Trainee: {
+    title: "Trainee",
+    nav: [
+      ...buildNav("/dashboard/trainee"),
+      {
+        name: "Membership",
+        path: "/dashboard/trainee/membership",
+        icon: Users,
+      },
+    ],
+  },
 };
 
 const DEFAULT_CONFIG = { title: "Dashboard", nav: buildNav("/dashboard") };
@@ -76,129 +141,16 @@ type Notification = {
   time: string;
   read: boolean;
 };
-
-const ROLE_NOTIFICATIONS: Record<string, Notification[]> = {
-  Admin: [
-    {
-      id: 1,
-      icon: UserPlus,
-      iconColor: "text-blue-600",
-      iconBg: "bg-blue-50",
-      title: "New Member Sign-up",
-      body: "Aarav Shrestha registered as a new member.",
-      time: "5 min ago",
-      read: false,
-    },
-    {
-      id: 2,
-      icon: Mail,
-      iconColor: "text-amber-600",
-      iconBg: "bg-amber-50",
-      title: "Franchise Inquiry",
-      body: "XYZ Enterprises inquired about Pokhara franchise.",
-      time: "22 min ago",
-      read: false,
-    },
-    {
-      id: 3,
-      icon: MessageSquare,
-      iconColor: "text-emerald-600",
-      iconBg: "bg-emerald-50",
-      title: "Contact Form Submission",
-      body: "Rita Sharma submitted a general inquiry via Contact Us.",
-      time: "1 hr ago",
-      read: false,
-    },
-    {
-      id: 4,
-      icon: Briefcase,
-      iconColor: "text-purple-600",
-      iconBg: "bg-purple-50",
-      title: "Partner Application",
-      body: "Global Solutions Ltd applied for a partner program.",
-      time: "3 hr ago",
-      read: true,
-    },
-    {
-      id: 5,
-      icon: Star,
-      iconColor: "text-rose-600",
-      iconBg: "bg-rose-50",
-      title: "Event Registration Spike",
-      body: "Nepal Talent 2026 received 45 new registrations today.",
-      time: "5 hr ago",
-      read: true,
-    },
-  ],
-  Member: [
-    {
-      id: 1,
-      icon: Star,
-      iconColor: "text-amber-600",
-      iconBg: "bg-amber-50",
-      title: "Points Earned",
-      body: "You earned 150 reward points from your latest activity.",
-      time: "10 min ago",
-      read: false,
-    },
-    {
-      id: 2,
-      icon: Calendar,
-      iconColor: "text-blue-600",
-      iconBg: "bg-blue-50",
-      title: "Event Reminder",
-      body: "Nepal Talent of the Year 2026 starts in 7 days.",
-      time: "1 hr ago",
-      read: false,
-    },
-    {
-      id: 3,
-      icon: Handshake,
-      iconColor: "text-emerald-600",
-      iconBg: "bg-emerald-50",
-      title: "Membership Offer",
-      body: "Upgrade to Gold tier and get 20% off this month.",
-      time: "4 hr ago",
-      read: true,
-    },
-  ],
+const ROLE_NOTIFICATIONS: Record<AuthRole, Notification[]> = {
+  Admin: [],
+  Member: [],
   Partner: [
     {
       id: 1,
-      icon: MessageSquare,
+      icon: Mail,
       iconColor: "text-blue-600",
       iconBg: "bg-blue-50",
-      title: "New Client Inquiry",
-      body: "A member inquired about your Business Consulting service.",
-      time: "8 min ago",
-      read: false,
-    },
-    {
-      id: 2,
-      icon: Handshake,
-      iconColor: "text-emerald-600",
-      iconBg: "bg-emerald-50",
-      title: "Partnership Proposal",
-      body: "E-Spot Club sent you a co-marketing proposal.",
-      time: "45 min ago",
-      read: false,
-    },
-    {
-      id: 3,
-      icon: Calendar,
-      iconColor: "text-purple-600",
-      iconBg: "bg-purple-50",
-      title: "Event Collaboration",
-      body: "You're invited to co-host Entrepreneurs Arena 2026.",
-      time: "2 hr ago",
-      read: false,
-    },
-    {
-      id: 4,
-      icon: Star,
-      iconColor: "text-amber-600",
-      iconBg: "bg-amber-50",
-      title: "Profile Featured",
+      title: "Company Featured",
       body: "Your company was featured in the Partner Spotlight.",
       time: "1 day ago",
       read: true,
@@ -440,7 +392,7 @@ export default function DashboardLayout() {
   const initials = roleLabel.slice(0, 2).toUpperCase();
 
   const [notifications, setNotifications] = useState<Notification[]>(
-    () => ROLE_NOTIFICATIONS[role ?? "Member"] ?? ROLE_NOTIFICATIONS.Member,
+    () => (role && ROLE_NOTIFICATIONS[role]) || [],
   );
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);

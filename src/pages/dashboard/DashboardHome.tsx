@@ -358,6 +358,42 @@ export default function Home() {
         },
       ],
     },
+    Trainee: {
+      title: "Trainee Overview",
+      subtitle: "Track your onboarding, training sessions, and progress.",
+      primaryAction: "Register for Training",
+      secondaryAction: "View My Profile",
+      metrics: [
+        {
+          title: "Completed Modules",
+          value: "4",
+          change: "+1",
+          trend: "up",
+          icon: Users,
+        },
+        {
+          title: "Upcoming Sessions",
+          value: "2",
+          change: "+1",
+          trend: "up",
+          icon: Calendar,
+        },
+        {
+          title: "Progress",
+          value: "45%",
+          change: "+10%",
+          trend: "up",
+          icon: Activity,
+        },
+        {
+          title: "Certification Status",
+          value: "Pending",
+          change: "—",
+          trend: "up",
+          icon: DollarSign,
+        },
+      ],
+    },
   };
 
   const config = roleHomeConfig[role];

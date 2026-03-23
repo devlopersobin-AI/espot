@@ -204,32 +204,154 @@ export default function Investment() {
                   <h2 className="text-xl font-bold text-emerald-900 mb-2">
                     Investment Models
                   </h2>
-                  <ul className="list-disc pl-6 space-y-2 text-emerald-900">
-                    <li>
-                      <span className="font-semibold">
-                        Standard Membership & Partnership Investment (SMPI):
-                      </span>{" "}
-                      Entry-level investment for standard members and partners,
-                      offering access to curated opportunities and basic
-                      support.
-                    </li>
-                    <li>
-                      <span className="font-semibold">
-                        Elite Membership & Partnership Investment (EMPI):
-                      </span>{" "}
-                      Enhanced investment model for elite members and partners,
-                      with priority access, higher ticket sizes, and advanced
-                      support services.
-                    </li>
-                    <li>
-                      <span className="font-semibold">
-                        Premium Membership & Partnership Investment (PMPI):
-                      </span>{" "}
-                      Top-tier investment model for premium members and
-                      partners, featuring bespoke deal flow, personal advisory,
-                      and maximum flexibility.
-                    </li>
-                  </ul>
+                  <div className="space-y-6">
+                    {/* SMPI */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-emerald-800 mb-1">
+                        Standard Membership & Partnership Investment (SMPI)
+                      </h3>
+                      <ul className="list-disc pl-6 text-emerald-900 mb-2">
+                        <li>
+                          Available for Silver, Gold, Diamond, Platinum, Crown
+                        </li>
+                        <li>
+                          Includes: Membership, 5-Year Wellness Package,
+                          Partnership Ownership
+                        </li>
+                        <li>
+                          One-time investment, 5-year exit plan, estimated
+                          returns
+                        </li>
+                        <li>
+                          Access to Life & Business Ecosystem, Entrepreneur
+                          Arena
+                        </li>
+                      </ul>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div className="bg-emerald-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">Be Healthy</div>
+                          <ul className="list-disc pl-5">
+                            <li>Membership included</li>
+                            <li>5-Year Wellness Package</li>
+                          </ul>
+                        </div>
+                        <div className="bg-cyan-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">Be Wealthy</div>
+                          <ul className="list-disc pl-5">
+                            <li>One-time investment</li>
+                            <li>Partnership ownership</li>
+                            <li>5-year exit plan</li>
+                            <li>Estimated returns by tier</li>
+                          </ul>
+                        </div>
+                        <div className="bg-amber-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">Be Successful</div>
+                          <ul className="list-disc pl-5">
+                            <li>Life & business ecosystem access</li>
+                            <li>Entrepreneur participation</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    {/* EMPI */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-emerald-800 mb-1 mt-6">
+                        Elite Membership & Partnership Investment (EMPI)
+                      </h3>
+                      <ul className="list-disc pl-6 text-emerald-900 mb-2">
+                        <li>Full-Time, Part-Time, Silent Partner options</li>
+                        <li>
+                          High-level discounts, strategic/business involvement,
+                          equity ownership
+                        </li>
+                        <li>Exit flexibility, share sale & transfer</li>
+                      </ul>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div className="bg-emerald-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">
+                            Full-Time Partner
+                          </div>
+                          <ul className="list-disc pl-5">
+                            <li>Active in daily business</li>
+                            <li>45% OFF annual membership</li>
+                            <li>35% OFF for 5 family/friends</li>
+                            <li>20% OFF other services</li>
+                          </ul>
+                        </div>
+                        <div className="bg-cyan-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">
+                            Part-Time Partner
+                          </div>
+                          <ul className="list-disc pl-5">
+                            <li>Strategic oversight</li>
+                            <li>Same discounts as Full-Time</li>
+                          </ul>
+                        </div>
+                        <div className="bg-amber-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">Silent Partner</div>
+                          <ul className="list-disc pl-5">
+                            <li>Capital participation only</li>
+                            <li>Same discounts as Full-Time</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    {/* PMPI */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-emerald-800 mb-1 mt-6">
+                        Premium Membership & Partnership Investment (PMPI)
+                      </h3>
+                      <ul className="list-disc pl-6 text-emerald-900 mb-2">
+                        <li>Full-Time, Part-Time, Advisory Partner options</li>
+                        <li>
+                          Lower entry investment, management participation,
+                          profit-based returns
+                        </li>
+                        <li>5-Year Exit Plan, equity-based settlement</li>
+                      </ul>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div className="bg-emerald-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">
+                            Full-Time Partner
+                          </div>
+                          <ul className="list-disc pl-5">
+                            <li>Active management role</li>
+                            <li>40% OFF annual membership</li>
+                            <li>30% OFF for 5 family/friends</li>
+                            <li>20% OFF other services</li>
+                          </ul>
+                        </div>
+                        <div className="bg-cyan-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">
+                            Part-Time Partner
+                          </div>
+                          <ul className="list-disc pl-5">
+                            <li>Part-time management</li>
+                            <li>35% OFF annual membership</li>
+                            <li>30% OFF for 5 family/friends</li>
+                            <li>15% OFF other services</li>
+                          </ul>
+                        </div>
+                        <div className="bg-amber-50 rounded-xl p-4">
+                          <div className="font-bold mb-1">Advisory Partner</div>
+                          <ul className="list-disc pl-5">
+                            <li>Advisory role only</li>
+                            <li>25% OFF annual membership</li>
+                            <li>15% OFF for 5 family/friends</li>
+                            <li>12.5% OFF other services</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-8 flex flex-col items-center">
+                      <Link
+                        to="/auth?mode=signup&role=Partner"
+                        className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg text-lg"
+                      >
+                        Explore Investment Plans
+                      </Link>
+                    </div>
+                  </div>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">

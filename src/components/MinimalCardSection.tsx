@@ -63,16 +63,22 @@ const MinimalCardSection: React.FC<MinimalCardSectionProps> = ({
                 <p className="text-sm text-slate-700 flex-1 mb-3">
                   {item.description}
                 </p>
-                {item.provider && (
-                  <Link
-                    to={item.provider.link}
-                    className="text-xs text-blue-700 font-semibold hover:underline mb-2"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Provided by: {item.provider.name}
-                  </Link>
-                )}
+                {item.provider &&
+                  // Avoid nested <a> inside <a>
+                  (typeof item.link === "string" && item.link ? (
+                    <span className="text-xs text-blue-700 font-semibold mb-2 block">
+                      Provided by: {item.provider.name}
+                    </span>
+                  ) : (
+                    <Link
+                      to={item.provider.link}
+                      className="text-xs text-blue-700 font-semibold hover:underline mb-2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Provided by: {item.provider.name}
+                    </Link>
+                  ))}
               </>
             );
             return item.link ? (

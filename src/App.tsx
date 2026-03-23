@@ -34,6 +34,7 @@ import {
   Investment,
   OfferDetail,
 } from "./pages/public";
+import FactorDetail from "./pages/public/FactorDetail";
 import Insource from "./pages/public/investment/Insource";
 import Outsource from "./pages/public/investment/Outsource";
 import Payment from "./pages/public/Payment"; // New import for Payment
@@ -90,6 +91,10 @@ export default function App() {
           <Route path="/auth" element={<Auth />} />
 
           {/* Public Marketing Site Routes */}
+          <Route
+            path="/upgrade"
+            element={<Navigate to="/membership#plans" replace />}
+          />
           <Route path="/" element={<PublicLayout />}>
             <Route index element={<Home />} />
             <Route path="events" element={<Events />} />
@@ -131,6 +136,8 @@ export default function App() {
             <Route path="services/*" element={<ServiceCategory />} />
             {/* Event Routes */}
             <Route path="events/:eventId" element={<EventDetail />} />
+            {/* Factor Detail Route */}
+            <Route path="factor/:slug" element={<FactorDetail />} />
           </Route>
 
           {/* Admin Dashboard */}
@@ -180,6 +187,7 @@ export default function App() {
                   <Route index element={<DashboardHome />} />
                   <Route path="profile" element={<Profile />} />
                   <Route path="events" element={<DashboardEvents />} />
+                  <Route path="membership" element={<DashboardMembership />} />
                   <Route
                     path="*"
                     element={<Navigate to={`/dashboard/${slug}`} replace />}
