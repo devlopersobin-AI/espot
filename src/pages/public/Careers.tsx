@@ -243,19 +243,36 @@ export default function Careers() {
       {/* Company Culture Stories */}
       <section className="py-16 bg-white border-b border-slate-100">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-blue-900 mb-6">Life at E-SPOT</h2>
+          <h2 className="text-2xl font-bold text-blue-900 mb-6">
+            Life at E-SPOT
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-blue-50 rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-blue-700 mb-2">Collaborative Teams</h3>
-              <p className="text-slate-700 text-sm">We foster a culture of open communication, cross-functional teamwork, and shared success. Every voice matters.</p>
+              <h3 className="font-semibold text-blue-700 mb-2">
+                Collaborative Teams
+              </h3>
+              <p className="text-slate-700 text-sm">
+                We foster a culture of open communication, cross-functional
+                teamwork, and shared success. Every voice matters.
+              </p>
             </div>
             <div className="bg-blue-50 rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-blue-700 mb-2">Growth Mindset</h3>
-              <p className="text-slate-700 text-sm">Continuous learning is at our core. We support upskilling, mentorship, and career advancement for all employees.</p>
+              <h3 className="font-semibold text-blue-700 mb-2">
+                Growth Mindset
+              </h3>
+              <p className="text-slate-700 text-sm">
+                Continuous learning is at our core. We support upskilling,
+                mentorship, and career advancement for all employees.
+              </p>
             </div>
             <div className="bg-blue-50 rounded-2xl p-6 shadow-sm">
-              <h3 className="font-semibold text-blue-700 mb-2">Diversity & Inclusion</h3>
-              <p className="text-slate-700 text-sm">Our team is global and diverse. We celebrate different backgrounds, perspectives, and ideas to drive innovation.</p>
+              <h3 className="font-semibold text-blue-700 mb-2">
+                Diversity & Inclusion
+              </h3>
+              <p className="text-slate-700 text-sm">
+                Our team is global and diverse. We celebrate different
+                backgrounds, perspectives, and ideas to drive innovation.
+              </p>
             </div>
           </div>
         </div>
@@ -264,25 +281,47 @@ export default function Careers() {
       {/* Employee Testimonials */}
       <section className="py-16 bg-slate-50 border-b border-slate-100">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-blue-900 mb-8">What Our Team Says</h2>
+          <h2 className="text-2xl font-bold text-blue-900 mb-8">
+            What Our Team Says
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col gap-3">
-              <p className="text-slate-700 italic">“E-SPOT gave me the freedom to innovate and the support to grow. The team spirit here is unmatched!”</p>
+              <p className="text-slate-700 italic">
+                “E-SPOT gave me the freedom to innovate and the support to grow.
+                The team spirit here is unmatched!”
+              </p>
               <div className="flex items-center gap-3 mt-2">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Elena" className="w-10 h-10 rounded-full object-cover" />
+                <img
+                  src="https://randomuser.me/api/portraits/women/44.jpg"
+                  alt="Elena"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
                 <div>
-                  <span className="font-bold text-blue-700">Elena Rodriguez</span>
-                  <span className="block text-xs text-slate-500">Full Stack Developer</span>
+                  <span className="font-bold text-blue-700">
+                    Elena Rodriguez
+                  </span>
+                  <span className="block text-xs text-slate-500">
+                    Full Stack Developer
+                  </span>
                 </div>
               </div>
             </div>
             <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col gap-3">
-              <p className="text-slate-700 italic">“From day one, I felt welcomed and empowered. The leadership truly cares about our well-being and success.”</p>
+              <p className="text-slate-700 italic">
+                “From day one, I felt welcomed and empowered. The leadership
+                truly cares about our well-being and success.”
+              </p>
               <div className="flex items-center gap-3 mt-2">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David" className="w-10 h-10 rounded-full object-cover" />
+                <img
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  alt="David"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
                 <div>
                   <span className="font-bold text-blue-700">David Kim</span>
-                  <span className="block text-xs text-slate-500">Product Designer</span>
+                  <span className="block text-xs text-slate-500">
+                    Product Designer
+                  </span>
                 </div>
               </div>
             </div>
@@ -293,22 +332,43 @@ export default function Careers() {
       {/* Application Process Timeline */}
       <section className="py-16 bg-white border-b border-slate-100">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-blue-900 mb-8">Our Hiring Process</h2>
+          <h2 className="text-2xl font-bold text-blue-900 mb-8">
+            Our Hiring Process
+          </h2>
           <ol className="relative border-l-2 border-blue-200 ml-4">
             <li className="mb-10 ml-6">
-              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">1</span>
+              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">
+                1
+              </span>
               <h3 className="font-semibold text-blue-700">Apply Online</h3>
-              <p className="text-slate-700 text-sm">Submit your application for any open role or send us your resume for future opportunities.</p>
+              <p className="text-slate-700 text-sm">
+                Submit your application for any open role or send us your resume
+                for future opportunities.
+              </p>
             </li>
             <li className="mb-10 ml-6">
-              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">2</span>
-              <h3 className="font-semibold text-blue-700">Screening & Interview</h3>
-              <p className="text-slate-700 text-sm">Our team reviews your profile and arranges interviews to get to know you and your skills.</p>
+              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">
+                2
+              </span>
+              <h3 className="font-semibold text-blue-700">
+                Screening & Interview
+              </h3>
+              <p className="text-slate-700 text-sm">
+                Our team reviews your profile and arranges interviews to get to
+                know you and your skills.
+              </p>
             </li>
             <li className="mb-10 ml-6">
-              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">3</span>
-              <h3 className="font-semibold text-blue-700">Offer & Onboarding</h3>
-              <p className="text-slate-700 text-sm">If selected, you’ll receive an offer and a personalized onboarding plan to help you succeed from day one.</p>
+              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full text-white font-bold">
+                3
+              </span>
+              <h3 className="font-semibold text-blue-700">
+                Offer & Onboarding
+              </h3>
+              <p className="text-slate-700 text-sm">
+                If selected, you’ll receive an offer and a personalized
+                onboarding plan to help you succeed from day one.
+              </p>
             </li>
           </ol>
         </div>
@@ -317,23 +377,45 @@ export default function Careers() {
       {/* FAQ Section */}
       <section className="py-16 bg-slate-50 border-b border-slate-100">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-blue-900 mb-8">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-blue-900 mb-8">
+            Frequently Asked Questions
+          </h2>
           <div className="space-y-6">
             <div>
-              <h3 className="font-semibold text-blue-700 mb-1">Can I apply for multiple positions?</h3>
-              <p className="text-slate-700 text-sm">Yes, you are welcome to apply for any roles that match your skills and interests.</p>
+              <h3 className="font-semibold text-blue-700 mb-1">
+                Can I apply for multiple positions?
+              </h3>
+              <p className="text-slate-700 text-sm">
+                Yes, you are welcome to apply for any roles that match your
+                skills and interests.
+              </p>
             </div>
             <div>
-              <h3 className="font-semibold text-blue-700 mb-1">Do you offer remote work options?</h3>
-              <p className="text-slate-700 text-sm">Many of our roles are hybrid or fully remote. Check the job description for details.</p>
+              <h3 className="font-semibold text-blue-700 mb-1">
+                Do you offer remote work options?
+              </h3>
+              <p className="text-slate-700 text-sm">
+                Many of our roles are hybrid or fully remote. Check the job
+                description for details.
+              </p>
             </div>
             <div>
-              <h3 className="font-semibold text-blue-700 mb-1">What is the interview process like?</h3>
-              <p className="text-slate-700 text-sm">Our process typically includes a screening call, technical or role-specific interviews, and a culture fit discussion.</p>
+              <h3 className="font-semibold text-blue-700 mb-1">
+                What is the interview process like?
+              </h3>
+              <p className="text-slate-700 text-sm">
+                Our process typically includes a screening call, technical or
+                role-specific interviews, and a culture fit discussion.
+              </p>
             </div>
             <div>
-              <h3 className="font-semibold text-blue-700 mb-1">How soon will I hear back after applying?</h3>
-              <p className="text-slate-700 text-sm">We aim to respond to all applicants within 1-2 weeks of receiving your application.</p>
+              <h3 className="font-semibold text-blue-700 mb-1">
+                How soon will I hear back after applying?
+              </h3>
+              <p className="text-slate-700 text-sm">
+                We aim to respond to all applicants within 1-2 weeks of
+                receiving your application.
+              </p>
             </div>
           </div>
         </div>
