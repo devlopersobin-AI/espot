@@ -16,6 +16,7 @@ import {
   Star,
   Mail,
   CheckCheck,
+  Settings,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import logoWithText from "../assets/espotclub_logo_withtext.png";
@@ -45,6 +46,8 @@ const DASHBOARD_CONFIG: Record<string, { title: string; nav: NavItem[] }> = {
     nav: [
       ...buildNav("/dashboard"),
       { name: "Membership", path: "/dashboard/membership", icon: Users },
+      { name: "Members CMS", path: "/dashboard/members", icon: Users },
+      { name: "Platform CMS", path: "/dashboard/settings", icon: Settings },
     ],
   },
   Member: {
@@ -52,78 +55,79 @@ const DASHBOARD_CONFIG: Record<string, { title: string; nav: NavItem[] }> = {
     nav: [
       ...buildNav("/dashboard/member"),
       { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+      { name: "My Rewards", path: "/dashboard/member/rewards", icon: Star },
     ],
   },
   Partner: {
     title: "Partner",
     nav: [
       ...buildNav("/dashboard/partner", "Company Profile"),
-      {
-        name: "Membership",
-        path: "/dashboard/partner/membership",
-        icon: Users,
-      },
+      { name: "Campaign Manager", path: "/dashboard/partner/campaigns", icon: LayoutDashboard },
+      { name: "Global Leads", path: "/dashboard/partner/leads", icon: UserPlus },
+      { name: "Brand Resources", path: "/dashboard/partner/assets", icon: Building2 },
     ],
   },
   Franchisee: {
     title: "Franchise",
     nav: [
       ...buildNav("/dashboard/franchise", "Franchise Profile"),
-      {
-        name: "Membership",
-        path: "/dashboard/franchise/membership",
-        icon: Users,
-      },
+      { name: "Regional Ops", path: "/dashboard/franchise/ops", icon: Settings },
+      { name: "Audits & Tasks", path: "/dashboard/franchise/audits", icon: CheckCheck },
+      { name: "Staff Management", path: "/dashboard/franchise/staff", icon: Users },
     ],
   },
   Entrepreneur: {
-    title: "Member",
+    title: "Entrepreneur",
     nav: [
       ...buildNav("/dashboard/member"),
-      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+      { name: "Venture Portfolio", path: "/dashboard/member/venture", icon: Briefcase },
+      { name: "Investor Matches", path: "/dashboard/member/investors", icon: Handshake },
+      { name: "Pitch Library", path: "/dashboard/member/pitch", icon: LayoutDashboard },
     ],
   },
   Leader: {
     title: "Leader",
     nav: [
       ...buildNav("/dashboard/leader"),
-      { name: "Membership", path: "/dashboard/leader/membership", icon: Users },
+      { name: "Board Insights", path: "/dashboard/leader/insights", icon: Briefcase },
+      { name: "Strategic Goals", path: "/dashboard/leader/goals", icon: Star },
+      { name: "Influence Graph", path: "/dashboard/leader/impact", icon: Users },
     ],
   },
   Scholar: {
     title: "Scholar",
     nav: [
       ...buildNav("/dashboard/scholar"),
-      {
-        name: "Membership",
-        path: "/dashboard/scholar/membership",
-        icon: Users,
-      },
+      { name: "Scholarships", path: "/dashboard/scholar/funding", icon: GraduationCap },
+      { name: "Research Nodes", path: "/dashboard/scholar/research", icon: LayoutDashboard },
+      { name: "Academic Mentors", path: "/dashboard/scholar/mentors", icon: Users },
     ],
   },
   Jobseeker: {
-    title: "Member",
+    title: "Jobseeker",
     nav: [
       ...buildNav("/dashboard/member"),
-      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+      { name: "Career Path", path: "/dashboard/member/career", icon: Briefcase },
+      { name: "Applications", path: "/dashboard/member/apps", icon: Mail },
+      { name: "Resume Score", path: "/dashboard/member/resume", icon: CheckCheck },
     ],
   },
   Trainer: {
-    title: "Member",
+    title: "Trainer",
     nav: [
       ...buildNav("/dashboard/member"),
-      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
+      { name: "Curriculum CMS", path: "/dashboard/member/courses", icon: GraduationCap },
+      { name: "Batch Schedules", path: "/dashboard/member/batches", icon: Calendar },
+      { name: "Student Analytics", path: "/dashboard/member/analytics", icon: Users },
     ],
   },
   Trainee: {
     title: "Trainee",
     nav: [
       ...buildNav("/dashboard/trainee"),
-      {
-        name: "Membership",
-        path: "/dashboard/trainee/membership",
-        icon: Users,
-      },
+      { name: "Learning Path", path: "/dashboard/trainee/path", icon: GraduationCap },
+      { name: "Certificates", path: "/dashboard/trainee/certs", icon: Star },
+      { name: "Active Modules", path: "/dashboard/trainee/modules", icon: LayoutDashboard },
     ],
   },
 };
@@ -397,6 +401,18 @@ export default function DashboardLayout() {
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
 
+  const [user] = useState(() => {
+    const stored = localStorage.getItem(`profile-data-${role}`);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  });
+
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   useEffect(() => {
@@ -418,187 +434,187 @@ export default function DashboardLayout() {
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_#f3f9ff_0%,_#f8fafc_38%,_#f8fafc_100%)] font-sans text-gray-900">
+    <div className="flex h-screen overflow-hidden bg-[#fafbfc] font-sans text-slate-900">
       {/* Sidebar */}
-      <aside className="w-72 bg-white/95 border-r border-slate-200/80 backdrop-blur-sm flex flex-col shrink-0 z-20 shadow-[0_10px_35px_-30px_rgba(15,23,42,0.9)]">
-        <div className="h-20 flex items-center px-6 border-b border-slate-200/80">
-          <img
-            src={logoWithText}
-            alt="E-Spot Club"
-            className="h-10 w-auto object-contain"
-          />
-        </div>
-
-        <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1 hide-scrollbar">
-          <Link
-            to="/"
-            className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50 transition-colors mb-2"
-          >
-            <Home className="w-4 h-4" />
-            Back to Home
+      <aside className="w-72 bg-white border-r border-slate-100 flex flex-col shrink-0 z-20 transition-all duration-300">
+        <div className="h-24 flex items-center px-10">
+          <Link to="/" className="flex items-center gap-4 group">
+             <div className="w-11 h-11 bg-slate-900 rounded-[1.2rem] flex items-center justify-center text-white text-xl font-black shadow-xl shadow-slate-200 group-hover:scale-105 transition-transform">
+                E
+             </div>
+             <div>
+                <h2 className="text-sm font-black text-slate-900 tracking-tight leading-none uppercase">E-Spot Club</h2>
+                <span className="text-[9px] font-black text-blue-500 tracking-[0.2em] uppercase mt-1 block">
+                   {role === "Admin" ? "Command Center" : 
+                    role === "Partner" ? "Partner Portal" : 
+                    role === "Franchisee" ? "Franchise Hub" : 
+                    "Global Network"}
+                </span>
+             </div>
           </Link>
-          <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.16em] mb-3 px-3 mt-4">
-            {config.title}
-          </div>
-          {config.nav.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={cn(
-                  "group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200",
-                  isActive
-                    ? "bg-gradient-to-r from-sky-50 to-cyan-50 text-slate-900 shadow-[inset_0_0_0_1px_rgba(56,189,248,0.35)]"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
-                )}
-              >
-                <item.icon
-                  className={cn(
-                    "w-4 h-4 transition-colors",
-                    isActive
-                      ? "text-sky-600"
-                      : "text-slate-400 group-hover:text-slate-600",
-                  )}
-                />
-                {item.name}
-              </Link>
-            );
-          })}
         </div>
 
-        <div className="p-4 border-t border-slate-200/80">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white font-semibold text-xs shadow-sm">
-              {initials}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-900 truncate">
-                Workspace User
-              </p>
-              <p className="text-xs text-slate-500 truncate">{roleLabel}</p>
-            </div>
+        <div className="flex-1 overflow-y-auto pt-4 pb-8 px-6 space-y-8 hide-scrollbar">
+          <div className="space-y-1.5">
+            <div className="px-4 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Platform</div>
+            {config.nav.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className={cn(
+                    "flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[13px] font-black transition-all duration-300 border border-transparent",
+                    isActive
+                      ? "bg-slate-900 text-white shadow-2xl shadow-slate-200 border-slate-800"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900",
+                  )}
+                >
+                  <item.icon className={cn("w-[18px] h-[18px]", isActive ? "text-blue-400" : "text-slate-300 group-hover:text-slate-500")} />
+                  <span className="tracking-tight">{item.name}</span>
+                  {isActive && <div className="ml-auto w-1.5 h-1.5 bg-blue-400 rounded-full" />}
+                </Link>
+              );
+            })}
           </div>
+
+          <div className="space-y-1.5">
+            <div className="px-4 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Support</div>
+             <Link to="#" className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[13px] font-black text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-all border border-transparent">
+                <MessageSquare className="w-[18px] h-[18px] text-slate-300" />
+                <span className="tracking-tight">Help Center</span>
+             </Link>
+             <Link to="/dashboard/settings" className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[13px] font-black text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-all border border-transparent">
+                <Settings className="w-[18px] h-[18px] text-slate-300" />
+                <span className="tracking-tight">Personalization</span>
+             </Link>
+          </div>
+        </div>
+
+        {/* User Card in Sidebar */}
+        <div className="p-6 border-t border-slate-50">
+           <div className="p-5 bg-slate-50 rounded-[2rem] border border-slate-100 flex items-center gap-4 group cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-xs font-black text-slate-300 shadow-sm">
+                 {initials}
+              </div>
+              <div className="flex-1 min-w-0">
+                 <p className="text-[11px] font-black text-slate-900 leading-none truncate mb-1">{user?.name || "Member"}</p>
+                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{roleLabel}</span>
+              </div>
+           </div>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Topbar */}
-        <header className="h-16 bg-white/90 border-b border-slate-200/80 backdrop-blur-sm flex items-center justify-between px-6 md:px-8 shrink-0 z-10">
-          <div>
-            <h1 className="text-lg font-bold text-slate-900 tracking-tight">
-              {currentPageName}
-            </h1>
-            <div className="text-xs text-slate-500">
-              {config.title} Dashboard
-            </div>
+        <header className="h-24 px-10 flex items-center justify-between shrink-0 z-10 border-b border-white">
+          <div className="flex items-center gap-8 flex-1">
+             <div className="relative w-full max-w-md group">
+               <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 group-focus-within:text-blue-500 transition-colors" />
+               <input
+                 type="text"
+                 placeholder="Explore global documents & assets..."
+                 className="w-full bg-white border border-slate-100 rounded-2xl pl-12 pr-6 py-3.5 text-xs font-bold text-slate-600 focus:outline-none focus:ring-4 focus:ring-blue-50/50 focus:border-blue-200 transition-all shadow-sm placeholder:text-slate-300"
+               />
+             </div>
           </div>
 
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className="relative w-48 md:w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search resources..."
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-14 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/25 focus:border-sky-500 transition-all"
-              />
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                <kbd className="hidden sm:inline-block border border-slate-200 rounded px-1.5 text-[10px] font-mono text-slate-400 bg-white">
-                  Ctrl
-                </kbd>
-                <kbd className="hidden sm:inline-block border border-slate-200 rounded px-1.5 text-[10px] font-mono text-slate-400 bg-white">
-                  K
-                </kbd>
-              </div>
-            </div>
-
-            <div className="relative" ref={notifRef}>
-              <button
-                onClick={() => setNotifOpen((o) => !o)}
-                className="relative p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-              >
-                <Bell className="w-5 h-5" />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-white px-1">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
-
-              {notifOpen && (
-                <div className="absolute right-0 top-full mt-2 w-[22rem] bg-white rounded-xl border border-slate-200 shadow-xl z-50 overflow-hidden">
-                  <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-                    <h3 className="text-sm font-bold text-slate-900">
-                      Notifications
-                    </h3>
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4">
+               <div className="relative">
+                  <button className="p-3.5 bg-white border border-slate-100 text-slate-400 hover:text-slate-900 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                     <Mail className="w-5 h-5" />
+                     <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-slate-900 text-white text-[9px] font-black rounded-lg border-2 border-white">
+                       2
+                     </span>
+                  </button>
+               </div>
+               
+               <div className="relative" ref={notifRef}>
+                  <button
+                    onClick={() => setNotifOpen((o) => !o)}
+                    className="p-3.5 bg-white border border-slate-100 text-slate-400 hover:text-slate-900 rounded-2xl shadow-sm hover:shadow-md transition-all"
+                  >
+                    <Bell className="w-5 h-5" />
                     {unreadCount > 0 && (
-                      <button
-                        onClick={markAllRead}
-                        className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700"
-                      >
-                        <CheckCheck className="w-3.5 h-3.5" /> Mark all read
-                      </button>
+                      <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-blue-600 text-white text-[9px] font-black rounded-lg border-2 border-white">
+                        {unreadCount}
+                      </span>
                     )}
-                  </div>
-                  <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
-                    {notifications.map((n) => {
-                      const Icon = n.icon;
-                      return (
-                        <button
-                          key={n.id}
-                          onClick={() => markRead(n.id)}
-                          className={cn(
-                            "w-full flex items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-slate-50",
-                            !n.read && "bg-blue-50/40",
-                          )}
-                        >
-                          <div
-                            className={cn(
-                              "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5",
-                              n.iconBg,
-                            )}
+                  </button>
+
+                  {notifOpen && (
+                    <div className="absolute right-0 top-full mt-4 w-96 bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl z-50 overflow-hidden ring-8 ring-slate-900/5">
+                      <div className="flex items-center justify-between px-8 py-6 border-b border-slate-50 bg-slate-50/50">
+                        <h3 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.2em]">
+                          Intelligence Feed
+                        </h3>
+                        {unreadCount > 0 && (
+                          <button
+                            onClick={markAllRead}
+                            className="text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase"
                           >
-                            <Icon className={cn("w-4 h-4", n.iconColor)} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p
+                            Dismiss All
+                          </button>
+                        )}
+                      </div>
+                      <div className="max-h-[30rem] overflow-y-auto divide-y divide-slate-50">
+                        {notifications.length > 0 ? notifications.map((n) => {
+                          const Icon = n.icon;
+                          return (
+                            <button
+                              key={n.id}
+                              onClick={() => markRead(n.id)}
                               className={cn(
-                                "text-sm leading-snug",
-                                n.read
-                                  ? "text-slate-700"
-                                  : "font-semibold text-slate-900",
+                                "w-full flex items-start gap-4 px-8 py-6 text-left transition-all hover:bg-slate-50",
+                                !n.read && "bg-blue-50/30",
                               )}
                             >
-                              {n.title}
-                            </p>
-                            <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">
-                              {n.body}
-                            </p>
-                            <p className="text-[11px] text-slate-400 mt-1">
-                              {n.time}
-                            </p>
+                              <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border", n.iconBg, "border-white shadow-sm")}>
+                                <Icon className={cn("w-4 h-4", n.iconColor)} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className={cn("text-xs leading-none mb-1.5 truncate", n.read ? "text-slate-500" : "font-black text-slate-900")}>
+                                  {n.title}
+                                </p>
+                                <p className="text-[11px] text-slate-400 font-medium leading-relaxed">{n.body}</p>
+                                <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest mt-3">{n.time}</p>
+                              </div>
+                            </button>
+                          );
+                        }) : (
+                          <div className="p-12 text-center">
+                             <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <Bell className="w-5 h-5 text-slate-200" />
+                             </div>
+                             <p className="text-xs font-black text-slate-300 uppercase tracking-widest">No Alerts Found</p>
                           </div>
-                          {!n.read && (
-                            <span className="w-2 h-2 bg-blue-500 rounded-full shrink-0 mt-2" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {notifications.length === 0 && (
-                    <div className="px-4 py-8 text-center text-sm text-slate-400">
-                      No notifications
+                        )}
+                      </div>
                     </div>
                   )}
-                </div>
-              )}
+               </div>
+            </div>
+
+            <div className="h-12 w-px bg-slate-100 mx-2" />
+
+            <div className="flex items-center gap-4">
+               <div className="hidden lg:block text-right">
+                  <p className="text-[13px] font-black text-slate-900 leading-none mb-1.5">{user?.name || "Elite Member"}</p>
+                  <span className="px-2.5 py-1 bg-slate-50 text-slate-400 border border-slate-100 rounded-lg text-[9px] font-black uppercase tracking-widest">
+                    ID: 29384-LX
+                  </span>
+               </div>
+               <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-[13px] font-black text-white shadow-xl shadow-slate-200">
+                  {initials}
+               </div>
             </div>
           </div>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-5 md:p-8">
+        <main className="flex-1 overflow-y-auto p-10 hide-scrollbar">
           <div className="max-w-7xl mx-auto">
             <Outlet />
           </div>

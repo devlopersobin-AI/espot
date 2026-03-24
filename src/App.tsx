@@ -40,6 +40,8 @@ import Outsource from "./pages/public/investment/Outsource";
 import Payment from "./pages/public/Payment"; // New import for Payment
 import TraineeCourseRegister from "./pages/public/TraineeCourseRegister";
 import InvestmentDetail from "./pages/public/InvestmentDetail";
+import WellbeingSponsorship from "./pages/public/WellbeingSponsorship";
+import Sponsorship from "./pages/public/Sponsorship";
 
 // Dashboard Pages
 import {
@@ -47,6 +49,9 @@ import {
   DashboardEvents,
   DashboardMembership,
   Profile,
+  MembersManagement,
+  CmsSettings,
+  RoleFeaturePage,
 } from "./pages/dashboard";
 
 // Domain pages
@@ -129,6 +134,9 @@ export default function App() {
             <Route path="entrepreneurship" element={<Entrepreneurship />} />
             <Route path="profiles" element={<Profiles />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="sponsorship" element={<Sponsorship />} />
+            <Route path="sponsorship/wellbeing" element={<WellbeingSponsorship />} />
+            <Route path="sponsorship/scholarship" element={<Scholar />} />
             <Route path="services" element={<Services />} />
             {/* Service Category Routes */}
             <Route path="services/:category" element={<ServiceCategory />} />
@@ -152,6 +160,8 @@ export default function App() {
             <Route index element={<DashboardHome />} />
             <Route path="events" element={<DashboardEvents />} />
             <Route path="membership" element={<DashboardMembership />} />
+            <Route path="members" element={<MembersManagement />} />
+            <Route path="settings" element={<CmsSettings />} />
             <Route path="profile" element={<Profile />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
@@ -188,6 +198,7 @@ export default function App() {
                   <Route path="profile" element={<Profile />} />
                   <Route path="events" element={<DashboardEvents />} />
                   <Route path="membership" element={<DashboardMembership />} />
+                  <Route path=":feature" element={<RoleFeaturePage />} />
                   <Route
                     path="*"
                     element={<Navigate to={`/dashboard/${slug}`} replace />}

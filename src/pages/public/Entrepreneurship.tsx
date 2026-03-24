@@ -1,635 +1,950 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Hero from "../../components/Hero";
-import SubNav from "../../components/SubNav";
-
-import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Rocket,
   Lightbulb,
   Target,
   Star,
   ArrowRight,
-  Briefcase,
-  Search,
-  Calendar,
   TrendingUp,
   Users,
   Banknote,
+  PlayCircle,
+  Heart,
+  X,
+  CheckCircle,
+  Zap,
+  Shield,
+  Crown,
+  Award,
+  BookOpen,
+  Cpu,
+  Database,
+  Smartphone,
+  Globe,
+  ChevronRight,
+  BarChart2,
+  Sparkles,
+  Clock,
+  DollarSign,
 } from "lucide-react";
 
-type Founder = {
+// ── Animation Variants ────────────────────────────────────────────────────────
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+const stagger = { visible: { transition: { staggerChildren: 0.12 } } };
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+type Startup = {
   id: number;
   name: string;
-  company: string;
-  industry: string;
-  rating: number;
-  image: string;
-  stage: "MVP" | "Seed" | "Growth";
+  founder: string;
+  category: string;
+  tier: "Silver" | "Gold" | "Crown";
+  raised: number;
+  goal: number;
+  description: string;
+  roi: string;
+  liked: boolean;
 };
 
+// ── Data ──────────────────────────────────────────────────────────────────────
+const STARTUPS: Startup[] = [
+  {
+    id: 1,
+    name: "EcoGrid AI",
+    founder: "Priya Sharma",
+    category: "Clean Energy",
+    tier: "Crown",
+    raised: 840000,
+    goal: 1000000,
+    description:
+      "AI-powered smart grid management for renewable energy distribution across South Asia.",
+    roi: "28–35% annually",
+    liked: false,
+  },
+  {
+    id: 2,
+    name: "MedSync Pro",
+    founder: "Rafael Torres",
+    category: "HealthTech",
+    tier: "Gold",
+    raised: 210000,
+    goal: 400000,
+    description:
+      "Real-time patient data synchronization between hospitals, clinics and pharmacies.",
+    roi: "18–24% annually",
+    liked: false,
+  },
+  {
+    id: 3,
+    name: "AgriBlock",
+    founder: "Amina Hassan",
+    category: "AgriTech",
+    tier: "Silver",
+    raised: 65000,
+    goal: 150000,
+    description:
+      "Blockchain supply chain traceability for farm-to-fork transparency in emerging markets.",
+    roi: "12–18% annually",
+    liked: false,
+  },
+  {
+    id: 4,
+    name: "SkillForge",
+    founder: "James Okubo",
+    category: "EdTech",
+    tier: "Gold",
+    raised: 320000,
+    goal: 500000,
+    description:
+      "AI-driven micro-learning platform that adapts to individual learner pace and career goals.",
+    roi: "20–28% annually",
+    liked: false,
+  },
+  {
+    id: 5,
+    name: "UrbanMobility X",
+    founder: "Leila Nazari",
+    category: "Transport",
+    tier: "Crown",
+    raised: 920000,
+    goal: 1200000,
+    description:
+      "Electric micro-mobility fleet management for last-mile logistics in congested urban centres.",
+    roi: "30–40% annually",
+    liked: false,
+  },
+  {
+    id: 6,
+    name: "FinReach",
+    founder: "David Mensah",
+    category: "FinTech",
+    tier: "Silver",
+    raised: 45000,
+    goal: 120000,
+    description:
+      "Digital banking onboarding solution for unbanked populations across Sub-Saharan Africa.",
+    roi: "15–22% annually",
+    liked: false,
+  },
+];
+
+// ── Helper Components ─────────────────────────────────────────────────────────
+const TierBadge = ({ tier }: { tier: "Silver" | "Gold" | "Crown" }) => {
+  const cfg = {
+    Silver: { bg: "bg-slate-100", text: "text-slate-600", icon: "🥈" },
+    Gold: { bg: "bg-amber-50", text: "text-amber-700", icon: "🥇" },
+    Crown: { bg: "bg-purple-50", text: "text-purple-700", icon: "👑" },
+  }[tier];
+  return (
+    <span
+      className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full ${cfg.bg} ${cfg.text}`}
+    >
+      {cfg.icon} {tier}
+    </span>
+  );
+};
+
+const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-xs font-bold uppercase tracking-[0.18em] text-orange-500 mb-2">
+    {children}
+  </p>
+);
+
+// ── Main Component ────────────────────────────────────────────────────────────
 export default function Entrepreneurship() {
-  const subNav = [
-    "Essentials",
-    "Startup Guides",
-    "Entrepreneurs",
-    "Deals",
-    "Projects",
-    "Events",
-    "Reviews",
-  ];
-  const [activeTab, setActiveTab] = useState(subNav[0]);
-  const [founderQuery, setFounderQuery] = useState("");
-  const [industryFilter, setIndustryFilter] = useState<
-    "All" | "Clean Energy" | "Healthcare Tech" | "AgriTech" | "FinTech"
-  >("All");
-  const [eventType, setEventType] = useState<
-    "All" | "Pitch Competition" | "Networking" | "Webinar" | "Hackathon"
-  >("All");
-  const navigate = useNavigate();
+  const [startups, setStartups] = useState<Startup[]>(STARTUPS);
+  const [activeModal, setActiveModal] = useState<Startup | null>(null);
 
-  const founders: Founder[] = [
-    {
-      id: 1,
-      name: "Alex Rivera",
-      company: "EcoTech Solutions",
-      industry: "Clean Energy",
-      rating: 4.9,
-      image: "https://picsum.photos/seed/e1/150/150",
-      stage: "Growth",
-    },
-    {
-      id: 2,
-      name: "Samantha Lee",
-      company: "HealthAI",
-      industry: "Healthcare Tech",
-      rating: 4.8,
-      image: "https://picsum.photos/seed/e2/150/150",
-      stage: "Seed",
-    },
-    {
-      id: 3,
-      name: "Marcus Johnson",
-      company: "UrbanFarm",
-      industry: "AgriTech",
-      rating: 4.7,
-      image: "https://picsum.photos/seed/e3/150/150",
-      stage: "MVP",
-    },
-    {
-      id: 4,
-      name: "Priya Patel",
-      company: "FinSmart",
-      industry: "FinTech",
-      rating: 4.9,
-      image: "https://picsum.photos/seed/e4/150/150",
-      stage: "Growth",
-    },
-  ];
-
-  const events = [
-    {
-      title: "E-SPOT Pitch Day 2026",
-      date: "Dec 05, 2026",
-      location: "San Francisco, CA",
-      type: "Pitch Competition",
-      image: "https://picsum.photos/seed/ev1/400/200",
-    },
-    {
-      title: "Founder Networking Mixer",
-      date: "Nov 20, 2026",
-      location: "New York, NY",
-      type: "Networking",
-      image: "https://picsum.photos/seed/ev2/400/200",
-    },
-    {
-      title: "Venture Capital Insights Panel",
-      date: "Nov 28, 2026",
-      location: "Online",
-      type: "Webinar",
-      image: "https://picsum.photos/seed/ev3/400/200",
-    },
-    {
-      title: "Startup Weekend Hackathon",
-      date: "Dec 12-14, 2026",
-      location: "London, UK",
-      type: "Hackathon",
-      image: "https://picsum.photos/seed/ev4/400/200",
-    },
-  ];
-
-  const filteredFounders = useMemo(() => {
-    return founders.filter((founder) => {
-      const byIndustry =
-        industryFilter === "All" || founder.industry === industryFilter;
-      const byQuery =
-        !founderQuery.trim() ||
-        `${founder.name} ${founder.company} ${founder.industry}`
-          .toLowerCase()
-          .includes(founderQuery.toLowerCase());
-      return byIndustry && byQuery;
-    });
-  }, [founders, founderQuery, industryFilter]);
-
-  const filteredEvents = useMemo(() => {
-    return events.filter(
-      (event) => eventType === "All" || event.type === eventType,
+  const toggleLike = (id: number) =>
+    setStartups((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, liked: !s.liked } : s)),
     );
-  }, [events, eventType]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <Hero
-        title="Entrepreneurship"
-        subtitle="Build stronger ventures with startup playbooks, deal access, investor visibility, and founder community support."
-        image="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80"
-        accentColor="text-yellow-400"
-        overlayOpacity={0.7}
-      />
+    <div className="flex flex-col min-h-screen bg-white text-slate-900 overflow-x-hidden">
+      {/* ── 1. HERO ───────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[92vh] flex items-center bg-slate-950 overflow-hidden">
+        {/* Gradient orbs */}
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/20 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.08)_0%,transparent_60%)]" />
+        {/* Grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
 
-      <SubNav
-        items={subNav}
-        active={activeTab}
-        setActive={setActiveTab}
-        color="text-gray-900 border-gray-900 bg-gray-50"
-      />
-
-      <div className="flex-1 py-8 sm:py-12 bg-slate-50">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-7">
-            <MetricCard
-              label="Active Founders"
-              value="9.4k"
-              note="Across 42 startup circles"
-              icon={<Users className="w-4.5 h-4.5" />}
-            />
-            <MetricCard
-              label="Capital Introduced"
-              value="$14.7M"
-              note="Last 12 months"
-              icon={<Banknote className="w-4.5 h-4.5" />}
-            />
-            <MetricCard
-              label="Mentor Sessions"
-              value="1,280"
-              note="Founder office hours"
-              icon={<Calendar className="w-4.5 h-4.5" />}
-            />
-            <MetricCard
-              label="Scale Readiness"
-              value="76%"
-              note="Median cohort score"
-              icon={<TrendingUp className="w-4.5 h-4.5" />}
-            />
-          </div>
-
-          {/* No modal logic needed; navigation used for application actions */}
-
-          {activeTab === "Essentials" && (
-            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-                <FeatureCard
-                  icon={<Lightbulb className="w-7 h-7 text-orange-600" />}
-                  title="Idea Validation"
-                  text="Run fast experiments before scaling spend and validate problem-solution fit."
-                />
-                <FeatureCard
-                  icon={<Target className="w-7 h-7 text-orange-600" />}
-                  title="Business Planning"
-                  text="Turn your concept into a fundable roadmap with realistic unit economics."
-                />
-                <FeatureCard
-                  icon={<Rocket className="w-7 h-7 text-orange-600" />}
-                  title="Go-to-Market"
-                  text="Design your first acquisition loops, messaging, and launch sequence."
-                />
-              </div>
-
-              <aside className="bg-gradient-to-br from-orange-950 via-orange-900 to-amber-900 text-white rounded-2xl p-6 border border-orange-800 shadow-sm h-fit">
-                <p className="text-xs uppercase tracking-[0.16em] text-orange-200 font-semibold">
-                  Founder Path
-                </p>
-                <h3 className="text-2xl font-semibold mt-2 tracking-tight">
-                  Launch in 90 Days
-                </h3>
-                <ul className="mt-4 space-y-2.5 text-sm text-orange-100/90">
-                  <li>Week 1-3: Problem interviews and market map</li>
-                  <li>Week 4-6: MVP definition and early demand tests</li>
-                  <li>Week 7-10: Revenue pilot and traction proof</li>
-                  <li>Week 11-13: Investor-ready narrative and pipeline</li>
-                </ul>
-                <button
-                  type="button"
-                  onClick={() =>
-                    navigate("/auth?mode=signup&role=Entrepreneur")
-                  }
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-orange-200"
+        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div initial="hidden" animate="visible" variants={stagger}>
+              <motion.div
+                variants={fadeUp}
+                className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6"
+              >
+                <Sparkles className="w-3.5 h-3.5" /> E-Spot Digital Ecosystem
+              </motion.div>
+              <motion.h1
+                variants={fadeUp}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6"
+              >
+                Turn Ideas Into{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+                  Funded Startups
+                </span>
+              </motion.h1>
+              <motion.p
+                variants={fadeUp}
+                className="text-lg text-slate-400 leading-relaxed mb-10 max-w-xl"
+              >
+                A complete digital ecosystem connecting entrepreneurs and
+                investors — from idea to funding in one seamless journey.
+              </motion.p>
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+                <Link
+                  to="/auth?mode=signup&role=Entrepreneur"
+                  className="px-7 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center gap-2 text-sm"
                 >
-                  Join as Entrepreneur <ArrowRight className="w-4 h-4" />
-                </button>
-              </aside>
-            </div>
-          )}
-
-          {activeTab === "Startup Guides" && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
-              {[
-                {
-                  title: "Lean Startup Roadmap",
-                  desc: "Use hypothesis-driven loops to avoid building features customers do not need.",
-                  icon: <Rocket className="w-5 h-5 text-orange-600" />,
-                },
-                {
-                  title: "Fundraising 101",
-                  desc: "Understand seed dynamics, valuation logic, and investor communication.",
-                  icon: <Briefcase className="w-5 h-5 text-orange-600" />,
-                },
-                {
-                  title: "MVP Build Strategy",
-                  desc: "Scope product with the smallest surface area to prove value quickly.",
-                  icon: <Lightbulb className="w-5 h-5 text-orange-600" />,
-                },
-                {
-                  title: "Growth Loops",
-                  desc: "Build compounding channels that drive low-cost user acquisition.",
-                  icon: <Target className="w-5 h-5 text-orange-600" />,
-                },
-              ].map((guide) => (
-                <article
-                  key={guide.title}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow"
+                  Get Started <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a
+                  href="#startups"
+                  className="px-7 py-3.5 bg-white/8 backdrop-blur border border-white/10 text-white font-semibold rounded-xl hover:bg-white/12 transition-all text-sm flex items-center gap-2"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center mb-3">
-                    {guide.icon}
+                  Explore Startups <ChevronRight className="w-4 h-4" />
+                </a>
+              </motion.div>
+              {/* Stats row */}
+              <motion.div
+                variants={fadeUp}
+                className="mt-14 grid grid-cols-3 gap-6 pt-10 border-t border-white/8"
+              >
+                {[
+                  ["9.4K+", "Active Founders"],
+                  ["$14.7M", "Capital Raised"],
+                  ["1,280", "Mentor Sessions"],
+                ].map(([v, l]) => (
+                  <div key={l}>
+                    <p className="text-2xl font-bold text-white">{v}</p>
+                    <p className="text-xs text-slate-500 mt-1">{l}</p>
                   </div>
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    {guide.title}
-                  </h3>
-                  <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                    {guide.desc}
-                  </p>
-                </article>
-              ))}
-            </div>
-          )}
-
-          {activeTab === "Entrepreneurs" && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4">
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <label className="md:col-span-2">
-                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400 block mb-1.5">
-                      Search founders
-                    </span>
-                    <div className="relative">
-                      <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                      <input
-                        value={founderQuery}
-                        onChange={(e) => setFounderQuery(e.target.value)}
-                        placeholder="Search by founder, company, industry"
-                        className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                      />
-                    </div>
-                  </label>
-                  <label>
-                    <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400 block mb-1.5">
-                      Industry
-                    </span>
-                    <select
-                      value={industryFilter}
-                      onChange={(e) =>
-                        setIndustryFilter(
-                          e.target.value as typeof industryFilter,
-                        )
-                      }
-                      className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    >
-                      <option value="All">All industries</option>
-                      <option value="Clean Energy">Clean Energy</option>
-                      <option value="Healthcare Tech">Healthcare Tech</option>
-                      <option value="AgriTech">AgriTech</option>
-                      <option value="FinTech">FinTech</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {filteredFounders.map((founder) => (
-                  <Link
-                    key={founder.id}
-                    to={`/profile/entrepreneur/${founder.id}`}
-                    className="bg-white border border-slate-200 rounded-2xl p-6 text-center hover:shadow-lg hover:border-orange-300 transition-all group"
-                  >
-                    <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4 ring-4 ring-slate-50 group-hover:ring-orange-50 transition-all">
-                      <img
-                        src={founder.image}
-                        alt={founder.name}
-                        className="w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                    <h3 className="font-semibold text-slate-900 group-hover:text-orange-600 transition-colors">
-                      {founder.name}
-                    </h3>
-                    <p className="text-sm text-orange-600">{founder.company}</p>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {founder.industry} | {founder.stage}
-                    </p>
-                    <div className="flex items-center justify-center text-sm font-medium text-amber-600 mt-2">
-                      <Star className="w-4 h-4 mr-1 fill-amber-500" />{" "}
-                      {founder.rating}
-                    </div>
-                  </Link>
                 ))}
-              </div>
-            </div>
-          )}
+              </motion.div>
+            </motion.div>
 
-          {activeTab === "Deals" && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {[
-                {
-                  company: "CloudWeb Services",
-                  offer: "$5,000 in Credits",
-                  category: "Hosting",
-                },
-                {
-                  company: "Stripe",
-                  offer: "Fee-free processing up to $50k",
-                  category: "Payments",
-                },
-                {
-                  company: "HubSpot",
-                  offer: "90% off for first year",
-                  category: "CRM",
-                },
-                {
-                  company: "Notion",
-                  offer: "6 months free Plus plan",
-                  category: "Productivity",
-                },
-                {
-                  company: "Zendesk",
-                  offer: "6 months free Suite",
-                  category: "Support",
-                },
-                {
-                  company: "Miro",
-                  offer: "$1,000 in credits",
-                  category: "Design",
-                },
-              ].map((deal) => (
-                <article
-                  key={deal.company}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 hover:border-orange-300 hover:shadow-md transition-all"
-                >
-                  <p className="text-xs uppercase tracking-wide font-semibold text-slate-400">
-                    {deal.category}
-                  </p>
-                  <h3 className="font-semibold text-slate-900 mt-1">
-                    {deal.company}
-                  </h3>
-                  <p className="text-emerald-700 font-semibold mt-2">
-                    {deal.offer}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      navigate("/auth?mode=signup&role=Entrepreneur")
-                    }
-                    className="mt-4 w-full py-2 bg-orange-50 text-orange-700 font-semibold rounded-lg hover:bg-orange-100 transition-colors text-sm"
-                  >
-                    Claim Deal
-                  </button>
-                </article>
-              ))}
-            </div>
-          )}
-
-          {activeTab === "Projects" && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto space-y-4">
-              {[
-                {
-                  title: "AI-Powered Legal Assistant",
-                  stage: "Prototype",
-                  lookingFor: ["CTO", "Beta Testers"],
-                  desc: "AI workflow for contract and legal document generation for small businesses.",
-                },
-                {
-                  title: "Sustainable Packaging Marketplace",
-                  stage: "Idea Phase",
-                  lookingFor: ["Co-founder", "Industry Experts"],
-                  desc: "B2B market connecting eco-friendly packaging suppliers and e-commerce brands.",
-                },
-                {
-                  title: "Remote Team Wellness App",
-                  stage: "MVP",
-                  lookingFor: ["Marketing Lead", "Investors"],
-                  desc: "Wellbeing platform with gamified mental and physical health programs.",
-                },
-              ].map((project) => (
-                <article
-                  key={project.title}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-                    <div>
-                      <h3 className="text-lg font-semibold text-slate-900">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm text-slate-500 mt-1">
-                        Stage: {project.stage}
-                      </p>
-                    </div>
-                    <button className="text-orange-700 font-semibold text-sm">
-                      View Details
-                    </button>
+            {/* Hero visual — connection diagram */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="hidden lg:flex items-center justify-center"
+            >
+              <div className="relative w-[420px] h-[420px]">
+                {/* Central node */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center shadow-2xl shadow-orange-500/40">
+                    <Rocket className="w-10 h-10 text-white" />
                   </div>
-                  <p className="text-sm text-slate-700 mt-3">{project.desc}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.lookingFor.map((role) => (
-                      <span
-                        key={role}
-                        className="bg-slate-100 text-slate-700 text-xs font-medium px-2 py-1 rounded"
+                </div>
+                {/* Orbit */}
+                <div
+                  className="absolute inset-0 rounded-full border border-white/8 animate-spin"
+                  style={{ animationDuration: "20s" }}
+                />
+                <div
+                  className="absolute inset-[40px] rounded-full border border-white/5 animate-spin"
+                  style={{
+                    animationDuration: "14s",
+                    animationDirection: "reverse",
+                  }}
+                />
+                {/* Satellite nodes */}
+                {[
+                  {
+                    icon: Users,
+                    label: "Members",
+                    angle: 0,
+                    color: "from-blue-500 to-blue-600",
+                  },
+                  {
+                    icon: Zap,
+                    label: "Entrepreneurs",
+                    angle: 120,
+                    color: "from-orange-500 to-amber-500",
+                  },
+                  {
+                    icon: Banknote,
+                    label: "Investors",
+                    angle: 240,
+                    color: "from-emerald-500 to-green-600",
+                  },
+                ].map(({ icon: Icon, label, angle, color }) => {
+                  const rad = (angle * Math.PI) / 180;
+                  const r = 160;
+                  const x = 210 + r * Math.sin(rad) - 36;
+                  const y = 210 - r * Math.cos(rad) - 36;
+                  return (
+                    <div
+                      key={label}
+                      className="absolute"
+                      style={{ left: x, top: y }}
+                    >
+                      <div
+                        className={`w-[72px] h-[72px] rounded-2xl bg-gradient-to-br ${color} flex flex-col items-center justify-center shadow-xl`}
                       >
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-
-          {activeTab === "Events" && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto space-y-4">
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <h2 className="text-xl font-semibold text-slate-900">
-                  Upcoming startup events
-                </h2>
-                <select
-                  value={eventType}
-                  onChange={(e) =>
-                    setEventType(e.target.value as typeof eventType)
-                  }
-                  className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                >
-                  <option value="All">All types</option>
-                  <option value="Pitch Competition">Pitch Competition</option>
-                  <option value="Networking">Networking</option>
-                  <option value="Webinar">Webinar</option>
-                  <option value="Hackathon">Hackathon</option>
-                </select>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {filteredEvents.map((event) => (
-                  <article
-                    key={event.title}
-                    className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
-                  >
-                    <div className="h-44 bg-slate-200 relative">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute top-3 right-3 bg-white/90 text-xs font-semibold px-2 py-1 rounded">
-                        {event.type}
+                        <Icon className="w-6 h-6 text-white mb-1" />
+                        <span className="text-[9px] font-bold text-white/90">
+                          {label}
+                        </span>
                       </div>
                     </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      <h3 className="font-semibold text-slate-900">
-                        {event.title}
-                      </h3>
-                      <p className="text-sm text-slate-500 mt-1">
-                        {event.date}
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. SOLUTION ──────────────────────────────────────────────────────── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={stagger}
+            >
+              <motion.div variants={fadeUp}>
+                <SectionLabel>The Solution</SectionLabel>
+              </motion.div>
+              <motion.h2
+                variants={fadeUp}
+                className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6"
+              >
+                One Integrated Ecosystem for Every Stage
+              </motion.h2>
+              <motion.p
+                variants={fadeUp}
+                className="text-slate-600 leading-relaxed mb-8"
+              >
+                E-Spot is not just a platform—it's a full ecosystem. We connect
+                Members, Entrepreneurs, and Investors inside a single
+                intelligent system, creating a structured path from idea to
+                funded reality.
+              </motion.p>
+              <motion.div variants={stagger} className="space-y-4">
+                {[
+                  "Structured journey with guided milestones from idea to funding",
+                  "3-way connection: Members → Entrepreneurs → Investors",
+                  "Live pitch events, mentorship sessions, and investment programs",
+                  "Transparent funding with real ROI tracking and investor levels",
+                ].map((item) => (
+                  <motion.div
+                    key={item}
+                    variants={fadeUp}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-slate-700">{item}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+            {/* Flow diagram */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 shadow-2xl"
+            >
+              <p className="text-xs font-bold uppercase tracking-widest text-orange-400 mb-8">
+                Platform Flow
+              </p>
+              {[
+                "Members Join & Learn",
+                "Build Startup Ideas",
+                "Pitch to Investors",
+                "Receive Funding",
+              ].map((step, i) => (
+                <div key={step} className="flex items-center gap-4">
+                  <div className="flex flex-col items-center">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+                      {i + 1}
+                    </div>
+                    {i < 3 && (
+                      <div className="w-px h-8 bg-orange-500/30 my-1" />
+                    )}
+                  </div>
+                  <div className="pb-2">
+                    <p className="text-white font-semibold text-sm">{step}</p>
+                    <p className="text-slate-500 text-xs mt-0.5">
+                      {
+                        [
+                          "Access tools, mentorship & community",
+                          "Validate ideas with built-in resources",
+                          "Live pitch competitions & matching",
+                          "Transparent investment with ROI tracking",
+                        ][i]
+                      }
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. PLATFORM JOURNEY ──────────────────────────────────────────────── */}
+      <section className="py-20 bg-gradient-to-br from-orange-950 via-slate-900 to-purple-950 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={stagger}
+            className="text-center mb-16"
+          >
+            <motion.div variants={fadeUp}>
+              <SectionLabel>Platform Journey</SectionLabel>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-3xl sm:text-4xl font-bold text-white"
+            >
+              Your Path from Idea to Funded
+            </motion.h2>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={stagger}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-0 relative"
+          >
+            {/* Connector line */}
+            <div className="hidden lg:block absolute top-[44px] left-[12.5%] w-3/4 h-px bg-gradient-to-r from-orange-500/0 via-orange-500/60 to-orange-500/0" />
+            {[
+              {
+                step: "Learn",
+                icon: BookOpen,
+                desc: "Access curated startup playbooks, live mentorship, and courses.",
+                color: "from-blue-500 to-blue-600",
+              },
+              {
+                step: "Build",
+                icon: Cpu,
+                desc: "Validate your idea with tools, community support and advisors.",
+                color: "from-orange-500 to-amber-500",
+              },
+              {
+                step: "Pitch",
+                icon: Rocket,
+                desc: "Present your startup in Shark Tank-style live pitch events.",
+                color: "from-purple-500 to-purple-600",
+              },
+              {
+                step: "Fund",
+                icon: Banknote,
+                desc: "Connect with Silver, Gold & Crown investors for real funding.",
+                color: "from-emerald-500 to-green-600",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.step}
+                variants={fadeUp}
+                className="flex flex-col items-center text-center px-4 relative z-10"
+              >
+                <div
+                  className={`w-[88px] h-[88px] rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center mb-6 shadow-xl shadow-black/30`}
+                >
+                  <item.icon className="w-8 h-8 text-white" />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+                  Step {i + 1}
+                </span>
+                <h3 className="text-xl font-bold text-white mb-3">
+                  {item.step}
+                </h3>
+                <p className="text-sm text-slate-400 leading-relaxed max-w-[200px]">
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── 5. FEATURES ──────────────────────────────────────────────────────── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="text-center mb-14"
+          >
+            <motion.div variants={fadeUp}>
+              <SectionLabel>Platform Features</SectionLabel>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-3xl sm:text-4xl font-bold text-slate-900"
+            >
+              Everything You Need to Succeed
+            </motion.h2>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={stagger}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          >
+            {[
+              {
+                icon: BarChart2,
+                title: "Startup Listings",
+                desc: "Browse and list startups with verified metrics, stage tracking, and public visibility.",
+                color: "text-blue-600",
+                bg: "bg-blue-50",
+              },
+              {
+                icon: PlayCircle,
+                title: "Pitch Video System",
+                desc: "Record and submit your 3-minute pitch video reviewed by real investors and mentors.",
+                color: "text-orange-600",
+                bg: "bg-orange-50",
+              },
+              {
+                icon: TrendingUp,
+                title: "Investment System",
+                desc: "Structured investment flow with milestone-based releases and transparent ROI reporting.",
+                color: "text-emerald-600",
+                bg: "bg-emerald-50",
+              },
+              {
+                icon: Crown,
+                title: "Investor Levels",
+                desc: "Silver, Gold & Crown tiers give investors access to exclusive deals and priority pitches.",
+                color: "text-purple-600",
+                bg: "bg-purple-50",
+              },
+              {
+                icon: Zap,
+                title: "Live Events & Programs",
+                desc: "Monthly pitch nights, hackathons, and mentorship programs broadcast live on-platform.",
+                color: "text-amber-600",
+                bg: "bg-amber-50",
+              },
+              {
+                icon: Shield,
+                title: "Verified Profiles",
+                desc: "KYC-backed founder and investor profiles ensure trust at every stage of the journey.",
+                color: "text-slate-600",
+                bg: "bg-slate-100",
+              },
+            ].map((feat) => (
+              <motion.div
+                key={feat.title}
+                variants={fadeUp}
+                whileHover={{
+                  y: -4,
+                  boxShadow: "0 20px 40px -12px rgba(0,0,0,0.12)",
+                }}
+                className="border border-slate-200 rounded-2xl p-7 bg-white transition-all cursor-default"
+              >
+                <div
+                  className={`w-12 h-12 rounded-xl ${feat.bg} flex items-center justify-center mb-5`}
+                >
+                  <feat.icon className={`w-6 h-6 ${feat.color}`} />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  {feat.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {feat.desc}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── 6 & 7. STARTUPS / PITCH CARDS ────────────────────────────────────── */}
+      <section
+        id="startups"
+        className="py-20 bg-slate-50 border-y border-slate-200"
+      >
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12"
+          >
+            <div>
+              <motion.div variants={fadeUp}>
+                <SectionLabel>Shark Tank Style</SectionLabel>
+              </motion.div>
+              <motion.h2
+                variants={fadeUp}
+                className="text-3xl sm:text-4xl font-bold text-slate-900"
+              >
+                Featured Startups
+              </motion.h2>
+            </div>
+            <motion.div variants={fadeUp}>
+              <Link
+                to="/auth?mode=signup&role=Entrepreneur"
+                className="text-sm font-semibold text-orange-600 flex items-center gap-1 hover:gap-2 transition-all"
+              >
+                Submit Your Startup <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={stagger}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          >
+            {startups.map((startup) => {
+              const pct = Math.round((startup.raised / startup.goal) * 100);
+              return (
+                <motion.div
+                  key={startup.id}
+                  variants={fadeUp}
+                  className="bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-all"
+                >
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <TierBadge tier={startup.tier} />
+                        <h3 className="text-lg font-bold text-slate-900 mt-2">
+                          {startup.name}
+                        </h3>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          by {startup.founder} · {startup.category}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed mb-5 flex-1">
+                      {startup.description}
+                    </p>
+                    {/* Funding bar */}
+                    <div className="mb-4">
+                      <div className="flex justify-between text-xs text-slate-500 mb-1.5">
+                        <span>
+                          ${(startup.raised / 1000).toFixed(0)}K raised
+                        </span>
+                        <span className="font-semibold text-orange-600">
+                          {pct}%
+                        </span>
+                      </div>
+                      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${pct}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, delay: 0.2 }}
+                          className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full"
+                        />
+                      </div>
+                      <p className="text-xs text-slate-400 mt-1">
+                        Goal: ${(startup.goal / 1000).toFixed(0)}K
                       </p>
-                      <p className="text-sm text-slate-600 mt-1">
-                        {event.location}
-                      </p>
+                    </div>
+                    {/* Actions */}
+                    <div className="flex gap-2 pt-3 border-t border-slate-100">
                       <button
-                        type="button"
-                        onClick={() =>
-                          navigate("/auth?mode=signup&role=Entrepreneur")
-                        }
-                        className="mt-4 w-full py-2 border border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition-colors text-sm"
+                        onClick={() => setActiveModal(startup)}
+                        className="flex-1 py-2 bg-orange-500 text-white text-xs font-bold rounded-lg hover:bg-orange-600 transition-all flex items-center justify-center gap-1.5"
                       >
-                        RSVP Now
+                        <PlayCircle className="w-3.5 h-3.5" /> Watch Pitch
+                      </button>
+                      <button
+                        onClick={() => toggleLike(startup.id)}
+                        className={`px-3 py-2 rounded-lg border text-xs font-bold transition-all ${startup.liked ? "bg-red-50 border-red-200 text-red-600" : "border-slate-200 text-slate-500 hover:border-red-200 hover:text-red-500"}`}
+                      >
+                        <Heart
+                          className={`w-3.5 h-3.5 ${startup.liked ? "fill-current" : ""}`}
+                        />
+                      </button>
+                      <button
+                        onClick={() => setActiveModal(startup)}
+                        className="flex-1 py-2 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <DollarSign className="w-3.5 h-3.5" /> Invest
                       </button>
                     </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
 
-          {activeTab === "Reviews" && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-4xl mx-auto space-y-5">
-              {[
-                {
-                  name: "Jessica Wong",
-                  role: "CEO, DataFlow",
-                  text: "The startup resources here directly helped us close our seed round in under 10 weeks.",
-                  rating: 5,
-                  image: "https://picsum.photos/seed/erev1/100/100",
-                },
-                {
-                  name: "Thomas Wright",
-                  role: "Co-founder, GreenBuild",
-                  text: "The community quality is outstanding. Mentors and founders are generous with practical feedback.",
-                  rating: 5,
-                  image: "https://picsum.photos/seed/erev2/100/100",
-                },
-              ].map((review) => (
-                <article
-                  key={review.name}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
+      {/* ── 7. STARTUP DETAIL MODAL ──────────────────────────────────────────── */}
+      <AnimatePresence>
+        {activeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setActiveModal(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl"
+            >
+              {/* Video placeholder */}
+              <div className="h-52 bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center relative">
+                <div className="absolute inset-0 bg-orange-500/10" />
+                <button className="w-16 h-16 bg-white/10 border border-white/20 backdrop-blur rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
+                  <PlayCircle className="w-8 h-8 text-white" />
+                </button>
+                <div className="absolute top-4 left-4">
+                  <TierBadge tier={activeModal.tier} />
+                </div>
+                <button
+                  onClick={() => setActiveModal(null)}
+                  className="absolute top-4 right-4 w-8 h-8 bg-white/10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-all"
                 >
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(review.rating)].map((_, idx) => (
-                      <Star
-                        key={idx}
-                        className="w-4.5 h-4.5 text-amber-400 fill-current"
-                      />
-                    ))}
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+              <div className="p-7">
+                <h2 className="text-2xl font-bold text-slate-900">
+                  {activeModal.name}
+                </h2>
+                <p className="text-sm text-slate-500 mt-1">
+                  Founded by {activeModal.founder} · {activeModal.category}
+                </p>
+                <p className="text-sm text-slate-700 leading-relaxed mt-4">
+                  {activeModal.description}
+                </p>
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="bg-orange-50 border border-orange-100 rounded-xl p-4">
+                    <p className="text-xs text-orange-600 font-semibold uppercase tracking-wider mb-1">
+                      Funding Required
+                    </p>
+                    <p className="text-xl font-bold text-slate-900">
+                      ${(activeModal.goal / 1000).toFixed(0)}K
+                    </p>
+                    <p className="text-xs text-slate-500 mt-1">
+                      {Math.round(
+                        (activeModal.raised / activeModal.goal) * 100,
+                      )}
+                      % funded
+                    </p>
                   </div>
-                  <p className="text-slate-700 italic mb-4">"{review.text}"</p>
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={review.image}
-                      alt={review.name}
-                      className="w-11 h-11 rounded-full object-cover"
-                      referrerPolicy="no-referrer"
+                  <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+                    <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">
+                      Expected ROI
+                    </p>
+                    <p className="text-xl font-bold text-slate-900">
+                      {activeModal.roi.split(" ")[0]}
+                    </p>
+                    <p className="text-xs text-slate-500 mt-1">annually</p>
+                  </div>
+                </div>
+                <Link
+                  to="/auth?mode=signup&role=Investor"
+                  onClick={() => setActiveModal(null)}
+                  className="mt-6 w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-orange-200 transition-all text-sm"
+                >
+                  <DollarSign className="w-4 h-4" /> Invest Now
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── 9. PROGRAMS & EVENTS ─────────────────────────────────────────────── */}
+      <section className="py-20 bg-slate-50 border-y border-slate-200">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="text-center mb-14"
+          >
+            <motion.div variants={fadeUp}>
+              <SectionLabel>Programs & Events</SectionLabel>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-3xl sm:text-4xl font-bold text-slate-900"
+            >
+              Built to Accelerate Growth
+            </motion.h2>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={stagger}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            {[
+              {
+                icon: Zap,
+                title: "Live Pitch Events",
+                desc: "Monthly Shark Tank-style pitch events where startups present live to a panel of verified investors.",
+                tag: "Live",
+                color: "text-orange-500 bg-orange-50 border-orange-100",
+                cta: "Join Next Event",
+              },
+              {
+                icon: BookOpen,
+                title: "Training & Mentorship",
+                desc: "Structured bootcamps and 1-on-1 mentorship sessions from experienced founders and business leaders.",
+                tag: "Ongoing",
+                color: "text-blue-500 bg-blue-50 border-blue-100",
+                cta: "Explore Programs",
+              },
+              {
+                icon: TrendingUp,
+                title: "Investment Programs",
+                desc: "Curated investment rounds with transparent terms, milestone-based disbursements and ROI tracking.",
+                tag: "Open",
+                color: "text-emerald-500 bg-emerald-50 border-emerald-100",
+                cta: "View Rounds",
+              },
+            ].map((prog) => (
+              <motion.div
+                key={prog.title}
+                variants={fadeUp}
+                whileHover={{
+                  y: -4,
+                  boxShadow: "0 20px 40px -12px rgba(0,0,0,0.1)",
+                }}
+                className={`border rounded-2xl p-7 bg-white transition-all cursor-pointer group`}
+              >
+                <div className="flex items-start justify-between mb-5">
+                  <div
+                    className={`w-12 h-12 rounded-xl ${prog.color.split(" ").slice(1).join(" ")} flex items-center justify-center`}
+                  >
+                    <prog.icon
+                      className={`w-6 h-6 ${prog.color.split(" ")[0]}`}
                     />
-                    <div>
-                      <p className="font-semibold text-slate-900">
-                        {review.name}
-                      </p>
-                      <p className="text-sm text-slate-500">{review.role}</p>
-                    </div>
                   </div>
-                </article>
+                  <span
+                    className={`text-xs font-bold px-2.5 py-1 rounded-full ${prog.color.split(" ").slice(1).join(" ")} ${prog.color.split(" ")[0]}`}
+                  >
+                    {prog.tag}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {prog.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                  {prog.desc}
+                </p>
+                <span className="text-sm font-semibold text-orange-600 flex items-center gap-1 group-hover:gap-2 transition-all">
+                  {prog.cta} <ArrowRight className="w-4 h-4" />
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── 14. FINAL CTA ────────────────────────────────────────────────────── */}
+      <section className="py-24 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.1)_0%,transparent_60%)]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+          >
+            <motion.div
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-8"
+            >
+              <Rocket className="w-3.5 h-3.5" /> Ready to Launch?
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+            >
+              Start Your Entrepreneurial
+              <br />
+              Journey Today
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="text-orange-100 text-lg max-w-2xl mx-auto mb-12"
+            >
+              Join thousands of founders and investors already building the
+              future on E-Spot. Your idea deserves funding.
+            </motion.p>
+            <motion.div
+              variants={fadeUp}
+              className="flex flex-wrap gap-4 justify-center"
+            >
+              <Link
+                to="/auth?mode=signup&role=Entrepreneur"
+                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:shadow-2xl hover:shadow-orange-900/40 transition-all text-sm flex items-center gap-2"
+              >
+                <Rocket className="w-4 h-4" /> Join Now
+              </Link>
+              <Link
+                to="/auth?mode=signup&role=Investor"
+                className="px-8 py-4 bg-white/10 backdrop-blur border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all text-sm flex items-center gap-2"
+              >
+                <Crown className="w-4 h-4" /> Become Investor
+              </Link>
+            </motion.div>
+            {/* Trust indicators */}
+            <motion.div
+              variants={fadeUp}
+              className="mt-14 flex flex-wrap items-center justify-center gap-6 text-orange-100/70"
+            >
+              {[
+                "No hidden fees",
+                "Verified startups",
+                "Transparent ROI",
+                "24/7 support",
+              ].map((t) => (
+                <span key={t} className="flex items-center gap-1.5 text-sm">
+                  <CheckCircle className="w-4 h-4 text-orange-200" /> {t}
+                </span>
               ))}
-            </div>
-          )}
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </section>
     </div>
-  );
-}
-
-function MetricCard({
-  label,
-  value,
-  note,
-  icon,
-}: {
-  label: string;
-  value: string;
-  note: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
-            {label}
-          </p>
-          <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 mt-2">
-            {value}
-          </p>
-        </div>
-        <span className="w-9 h-9 rounded-xl bg-orange-50 text-orange-700 flex items-center justify-center">
-          {icon}
-        </span>
-      </div>
-      <p className="text-xs sm:text-sm text-orange-700 font-medium mt-3">
-        {note}
-      </p>
-    </article>
-  );
-}
-
-function FeatureCard({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
-  return (
-    <article className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-      <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-4">
-        {icon}
-      </div>
-      <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-      <p className="text-sm text-slate-600 mt-2 leading-relaxed">{text}</p>
-    </article>
   );
 }

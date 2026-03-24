@@ -132,6 +132,105 @@ export default function Contact() {
         label="Support"
       />
 
+      {/* Company Values */}
+      <section className="py-12 bg-white border-b border-slate-100">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Our Commitment</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-cyan-50 rounded-2xl p-6 shadow-sm">
+              <h3 className="font-semibold text-cyan-700 mb-2">Responsive Support</h3>
+              <p className="text-slate-700 text-sm">We respond to every inquiry with care and urgency, ensuring you feel heard and valued.</p>
+            </div>
+            <div className="bg-cyan-50 rounded-2xl p-6 shadow-sm">
+              <h3 className="font-semibold text-cyan-700 mb-2">Expert Guidance</h3>
+              <p className="text-slate-700 text-sm">Our team is equipped to help with everything from partnerships to technical support and membership questions.</p>
+            </div>
+            <div className="bg-cyan-50 rounded-2xl p-6 shadow-sm">
+              <h3 className="font-semibold text-cyan-700 mb-2">Global Reach</h3>
+              <p className="text-slate-700 text-sm">We serve members and partners worldwide, adapting to your needs and time zones.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-12 bg-slate-50 border-b border-slate-100">
+        <div className="max-w-3xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">What People Say</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col gap-3">
+              <p className="text-slate-700 italic">“The E-SPOT support team resolved my issue within hours. I felt truly valued as a member.”</p>
+              <div className="flex items-center gap-3 mt-2">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Ravi" className="w-10 h-10 rounded-full object-cover" />
+                <div>
+                  <span className="font-bold text-cyan-700">Ravi Shrestha</span>
+                  <span className="block text-xs text-slate-500">Entrepreneur</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl p-6 shadow-md flex flex-col gap-3">
+              <p className="text-slate-700 italic">“Quick, friendly, and professional—E-SPOT’s team made our partnership seamless.”</p>
+              <div className="flex items-center gap-3 mt-2">
+                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Maya" className="w-10 h-10 rounded-full object-cover" />
+                <div>
+                  <span className="font-bold text-cyan-700">Maya Gurung</span>
+                  <span className="block text-xs text-slate-500">Partner</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Process Timeline */}
+      <section className="py-12 bg-white border-b border-slate-100">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">How We Help</h2>
+          <ol className="relative border-l-2 border-cyan-200 ml-4">
+            <li className="mb-10 ml-6">
+              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-cyan-600 rounded-full text-white font-bold">1</span>
+              <h3 className="font-semibold text-cyan-700">Submit Your Request</h3>
+              <p className="text-slate-700 text-sm">Fill out the contact form or email us directly with your question or need.</p>
+            </li>
+            <li className="mb-10 ml-6">
+              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-cyan-600 rounded-full text-white font-bold">2</span>
+              <h3 className="font-semibold text-cyan-700">We Review & Respond</h3>
+              <p className="text-slate-700 text-sm">Our team reviews your message and connects you with the right expert or department.</p>
+            </li>
+            <li className="mb-10 ml-6">
+              <span className="absolute -left-4 flex items-center justify-center w-8 h-8 bg-cyan-600 rounded-full text-white font-bold">3</span>
+              <h3 className="font-semibold text-cyan-700">Resolution & Follow-up</h3>
+              <p className="text-slate-700 text-sm">We resolve your issue or answer your question, and follow up to ensure satisfaction.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-12 bg-slate-50 border-b border-slate-100">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-semibold text-cyan-700 mb-1">How quickly will I get a response?</h3>
+              <p className="text-slate-700 text-sm">We aim to respond to all inquiries within 24 hours during business days.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-cyan-700 mb-1">Can I visit your office?</h3>
+              <p className="text-slate-700 text-sm">Yes, please schedule an appointment in advance so we can best assist you.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-cyan-700 mb-1">Who should I contact for partnerships?</h3>
+              <p className="text-slate-700 text-sm">Use the form and select 'Partnership' as your subject, or email info@espot.com directly.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-cyan-700 mb-1">Is my information kept private?</h3>
+              <p className="text-slate-700 text-sm">Absolutely. We never share your details without your consent. See our Privacy Policy for more.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="max-w-[1600px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
           {[

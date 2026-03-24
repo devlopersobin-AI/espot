@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Hero from "../../components/Hero";
 import SubNav from "../../components/SubNav";
+import { cn } from "../../lib/utils";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,6 +15,8 @@ import {
   Search,
   Calendar,
   TrendingUp,
+  Trophy,
+  Medal
 } from "lucide-react";
 
 type Leader = {
@@ -33,6 +36,7 @@ export default function Leadership() {
     "Skills",
     "Styles",
     "Levels",
+    "Global Rankings",
     "Top Leaders",
     "Workshops",
     "Reviews",
@@ -363,6 +367,187 @@ export default function Leadership() {
             </div>
           )}
 
+          {activeTab === "Global Rankings" && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto space-y-10">
+              <div className="text-center space-y-3 mb-12">
+                 <h2 className="text-3xl font-black text-slate-900 tracking-tight uppercase">2026 Global Leadership Leaderboard</h2>
+                 <p className="text-slate-500 font-medium max-w-2xl mx-auto">
+                    The platform's elite ranking of modern operators, categorized by skill achievement, 
+                    initiative impact, and mentorship KPI mastery.
+                 </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6">
+                 {[
+                   { name: "Julian Alcaraz", role: "Diamond Ambassador", points: "2,490 pts", kpi: "98%", rank: 1, expertise: "Strategic Vision", img: "JA", color: "bg-amber-50 text-amber-500", award: Trophy, awardColor: "text-amber-500" },
+                   { name: "Sofia Zhang", role: "Platinum Catalyst", points: "2,150 pts", kpi: "94%", rank: 2, expertise: "Change Management", img: "SZ", color: "bg-slate-50 text-slate-400", award: Medal, awardColor: "text-slate-400" },
+                   { name: "Alexander Thorne", role: "Gold Strategist", points: "1,980 pts", kpi: "89%", rank: 3, expertise: "Agile Leadership", img: "AT", color: "bg-orange-50 text-orange-500", award: Medal, awardColor: "text-orange-400" },
+                   { name: "Marcus Chen", role: "Elite Member", points: "1,740 pts", kpi: "82%", rank: 4, expertise: "Team Building", img: "MC", color: "bg-blue-50 text-blue-500" },
+                   { name: "Elena Rodriguez", role: "Operations Lead", points: "1,550 pts", kpi: "78%", rank: 5, expertise: "Strategic Vision", img: "ER", color: "bg-indigo-50 text-indigo-500" },
+                 ].map((leader, i) => (
+                    <div key={i} className="bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-xl shadow-slate-200/40 hover:scale-[1.01] transition-transform duration-500 group relative overflow-hidden">
+                       {leader.rank <= 3 && (
+                          <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                             <leader.award className={cn("w-16 h-16", leader.awardColor)} />
+                          </div>
+                       )}
+                       <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+                          <div className="flex items-center gap-8">
+                             <div className="relative">
+                                <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center font-black text-xl shadow-inner", leader.color)}>
+                                   {leader.img}
+                                </div>
+                                <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-white rounded-2xl flex items-center justify-center border border-slate-100 font-black text-slate-900 shadow-xl">
+                                   #{leader.rank}
+                                </div>
+                             </div>
+                             <div>
+                                <h3 className="text-xl font-black text-slate-900 tracking-tight leading-none mb-2 group-hover:text-blue-600 transition-colors uppercase">{leader.name}</h3>
+                                <div className="flex items-center gap-4">
+                                   <p className="text-[12px] font-bold text-slate-400 uppercase tracking-widest">{leader.role}</p>
+                                   <div className="h-4 w-px bg-slate-100" />
+                                   <p className="text-[12px] font-black text-indigo-500 uppercase tracking-widest">{leader.expertise}</p>
+                                </div>
+                             </div>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 w-full md:w-auto">
+                             <div className="space-y-2">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Skill Mastery KPI</p>
+                                <div className="flex items-center gap-3">
+                                   <div className="h-2 w-24 bg-slate-50 border border-slate-100 rounded-full overflow-hidden">
+                                      <div className="h-full bg-blue-600 transition-all duration-1000" style={{ width: leader.kpi }} />
+                                   </div>
+                                   <span className="text-sm font-black text-slate-900">{leader.kpi}</span>
+                                </div>
+                             </div>
+                             <div className="text-right md:text-left space-y-1">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Influence</p>
+                                <p className="text-lg font-black text-slate-900">{leader.points}</p>
+                             </div>
+                             <div className="hidden md:flex flex-col items-end justify-center">
+                                <Link
+                                  to={`/auth?mode=signup&role=Leader`}
+                                  className="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-xl shadow-slate-200 active:scale-95"
+                                >
+                                   Challenge Peer
+                                </Link>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 ))}
+               </div>
+
+               {/* ─── How Rankings Work ───────────────────── */}
+               <div className="space-y-12 py-4">
+                  <div className="text-center space-y-3">
+                     <div className="inline-flex items-center gap-3 px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-full mb-4">
+                        <TrendingUp className="w-4 h-4 text-indigo-600" />
+                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Ranking System Explained</span>
+                     </div>
+                     <h2 className="text-3xl font-black text-slate-900 tracking-tight uppercase">How Do You Rank Up?</h2>
+                     <p className="text-slate-500 font-medium max-w-2xl mx-auto">
+                        Your global rank is a composite of four live KPI pillars, updated monthly. 
+                        Every action on the platform contributes to your score.
+                     </p>
+                  </div>
+
+                  {/* KPI Pillars */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                     {[
+                       { 
+                         label: "Skill Achievement", weight: "30%", 
+                         desc: "Complete platform certifications, attend workshops, and pass skill assessments to accumulate points.",
+                         actions: ["Earn certifications (+50 pts each)", "Pass skill benchmarks (+30 pts)", "Complete leadership modules (+20 pts)"],
+                         color: "border-blue-100 bg-blue-50", tag: "text-blue-600 bg-blue-100", num: "01"
+                       },
+                       { 
+                         label: "Mentorship Yield", weight: "25%", 
+                         desc: "Guide other members, host sessions, and receive verified endorsements from your mentees.",
+                         actions: ["Host a mentoring session (+40 pts)", "Receive a mentee endorsement (+25 pts)", "Complete a mentor pathway (+60 pts)"],
+                         color: "border-emerald-100 bg-emerald-50", tag: "text-emerald-600 bg-emerald-100", num: "02"
+                       },
+                       { 
+                         label: "Initiative Impact", weight: "25%", 
+                         desc: "Create and lead ecosystem initiatives, campaigns, events, or community projects that drive measurable outcomes.",
+                         actions: ["Launch a platform initiative (+80 pts)", "Drive an event with 50+ attendees (+60 pts)", "Publish a network challenge (+35 pts)"],
+                         color: "border-amber-100 bg-amber-50", tag: "text-amber-600 bg-amber-100", num: "03"
+                       },
+                       { 
+                         label: "Ecosystem Karma", weight: "20%", 
+                         desc: "How you show up matters. Ratings from peers, network votes, and community contributions shape your karma score.",
+                         actions: ["Receive 5-star peer review (+15 pts)", "Community upvote on contribution (+5 pts)", "Featured in ecosystem digest (+45 pts)"],
+                         color: "border-indigo-100 bg-indigo-50", tag: "text-indigo-600 bg-indigo-100", num: "04"
+                       },
+                     ].map((pillar, i) => (
+                       <div key={i} className={`rounded-[2rem] border p-8 ${pillar.color} relative overflow-hidden group hover:shadow-xl transition-all duration-300`}>
+                          <div className="absolute top-6 right-6 text-6xl font-black text-black/5 group-hover:text-black/10 transition-all">{pillar.num}</div>
+                          <div className="space-y-4">
+                             <div className="flex items-center justify-between">
+                                <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">{pillar.label}</h3>
+                                <span className={`text-[10px] font-black px-3 py-1 rounded-lg uppercase tracking-widest ${pillar.tag}`}>{pillar.weight}</span>
+                             </div>
+                             <p className="text-sm text-slate-600 font-medium leading-relaxed">{pillar.desc}</p>
+                             <div className="space-y-2 pt-2 border-t border-black/5">
+                                {pillar.actions.map((action, j) => (
+                                   <div key={j} className="flex items-center gap-3 text-xs font-bold text-slate-700">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                                      {action}
+                                   </div>
+                                ))}
+                             </div>
+                          </div>
+                       </div>
+                     ))}
+                  </div>
+
+                  {/* Rank Progression Tiers */}
+                  <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-8">
+                     <div className="text-center space-y-2">
+                        <h3 className="text-2xl font-black uppercase tracking-tight">5-Tier Rank Progression</h3>
+                        <p className="text-slate-400 font-medium text-sm">Reach higher tiers to unlock exclusive platform privileges, event access, and ecosystem influence.</p>
+                     </div>
+                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
+                        {[
+                          { name: "Observer", pts: "0–499 pts", perks: "Basic profile & events", color: "bg-slate-700 border-slate-600" },
+                          { name: "Initiate", pts: "500–999 pts", perks: "Mentor access & voting rights", color: "bg-blue-900 border-blue-700" },
+                          { name: "Catalyst", pts: "1,000–1,749 pts", perks: "Feature on Top Leaders + initiatives", color: "bg-indigo-900 border-indigo-700" },
+                          { name: "Strategist", pts: "1,750–2,299 pts", perks: "Summit invites & board reports", color: "bg-purple-900 border-purple-700" },
+                          { name: "Diamond Operator", pts: "2,300+ pts", perks: "Full ecosystem governance rights", color: "bg-amber-900 border-amber-600" },
+                        ].map((tier, i) => (
+                           <div key={i} className={`rounded-2xl border p-5 ${tier.color} space-y-3`}>
+                              <div className="text-[9px] font-black text-white/50 uppercase tracking-widest">{`Tier ${i + 1}`}</div>
+                              <div className="text-sm font-black text-white uppercase leading-tight">{tier.name}</div>
+                              <div className="text-[10px] font-bold text-white/60">{tier.pts}</div>
+                              <div className="text-[10px] text-white/70 font-medium leading-relaxed border-t border-white/10 pt-3">{tier.perks}</div>
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+               </div>
+
+               {/* CTA */}
+               <div className="bg-indigo-50 rounded-[2.5rem] p-12 border border-indigo-100 flex flex-col items-center text-center space-y-6">
+                  <div className="p-4 bg-white rounded-3xl shadow-xl shadow-indigo-200/40">
+                     <Target className="w-8 h-8 text-indigo-600" />
+                  </div>
+                  <div className="space-y-2">
+                     <h3 className="text-2xl font-black text-slate-900 uppercase">Benchmark Your Leadership</h3>
+                     <p className="text-slate-500 font-medium max-w-xl">
+                        Join the global network to track your growth across 12 leadership KPIs 
+                        and unlock your rank in the 2026 cohort.
+                     </p>
+                  </div>
+                  <Link
+                    to="/auth?mode=signup&role=Leader"
+                    className="px-10 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-indigo-200 transition-all active:scale-95"
+                  >
+                     Get Ranked Today
+                  </Link>
+               </div>
+            </div>
+          )}
           {activeTab === "Top Leaders" && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4">
               <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
@@ -397,9 +582,7 @@ export default function Leadership() {
                       <option value="All">All expertise</option>
                       <option value="Strategic Vision">Strategic Vision</option>
                       <option value="Agile Leadership">Agile Leadership</option>
-                      <option value="Change Management">
-                        Change Management
-                      </option>
+                      <option value="Change Management">Change Management</option>
                       <option value="Team Building">Team Building</option>
                     </select>
                   </label>
