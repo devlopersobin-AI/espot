@@ -102,12 +102,24 @@ export default function Membership() {
     return ["Bronze"];
   });
   
-  const togglePlan = (planName: string) => {
-    setSelectedPlans(prev => 
-      prev.includes(planName) 
-        ? prev.filter(p => p !== planName) 
-        : [...prev, planName]
-    );
+  const [activeTier, setActiveTier] = useState<MembershipTier>(() => {
+    const stored = localStorage.getItem(`active-membership-tier-${role}`);
+    return (stored as MembershipTier) || "Bronze";
+  });
+
+  const togglePlan = (planName: string, tierName: MembershipTier) => {
+    if (activeTier !== tierName) {
+      // Switching tiers: clear old sub-packages and set new tier
+      setActiveTier(tierName);
+      setSelectedPlans([planName]);
+    } else {
+      // Same tier: toggle sub-package
+      setSelectedPlans(prev => 
+        prev.includes(planName) 
+          ? prev.filter(p => p !== planName) 
+          : [...prev, planName]
+      );
+    }
   };
   const [tierSettings, setTierSettings] = useState<TierSetting[]>(() => {
     const raw = localStorage.getItem("membership-tier-settings");
@@ -142,7 +154,8 @@ export default function Membership() {
 
   useEffect(() => {
     localStorage.setItem(planStorageKey, JSON.stringify(selectedPlans));
-  }, [planStorageKey, selectedPlans]);
+    localStorage.setItem(`active-membership-tier-${role}`, activeTier);
+  }, [planStorageKey, selectedPlans, activeTier, role]);
 
   useEffect(() => {
     if (isAdmin) {
@@ -398,12 +411,46 @@ export default function Membership() {
 
       {!isAdmin && (
         <>
-          <p className="text-center text-sm text-slate-500 -mt-6">
-            Selected {selectedPlans.length === 1 ? "plan" : "plans"}:{" "}
-            <span className="font-semibold text-slate-900">
-              {selectedPlans.length > 0 ? selectedPlans.join(", ") : "None"}
-            </span>
-          </p>
+          <div className="max-w-4xl mx-auto px-4 mb-12">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+              <div>
+                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Current Selection</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-black text-slate-900">{activeTier} Tier</span>
+                  {selectedPlans.length > 0 && (
+                    <span className="text-slate-400">•</span>
+                  )}
+                  <span className="text-slate-600 font-medium">
+                    {selectedPlans.length} {selectedPlans.length === 1 ? 'Package' : 'Packages'} selected
+                  </span>
+                </div>
+                {selectedPlans.length > 0 && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    {selectedPlans.join(", ")}
+                  </p>
+                )}
+              </div>
+              <div className="text-right">
+                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Total {billingCycle === "annual" ? "Annual" : "Monthly"}</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-black text-blue-600">
+                    ${plans.find(p => p.name === activeTier)?.price || 0}
+                  </span>
+                  <span className="text-sm font-bold text-slate-400">
+                    /{billingCycle === "annual" ? "yr" : "mo"}
+                  </span>
+                </div>
+              </div>
+              <button 
+                onClick={() => {
+                  alert("Membership updated successfully! Your profile has been updated.");
+                }}
+                className="px-8 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+              >
+                Confirm Selection
+              </button>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
           {plans.map((plan) => {
@@ -487,33 +534,51 @@ export default function Membership() {
 
                 {canUpdateMembership ? (
                   <div className="space-y-3 mt-auto pt-6 border-t border-gray-100">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Select Package(s)</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+                      {plan.name === "Bronze" ? "Next Step" : "Select Package(s)"}
+                    </p>
                     <div className="grid grid-cols-1 gap-2">
-                      {plan.subPackages.map((sp) => {
-                        const isSelected = selectedPlans.includes(sp.name);
-                        return (
-                          <button
-                            key={sp.name}
-                            onClick={() => togglePlan(sp.name)}
-                            className={`group w-full p-3 rounded-xl text-left transition-all duration-300 border-2 relative overflow-hidden ${
-                              isSelected
-                                ? `${buttonColors[plan.color]} border-transparent text-white shadow-md`
-                                : "bg-gray-50 border-gray-100 text-gray-700 hover:border-gray-200 hover:bg-white"
-                            }`}
-                          >
-                            <div className="relative z-10 flex items-center justify-between">
-                              <div className="flex flex-col">
-                                <span className="text-xs font-bold leading-tight">{sp.name}</span>
-                                <span className={`text-[10px] ${isSelected ? "text-white/80" : "text-gray-400"} font-medium mt-0.5`}>{sp.desc}</span>
+                      {plan.name === "Bronze" ? (
+                        <button
+                          onClick={() => {
+                            setActiveTier("Silver");
+                            setSelectedPlans(["Silver Equestrian Package"]);
+                          }}
+                          className="w-full p-4 rounded-xl bg-gradient-to-r from-slate-800 to-slate-900 text-white flex items-center justify-between group shadow-lg hover:shadow-slate-200 transition-all font-bold"
+                        >
+                          <div className="flex flex-col text-left">
+                            <span className="text-sm">Upgrade to Silver</span>
+                            <span className="text-[10px] text-white/60">Unlock Premium Features</span>
+                          </div>
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                      ) : (
+                        plan.subPackages.map((sp) => {
+                          const isSelected = selectedPlans.includes(sp.name);
+                          return (
+                            <button
+                              key={sp.name}
+                              onClick={() => togglePlan(sp.name, plan.name as MembershipTier)}
+                              className={`group w-full p-3 rounded-xl text-left transition-all duration-300 border-2 relative overflow-hidden ${
+                                isSelected
+                                  ? `${buttonColors[plan.color]} border-transparent text-white shadow-md`
+                                  : "bg-gray-50 border-gray-100 text-gray-700 hover:border-gray-200 hover:bg-white"
+                              }`}
+                            >
+                              <div className="relative z-10 flex items-center justify-between">
+                                <div className="flex flex-col">
+                                  <span className="text-xs font-bold leading-tight">{sp.name}</span>
+                                  <span className={`text-[10px] ${isSelected ? "text-white/80" : "text-gray-400"} font-medium mt-0.5`}>{sp.desc}</span>
+                                </div>
+                                {isSelected && <Check className="w-4 h-4 text-white" />}
                               </div>
-                              {isSelected && <Check className="w-4 h-4 text-white" />}
-                            </div>
-                            {isSelected && (
-                              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            )}
-                          </button>
-                        );
-                      })}
+                              {isSelected && (
+                                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                              )}
+                            </button>
+                          );
+                        })
+                      )}
                     </div>
                   </div>
                 ) : (

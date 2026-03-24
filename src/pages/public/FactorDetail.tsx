@@ -13,10 +13,6 @@ const FACTOR_DESCRIPTIONS: Record<string, { title: string; description: string }
     description:
       "Knowledge empowers you to make informed decisions, innovate, and adapt to change. Lifelong learning is essential for personal and professional growth.",
   },
-  prosperity: {
-    title: "Prosperity",
-    description: "Prosperity is more than just wealth; it's the flourishing of your personal and professional life. It's about achieving your goals and creating a legacy.",
-  },
   // Add more factor descriptions here...
 };
 

@@ -23,15 +23,20 @@ export default function Profile() {
   const canEditProfile = hasPermission(role, "profile.update");
   const storageKey = `profile-data-${role}`;
   const planStorageKey = `selected-membership-plan-${role}`;
+  const [activeTier] = useState<string>(() => {
+    const stored = localStorage.getItem(`active-membership-tier-${role}`);
+    return stored || "Bronze";
+  });
+
   const [selectedPlans] = useState<string[]>(() => {
     const stored = localStorage.getItem(planStorageKey);
     const valid = [
-      "Bronze", "Bronze Networking Package", "Bronze Community Package",
-      "Silver", "Silver Equestrian Package", "Silver Events Package", "Silver Beauty & Spa Package", "Silver Wellness & Fitness Package",
-      "Gold", "Gold Mentorship Package", "Gold Premium Resources", "Gold Strategy Session",
-      "Diamond", "Diamond Executive Coaching", "Diamond VIP Global Access", "Diamond Private Equity",
-      "Platinum", "Platinum Concierge Plus", "Platinum Lifestyle Events", "Platinum Global Forums",
-      "Crown", "Crown Board Council", "Crown Lifetime Estate", "Crown Ultimate Legacy"
+      "Bronze Networking Package", "Bronze Community Package",
+      "Silver Equestrian Package", "Silver Events Package", "Silver Beauty & Spa Package", "Silver Wellness & Fitness Package",
+      "Gold Mentorship Package", "Gold Premium Resources", "Gold Strategy Session",
+      "Diamond Executive Coaching", "Diamond VIP Global Access", "Diamond Private Equity",
+      "Platinum Concierge Plus", "Platinum Lifestyle Events", "Platinum Global Forums",
+      "Crown Board Council", "Crown Lifetime Estate", "Crown Ultimate Legacy"
     ];
     if (stored) {
       try {
@@ -43,7 +48,7 @@ export default function Profile() {
         if (valid.includes(stored)) return [stored];
       }
     }
-    return ["Bronze"];
+    return [];
   });
 
     const profileByRole: Record<AuthRole, ProfileData> = {
@@ -303,8 +308,11 @@ export default function Profile() {
                 </span>
               </div>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest bg-blue-600 text-white shadow-lg shadow-blue-900/40">
+                  {activeTier} Member
+                </span>
                 {selectedPlans.map((plan) => (
-                  <span key={plan} className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/20">
+                  <span key={plan} className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-white/10 backdrop-blur-md text-white border border-white/20">
                     {plan}
                   </span>
                 ))}
@@ -629,7 +637,7 @@ export default function Profile() {
             <div className="space-y-6">
               {[
                 { label: "Designation", value: user.role, icon: Target },
-                { label: "Status Tier", value: selectedPlans[0], icon: Award },
+                { label: "Status Tier", value: activeTier, icon: Award },
                 { label: "Joined", value: user.joinDate, icon: Calendar },
                 { label: "Location", value: user.location, icon: MapPin },
               ].map((item) => (
