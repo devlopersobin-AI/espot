@@ -63,9 +63,10 @@ export default function Sponsorship() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Hero
-        title="Sponsorship"
-        subtitle="Choose your sponsorship category and make a lasting impact — from funding academic excellence to championing human wellbeing across the E-SPOT ecosystem."
-        image="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=80"
+        label="Impact Partnerships"
+        title="Champion Human Potential"
+        subtitle="Make a lasting difference through our specialized sponsorship pillars. From funding academic excellence to supporting member wellbeing globally."
+        image="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1600&q=80"
         accentColor="text-blue-400"
       />
 

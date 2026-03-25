@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import Hero from "../../components/Hero";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -76,76 +77,14 @@ export default function Training() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-slate-900 overflow-x-hidden">
-
-      {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[88vh] flex items-center bg-slate-950 overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
-
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial="hidden" animate="visible" variants={stagger}>
-              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
-                <Sparkles className="w-3.5 h-3.5" /> E-Spot Training Academy
-              </motion.div>
-              <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-                Level Up Your{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                  Skills & Career
-                </span>
-              </motion.h1>
-              <motion.p variants={fadeUp} className="text-lg text-slate-400 leading-relaxed mb-10 max-w-xl">
-                Upskill with world-class trainers, structured learning paths, and career-ready programs. From bootcamps to executive coaching.
-              </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
-                <Link to="/auth?mode=signup&role=Trainee" className="px-7 py-3.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all flex items-center gap-2 text-sm">
-                  Start Learning <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/trainee-course-register" className="px-7 py-3.5 bg-white/8 backdrop-blur border border-white/10 text-white font-semibold rounded-xl hover:bg-white/12 transition-all text-sm flex items-center gap-2">
-                  Browse Courses <ChevronRight className="w-4 h-4" />
-                </Link>
-              </motion.div>
-              <motion.div variants={fadeUp} className="mt-14 grid grid-cols-3 gap-6 pt-10 border-t border-white/8">
-                {[["6,400+", "Active Learners"], ["120+", "Expert Trainers"], ["94%", "Completion Rate"]].map(([v, l]) => (
-                  <div key={l}>
-                    <p className="text-2xl font-bold text-white">{v}</p>
-                    <p className="text-xs text-slate-500 mt-1">{l}</p>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            {/* Course floating cards visual */}
-            <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="hidden lg:block relative h-[460px]">
-              {[
-                { top: "0%", left: "5%", icon: Cpu, label: "Web Dev", color: "from-blue-500 to-blue-600", delay: 0 },
-                { top: "22%", left: "45%", icon: BarChart2, label: "Data Science", color: "from-purple-500 to-purple-600", delay: 0.1 },
-                { top: "48%", left: "0%", icon: TrendingUp, label: "Marketing", color: "from-orange-500 to-amber-500", delay: 0.2 },
-                { top: "68%", left: "40%", icon: Award, label: "Leadership", color: "from-emerald-500 to-green-500", delay: 0.3 },
-              ].map((card, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: card.delay + 0.5, duration: 0.6 }} className="absolute" style={{ top: card.top, left: card.left }}>
-                  <div className="bg-white/8 backdrop-blur border border-white/12 rounded-2xl p-4 flex items-center gap-3 w-48">
-                    <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center flex-shrink-0`}>
-                      <card.icon className="w-4.5 h-4.5 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm">{card.label}</p>
-                      <p className="text-slate-400 text-xs">Live courses</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-              {/* Central badge */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-2xl shadow-blue-500/40">
-                  <GraduationCap className="w-12 h-12 text-white" />
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* HERO SECTION */}
+      <Hero
+        label="Training Academy"
+        title="Master the Skills of Tomorrow"
+        subtitle="Accelerate your career with world-class trainers and structured learning pathways. From digital bootcamps to executive leadership coaching."
+        image="https://images.unsplash.com/photo-1523050353051-f3f1e7f353a2?auto=format&fit=crop&w=1600&q=80"
+        accentColor="text-blue-400"
+      />
 
       {/* ── STATS BAR ────────────────────────────────────────────────────────── */}
       <section className="bg-blue-600 py-6">

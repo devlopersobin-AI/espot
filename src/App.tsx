@@ -183,6 +183,7 @@ export default function App() {
               franchise: ["Franchisee"],
               leader: ["Leader"],
               scholar: ["Scholar"],
+              trainee: ["Trainee"],
             };
             return (
               <React.Fragment key={slug}>

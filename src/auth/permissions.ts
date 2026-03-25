@@ -101,7 +101,7 @@ const DASHBOARD_BY_ROLE: Record<AuthRole, string> = {
   Scholar: "/dashboard/scholar",
   Jobseeker: "/dashboard/member",
   Trainer: "/dashboard/member",
-  Trainee: "/dashboard/member",
+  Trainee: "/dashboard/trainee",
   Admin: "/dashboard",
 };
 

@@ -149,10 +149,10 @@ export default function Scholar() {
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
       <Hero
-        title="Scholarships"
-        subtitle="Discover funding opportunities, connect with top universities, and meet inspiring scholars. Empowering the next generation of leaders."
-        label="Module"
-        image="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80"
+        label="Global Scholarships"
+        title="Empowering the Next Generation"
+        subtitle="Access world-class funding opportunities and connect with top-tier universities. We help you bridge the gap between ambition and academic excellence."
+        image="https://images.unsplash.com/photo-1541339907198-e08759df9a73?auto=format&fit=crop&w=1600&q=80"
         accentColor="text-emerald-400"
       />
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Hero from "../../components/Hero";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -19,10 +20,12 @@ import {
   Crown,
   Award,
   BookOpen,
+  Briefcase,
   Cpu,
   Database,
   Smartphone,
   Globe,
+  GraduationCap,
   ChevronRight,
   BarChart2,
   Sparkles,
@@ -171,241 +174,122 @@ export default function Entrepreneurship() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-slate-900 overflow-x-hidden">
-      {/* ── 1. HERO ───────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[92vh] flex items-center bg-slate-950 overflow-hidden">
-        {/* Gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.08)_0%,transparent_60%)]" />
-        {/* Grid overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px)",
-            backgroundSize: "64px 64px",
-          }}
-        />
+      {/* HERO SECTION */}
+      <Hero
+        label="Venture Ecosystem"
+        title="Turn Your Ideas Into Funded Startups"
+        subtitle="A complete digital ecosystem connecting entrepreneurs and investors—from initial validation to global funding in one seamless journey."
+        image="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=1600&q=80"
+        accentColor="text-orange-400"
+      />
 
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial="hidden" animate="visible" variants={stagger}>
-              <motion.div
-                variants={fadeUp}
-                className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6"
-              >
-                <Sparkles className="w-3.5 h-3.5" /> E-Spot Digital Ecosystem
-              </motion.div>
-              <motion.h1
-                variants={fadeUp}
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6"
-              >
-                Turn Ideas Into{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
-                  Funded Startups
-                </span>
-              </motion.h1>
-              <motion.p
-                variants={fadeUp}
-                className="text-lg text-slate-400 leading-relaxed mb-10 max-w-xl"
-              >
-                A complete digital ecosystem connecting entrepreneurs and
-                investors — from idea to funding in one seamless journey.
-              </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
-                <Link
-                  to="/auth?mode=signup&role=Entrepreneur"
-                  className="px-7 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center gap-2 text-sm"
-                >
-                  Get Started <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a
-                  href="#startups"
-                  className="px-7 py-3.5 bg-white/8 backdrop-blur border border-white/10 text-white font-semibold rounded-xl hover:bg-white/12 transition-all text-sm flex items-center gap-2"
-                >
-                  Explore Startups <ChevronRight className="w-4 h-4" />
-                </a>
-              </motion.div>
-              {/* Stats row */}
-              <motion.div
-                variants={fadeUp}
-                className="mt-14 grid grid-cols-3 gap-6 pt-10 border-t border-white/8"
-              >
-                {[
-                  ["9.4K+", "Active Founders"],
-                  ["$14.7M", "Capital Raised"],
-                  ["1,280", "Mentor Sessions"],
-                ].map(([v, l]) => (
-                  <div key={l}>
-                    <p className="text-2xl font-bold text-white">{v}</p>
-                    <p className="text-xs text-slate-500 mt-1">{l}</p>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            {/* Hero visual — connection diagram */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden lg:flex items-center justify-center"
-            >
-              <div className="relative w-[420px] h-[420px]">
-                {/* Central node */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center shadow-2xl shadow-orange-500/40">
-                    <Rocket className="w-10 h-10 text-white" />
-                  </div>
-                </div>
-                {/* Orbit */}
-                <div
-                  className="absolute inset-0 rounded-full border border-white/8 animate-spin"
-                  style={{ animationDuration: "20s" }}
-                />
-                <div
-                  className="absolute inset-[40px] rounded-full border border-white/5 animate-spin"
-                  style={{
-                    animationDuration: "14s",
-                    animationDirection: "reverse",
-                  }}
-                />
-                {/* Satellite nodes */}
-                {[
-                  {
-                    icon: Users,
-                    label: "Members",
-                    angle: 0,
-                    color: "from-blue-500 to-blue-600",
-                  },
-                  {
-                    icon: Zap,
-                    label: "Entrepreneurs",
-                    angle: 120,
-                    color: "from-orange-500 to-amber-500",
-                  },
-                  {
-                    icon: Banknote,
-                    label: "Investors",
-                    angle: 240,
-                    color: "from-emerald-500 to-green-600",
-                  },
-                ].map(({ icon: Icon, label, angle, color }) => {
-                  const rad = (angle * Math.PI) / 180;
-                  const r = 160;
-                  const x = 210 + r * Math.sin(rad) - 36;
-                  const y = 210 - r * Math.cos(rad) - 36;
-                  return (
-                    <div
-                      key={label}
-                      className="absolute"
-                      style={{ left: x, top: y }}
-                    >
-                      <div
-                        className={`w-[72px] h-[72px] rounded-2xl bg-gradient-to-br ${color} flex flex-col items-center justify-center shadow-xl`}
-                      >
-                        <Icon className="w-6 h-6 text-white mb-1" />
-                        <span className="text-[9px] font-bold text-white/90">
-                          {label}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. SOLUTION ──────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-white">
+      {/* ── ENTREPRENEURIAL PATHWAYS ────────────────────────────────────────── */}
+      <section className="py-24 bg-slate-50 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={stagger}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="text-center mb-16"
+          >
+            <motion.div variants={fadeUp}>
+              <SectionLabel>Growth Pathways</SectionLabel>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tight"
             >
-              <motion.div variants={fadeUp}>
-                <SectionLabel>The Solution</SectionLabel>
-              </motion.div>
-              <motion.h2
-                variants={fadeUp}
-                className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6"
+              Strategic Evolution <br/> <span className="text-orange-600">to Leadership</span>
+            </motion.h2>
+            <motion.p variants={fadeUp} className="text-slate-500 font-medium max-w-2xl mx-auto mt-4">
+              We provide formal structured bridges for talent to evolve into venture owners through two high-fidelity corporate tracks.
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {[
+              {
+                title: "Internship to Entrepreneur",
+                subtitle: "The Intern-Founder Track",
+                icon: GraduationCap,
+                desc: "Designed for high-potential scholars and trainees to transition from academic learning to venture execution.",
+                steps: [
+                  "Immersion in platform operations",
+                  "Founder-matching & mentorship",
+                  "Venture validation during training",
+                  "Seed funding bridge upon graduation"
+                ],
+                color: "orange",
+                bg: "bg-orange-50 border-orange-100",
+                iconBg: "bg-orange-500",
+                path: "intern-track"
+              },
+              {
+                title: "Employee to Entrepreneur",
+                subtitle: "The Corporate Intrapreneur Track",
+                icon: Briefcase,
+                desc: "Empowering our core staff and corporate partners to evolve into owners of their own spin-off ventures.",
+                steps: [
+                  "Performance-based venture slots",
+                  "Operational equity accumulation",
+                  "In-house incubation & resource access",
+                  "Full venture spin-off with E-SPOT backing"
+                ],
+                color: "blue",
+                bg: "bg-blue-50 border-blue-100",
+                iconBg: "bg-blue-600",
+                path: "corporate-track"
+              }
+            ].map((path, i) => (
+              <motion.div
+                key={path.path}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`${path.bg} border rounded-[3rem] p-8 lg:p-12 relative group hover:shadow-2xl transition-all duration-500 overflow-hidden`}
               >
-                One Integrated Ecosystem for Every Stage
-              </motion.h2>
-              <motion.p
-                variants={fadeUp}
-                className="text-slate-600 leading-relaxed mb-8"
-              >
-                E-Spot is not just a platform—it's a full ecosystem. We connect
-                Members, Entrepreneurs, and Investors inside a single
-                intelligent system, creating a structured path from idea to
-                funded reality.
-              </motion.p>
-              <motion.div variants={stagger} className="space-y-4">
-                {[
-                  "Structured journey with guided milestones from idea to funding",
-                  "3-way connection: Members → Entrepreneurs → Investors",
-                  "Live pitch events, mentorship sessions, and investment programs",
-                  "Transparent funding with real ROI tracking and investor levels",
-                ].map((item) => (
-                  <motion.div
-                    key={item}
-                    variants={fadeUp}
-                    className="flex items-start gap-3"
+                <div className={`absolute top-0 right-0 w-64 h-64 ${path.color === 'orange' ? 'bg-orange-500/5' : 'bg-blue-500/5'} rounded-full blur-3xl -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-1000`} />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className={`w-16 h-16 ${path.iconBg} rounded-2xl flex items-center justify-center text-white shadow-xl mb-8`}>
+                    <path.icon className="w-8 h-8" />
+                  </div>
+                  
+                  <div className="space-y-4 mb-8">
+                     <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${path.color === 'orange' ? 'text-orange-600' : 'text-blue-600'}`}>
+                        {path.subtitle}
+                     </span>
+                     <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight">
+                        {path.title}
+                     </h3>
+                     <p className="text-slate-600 font-medium leading-relaxed">
+                        {path.desc}
+                     </p>
+                  </div>
+
+                  <div className="space-y-4 mb-10 flex-1">
+                    {path.steps.map((step, idx) => (
+                      <div key={idx} className="flex items-center gap-4">
+                        <div className={`w-6 h-6 rounded-full ${path.color === 'orange' ? 'bg-orange-500/10 text-orange-600' : 'bg-blue-500/10 text-blue-600'} flex-shrink-0 flex items-center justify-center text-[10px] font-bold`}>
+                          {idx + 1}
+                        </div>
+                        <span className="text-sm font-bold text-slate-700">{step}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link 
+                    to={`/auth?mode=signup&role=${path.color === 'orange' ? 'Trainee' : 'Employee'}`}
+                    className={`inline-flex items-center justify-center gap-2 w-full py-5 rounded-2xl text-xs font-black uppercase tracking-widest ${path.color === 'orange' ? 'bg-slate-900 text-white hover:bg-orange-600' : 'bg-slate-900 text-white hover:bg-blue-600'} transition-all shadow-xl`}
                   >
-                    <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-slate-700">{item}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
-            {/* Flow diagram */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 shadow-2xl"
-            >
-              <p className="text-xs font-bold uppercase tracking-widest text-orange-400 mb-8">
-                Platform Flow
-              </p>
-              {[
-                "Members Join & Learn",
-                "Build Startup Ideas",
-                "Pitch to Investors",
-                "Receive Funding",
-              ].map((step, i) => (
-                <div key={step} className="flex items-center gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
-                      {i + 1}
-                    </div>
-                    {i < 3 && (
-                      <div className="w-px h-8 bg-orange-500/30 my-1" />
-                    )}
-                  </div>
-                  <div className="pb-2">
-                    <p className="text-white font-semibold text-sm">{step}</p>
-                    <p className="text-slate-500 text-xs mt-0.5">
-                      {
-                        [
-                          "Access tools, mentorship & community",
-                          "Validate ideas with built-in resources",
-                          "Live pitch competitions & matching",
-                          "Transparent investment with ROI tracking",
-                        ][i]
-                      }
-                    </p>
-                  </div>
+                    Enroll in Pathway <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
-              ))}
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -455,7 +339,7 @@ export default function Entrepreneurship() {
               {
                 step: "Pitch",
                 icon: Rocket,
-                desc: "Present your startup in Shark Tank-style live pitch events.",
+                desc: "Present your startup in live pitch events.",
                 color: "from-purple-500 to-purple-600",
               },
               {
@@ -602,7 +486,7 @@ export default function Entrepreneurship() {
           >
             <div>
               <motion.div variants={fadeUp}>
-                <SectionLabel>Shark Tank Style</SectionLabel>
+                <SectionLabel>Live Pitch Days</SectionLabel>
               </motion.div>
               <motion.h2
                 variants={fadeUp}
@@ -817,7 +701,7 @@ export default function Entrepreneurship() {
               {
                 icon: Zap,
                 title: "Live Pitch Events",
-                desc: "Monthly Shark Tank-style pitch events where startups present live to a panel of verified investors.",
+                desc: "Monthly pitch events where startups present live to a panel of verified investors.",
                 tag: "Live",
                 color: "text-orange-500 bg-orange-50 border-orange-100",
                 cta: "Join Next Event",

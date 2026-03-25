@@ -1,0 +1,148 @@
+// Details for each factor: what, why, espot, example/insight
+export const factorDetails = {
+  health: {
+    title: "Health",
+    what: "Health is the ultimate foundation of a successful life and business. It encompasses your physical vitality, mental clarity, and emotional resilience.",
+    why: "Without health, all other achievements are diminished. Prioritizing wellness leads to higher energy, better decision-making, and the stamina needed to lead effectively.",
+    espot:
+      "ESpot focuses on proactive member health through annual screenings, personalized wellness roadmaps, and 24/7 access to health consultants. We believe a healthy member is a successful leader.",
+    example:
+      "Many chronic diseases are 100% preventable through regular screenings and early lifestyle intervention. Our platform helps you track these vital metrics before they become issues.",
+  },
+  knowledge: {
+    title: "Knowledge",
+    what: "Knowledge empowers you to make informed decisions, innovate, and adapt to change.",
+    why: "Lifelong learning is essential for personal and professional growth.",
+    espot:
+      "ESpot provides access to expert talks, online courses, and curated learning resources.",
+    example: "Continuous learning keeps you ahead in a fast-changing world.",
+  },
+  training: {
+    title: "Training",
+    what: "Training builds practical skills for career and life advancement.",
+    why: "Skill development opens new opportunities and boosts confidence.",
+    espot:
+      "ESpot partners with industry leaders to offer hands-on workshops and certification programs.",
+    example: "Certified skills increase your employability.",
+  },
+  scholarship: {
+    title: "Scholarship",
+    what: "Scholarship supports academic excellence and research.",
+    why: "Financial aid and recognition help talented individuals reach their potential.",
+    espot:
+      "ESpot connects members to scholarship opportunities and mentorship.",
+    example: "Many top leaders started with a scholarship.",
+  },
+  career: {
+    title: "Career",
+    what: "Career is your professional journey and growth path.",
+    why: "A fulfilling career brings financial stability and personal satisfaction.",
+    espot: "ESpot offers career counseling, job fairs, and placement support.",
+    example: "Networking can open doors to dream jobs.",
+  },
+  entrepreneurship: {
+    title: "Entrepreneurship",
+    what: "Entrepreneurship is about creating and growing new ventures.",
+    why: "Entrepreneurs drive innovation and economic growth.",
+    espot: "ESpot provides startup bootcamps, funding access, and mentorship.",
+    example: "Every big company started as a small idea.",
+  },
+  leadership: {
+    title: "Leadership",
+    what: "Leadership is the ability to inspire and guide others.",
+    why: "Strong leaders build successful teams and organizations.",
+    espot: "ESpot hosts leadership summits and executive coaching.",
+    example: "Leadership is about influence, not just authority.",
+  },
+  platform: {
+    title: "Platform",
+    what: "A platform is a foundation for growth and collaboration.",
+    why: "Platforms connect people, ideas, and resources for greater impact.",
+    espot: "ESpot is your platform for networking, learning, and business.",
+    example: "A strong platform amplifies your reach.",
+  },
+  environment: {
+    title: "Environment",
+    what: "Environment is the space where you live and work.",
+    why: "A positive environment boosts well-being and productivity.",
+    espot: "ESpot promotes green initiatives and healthy workspaces.",
+    example: "Clean air and light improve focus.",
+  },
+  entertainment: {
+    title: "Entertainment",
+    what: "Entertainment brings joy and relaxation.",
+    why: "Leisure activities reduce stress and spark creativity.",
+    espot: "ESpot organizes events, shows, and cultural programs.",
+    example: "Laughter is the best medicine.",
+  },
+  freedom: {
+    title: "Freedom",
+    what: "Freedom is the power to choose and act independently.",
+    why: "Personal freedom is key to happiness and innovation.",
+    espot: "ESpot supports flexible work, travel, and lifestyle options.",
+    example: "Remote work gives you freedom of location.",
+  },
+  event: {
+    title: "Event",
+    what: "Events are gatherings for learning, networking, and celebration.",
+    why: "Events create opportunities for connection and growth.",
+    espot: "ESpot hosts business, social, and cultural events year-round.",
+    example: "One event can change your life.",
+  },
+  networking: {
+    title: "Networking",
+    what: "Networking is building relationships for mutual benefit.",
+    why: "A strong network accelerates success.",
+    espot: "ESpot connects you to professionals, mentors, and peers.",
+    example: "Your network is your net worth.",
+  },
+  relationship: {
+    title: "Relationship",
+    what: "Relationships are bonds with family, friends, and colleagues.",
+    why: "Healthy relationships provide support and happiness.",
+    espot: "ESpot offers relationship workshops and community groups.",
+    example: "Good relationships improve mental health.",
+  },
+  fame: {
+    title: "Fame",
+    what: "Fame is public recognition for your achievements.",
+    why: "Recognition motivates and opens new doors.",
+    espot: "ESpot features member stories and awards achievers.",
+    example: "Fame can be used for positive impact.",
+  },
+  welfare: {
+    title: "Welfare",
+    what: "Welfare is support for well-being and security.",
+    why: "Social welfare ensures no one is left behind.",
+    espot: "ESpot runs welfare drives and support programs.",
+    example: "Helping others builds a better society.",
+  },
+  wealth: {
+    title: "Wealth",
+    what: "Wealth is the abundance of valuable resources or money.",
+    why: "Wealth provides security and opportunities.",
+    espot: "ESpot offers investment guidance and wealth management tools.",
+    example: "Smart investing grows your wealth.",
+  },
+  prosperity: {
+    title: "Prosperity",
+    what: "Prosperity is thriving in all areas of life.",
+    why: "True prosperity blends financial, social, and personal success.",
+    espot: "ESpot helps you prosper through holistic programs.",
+    example: "Prosperity is more than just money.",
+  },
+  power: {
+    title: "Power",
+    what: "Power is the ability to influence outcomes.",
+    why: "Power used wisely creates positive change.",
+    espot: "ESpot empowers members with knowledge and connections.",
+    example: "Empowerment starts with self-belief.",
+  },
+  fortune: {
+    title: "Fortune",
+    what: "Fortune is luck or good circumstances.",
+    why: "Fortune favors the prepared mind.",
+    espot: "ESpot creates opportunities for lucky breaks.",
+    example: "Preparation meets opportunity in fortune.",
+  },
+};

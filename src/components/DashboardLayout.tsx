@@ -17,6 +17,9 @@ import {
   Mail,
   CheckCheck,
   Settings,
+  Gem,
+  Trophy,
+  BookOpen,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import logoWithText from "../assets/espotclub_logo_withtext.png";
@@ -42,92 +45,103 @@ function buildNav(base: string, profileLabel = "My Profile"): NavItem[] {
 
 const DASHBOARD_CONFIG: Record<string, { title: string; nav: NavItem[] }> = {
   Admin: {
-    title: "Admin",
+    title: "Command Center",
     nav: [
-      ...buildNav("/dashboard"),
-      { name: "Membership", path: "/dashboard/membership", icon: Users },
-      { name: "Members CMS", path: "/dashboard/members", icon: Users },
-      { name: "Platform CMS", path: "/dashboard/settings", icon: Settings },
+      { name: "Global Pulse", path: "/dashboard", icon: LayoutDashboard },
+      { name: "Identity Vault", path: "/dashboard/members", icon: Users },
+      { name: "Ecosystem CMS", path: "/dashboard/settings", icon: Settings },
+      { name: "Events Terminal", path: "/dashboard/events", icon: Calendar },
+      { name: "Network Growth", path: "/dashboard/membership", icon: Star },
     ],
   },
   Member: {
-    title: "Member",
+    title: "Member Hub",
     nav: [
-      ...buildNav("/dashboard/member"),
-      { name: "Membership", path: "/dashboard/member/membership", icon: Users },
-      { name: "My Rewards", path: "/dashboard/member/rewards", icon: Star },
+      { name: "My Dashboard", path: "/dashboard/member", icon: LayoutDashboard },
+      { name: "Network Profile", path: "/dashboard/member/profile", icon: Users },
+      { name: "Gatherings", path: "/dashboard/member/events", icon: Calendar },
+      { name: "Tier Benefits", path: "/dashboard/member/membership", icon: Gem },
+      { name: "Wealth Points", path: "/dashboard/member/rewards", icon: Star },
     ],
   },
   Partner: {
-    title: "Partner",
+    title: "Partner Portal",
     nav: [
-      ...buildNav("/dashboard/partner", "Company Profile"),
-      { name: "Campaign Manager", path: "/dashboard/partner/campaigns", icon: LayoutDashboard },
+      { name: "B2B Overview", path: "/dashboard/partner", icon: LayoutDashboard },
+      { name: "Business Profile", path: "/dashboard/partner/profile", icon: Building2 },
+      { name: "Campaigns", path: "/dashboard/partner/campaigns", icon: Briefcase },
       { name: "Global Leads", path: "/dashboard/partner/leads", icon: UserPlus },
-      { name: "Brand Resources", path: "/dashboard/partner/assets", icon: Building2 },
+      { name: "Brand Center", path: "/dashboard/partner/assets", icon: Star },
     ],
   },
   Franchisee: {
-    title: "Franchise",
+    title: "Franchise Hub",
     nav: [
-      ...buildNav("/dashboard/franchise", "Franchise Profile"),
-      { name: "Regional Ops", path: "/dashboard/franchise/ops", icon: Settings },
-      { name: "Audits & Tasks", path: "/dashboard/franchise/audits", icon: CheckCheck },
-      { name: "Staff Management", path: "/dashboard/franchise/staff", icon: Users },
+      { name: "Regional Scope", path: "/dashboard/franchise", icon: LayoutDashboard },
+      { name: "Franchise Profile", path: "/dashboard/franchise/profile", icon: Building2 },
+      { name: "Operational Ops", path: "/dashboard/franchise/ops", icon: Settings },
+      { name: "Staff & Talent", path: "/dashboard/franchise/staff", icon: Users },
+      { name: "Compliance", path: "/dashboard/franchise/audits", icon: CheckCheck },
     ],
   },
   Entrepreneur: {
-    title: "Entrepreneur",
+    title: "Startup Terminal",
     nav: [
-      ...buildNav("/dashboard/member"),
-      { name: "Venture Portfolio", path: "/dashboard/member/venture", icon: Briefcase },
-      { name: "Investor Matches", path: "/dashboard/member/investors", icon: Handshake },
-      { name: "Pitch Library", path: "/dashboard/member/pitch", icon: LayoutDashboard },
+      { name: "Venture Pulse", path: "/dashboard/member", icon: LayoutDashboard },
+      { name: "Startup Profile", path: "/dashboard/member/profile", icon: Building2 },
+      { name: "Venture Deck", path: "/dashboard/member/pitch", icon: Briefcase },
+      { name: "Investor CRM", path: "/dashboard/member/investors", icon: Handshake },
+      { name: "Milestones", path: "/dashboard/member/milestones", icon: Trophy },
     ],
   },
   Leader: {
-    title: "Leader",
+    title: "Leadership Terminal",
     nav: [
-      ...buildNav("/dashboard/leader"),
+      { name: "Strategic Hub", path: "/dashboard/leader", icon: LayoutDashboard },
+      { name: "Leader Profile", path: "/dashboard/leader/profile", icon: Users },
+      { name: "Global Rankings", path: "/dashboard/leader/rankings", icon: Trophy },
       { name: "Board Insights", path: "/dashboard/leader/insights", icon: Briefcase },
       { name: "Strategic Goals", path: "/dashboard/leader/goals", icon: Star },
-      { name: "Influence Graph", path: "/dashboard/leader/impact", icon: Users },
     ],
   },
   Scholar: {
-    title: "Scholar",
+    title: "Scholar Hub",
     nav: [
-      ...buildNav("/dashboard/scholar"),
-      { name: "Scholarships", path: "/dashboard/scholar/funding", icon: GraduationCap },
+      { name: "Study Overview", path: "/dashboard/scholar", icon: LayoutDashboard },
+      { name: "Academic Profile", path: "/dashboard/scholar/profile", icon: GraduationCap },
+      { name: "Scholarship CRM", path: "/dashboard/scholar/funding", icon: Star },
       { name: "Research Nodes", path: "/dashboard/scholar/research", icon: LayoutDashboard },
-      { name: "Academic Mentors", path: "/dashboard/scholar/mentors", icon: Users },
+      { name: "Mentor Track", path: "/dashboard/scholar/mentors", icon: Users },
     ],
   },
   Jobseeker: {
-    title: "Jobseeker",
+    title: "Career Hub",
     nav: [
-      ...buildNav("/dashboard/member"),
-      { name: "Career Path", path: "/dashboard/member/career", icon: Briefcase },
+      { name: "Career Tracking", path: "/dashboard/member", icon: LayoutDashboard },
+      { name: "Talent Profile", path: "/dashboard/member/profile", icon: Users },
       { name: "Applications", path: "/dashboard/member/apps", icon: Mail },
-      { name: "Resume Score", path: "/dashboard/member/resume", icon: CheckCheck },
+      { name: "Skill Matrix", path: "/dashboard/member/resume", icon: CheckCheck },
+      { name: "Job Alerts", path: "/dashboard/member/alerts", icon: Bell },
     ],
   },
   Trainer: {
-    title: "Trainer",
+    title: "Trainer Terminal",
     nav: [
-      ...buildNav("/dashboard/member"),
-      { name: "Curriculum CMS", path: "/dashboard/member/courses", icon: GraduationCap },
-      { name: "Batch Schedules", path: "/dashboard/member/batches", icon: Calendar },
-      { name: "Student Analytics", path: "/dashboard/member/analytics", icon: Users },
+      { name: "Instructional Hub", path: "/dashboard/member", icon: LayoutDashboard },
+      { name: "Trainer Persona", path: "/dashboard/member/profile", icon: GraduationCap },
+      { name: "Curriculum CMS", path: "/dashboard/member/courses", icon: BookOpen },
+      { name: "Batch Manager", path: "/dashboard/member/batches", icon: Calendar },
+      { name: "Student Intel", path: "/dashboard/member/analytics", icon: Users },
     ],
   },
   Trainee: {
-    title: "Trainee",
+    title: "Learning Hub",
     nav: [
-      ...buildNav("/dashboard/trainee"),
+      { name: "My Progress", path: "/dashboard/trainee", icon: LayoutDashboard },
       { name: "Learning Path", path: "/dashboard/trainee/path", icon: GraduationCap },
-      { name: "Certificates", path: "/dashboard/trainee/certs", icon: Star },
       { name: "Active Modules", path: "/dashboard/trainee/modules", icon: LayoutDashboard },
+      { name: "Skill Badges", path: "/dashboard/trainee/certs", icon: Star },
+      { name: "Live Sessions", path: "/dashboard/trainee/live", icon: Calendar },
     ],
   },
 };
@@ -445,10 +459,13 @@ export default function DashboardLayout() {
              <div>
                 <h2 className="text-sm font-black text-slate-900 tracking-tight leading-none uppercase">E-Spot Club</h2>
                 <span className="text-[9px] font-black text-blue-500 tracking-[0.2em] uppercase mt-1 block">
-                   {role === "Admin" ? "Command Center" : 
-                    role === "Partner" ? "Partner Portal" : 
-                    role === "Franchisee" ? "Franchise Hub" : 
-                    "Global Network"}
+                    {role === "Admin" ? "Command Center" :
+                     role === "Partner" ? "Global Partner" :
+                     role === "Franchisee" ? "Regional Franchise" :
+                     role === "Entrepreneur" ? "Venture Nexus" :
+                     role === "Leader" ? "Influence Hub" :
+                     role === "Scholar" ? "Academic Node" :
+                     "E-SPOT Ecosystem"}
                 </span>
              </div>
           </Link>

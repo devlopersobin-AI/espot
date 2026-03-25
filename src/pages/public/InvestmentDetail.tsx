@@ -34,41 +34,6 @@ export default function InvestmentDetail() {
         image="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
       />
       <div className="min-h-screen bg-slate-50">
-        <div className="bg-gradient-to-br from-emerald-950 via-teal-900 to-cyan-900 text-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-            <span className="inline-flex px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-emerald-200/20 text-emerald-100">
-              {summary.sector}
-            </span>
-            <h1 className="mt-4 text-2xl sm:text-3xl font-bold tracking-tight">
-              {summary.title}
-            </h1>
-            <p className="mt-3 text-cyan-100 max-w-4xl">{summary.traction}</p>
-
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-              <Metric
-                label="Stage"
-                value={summary.stage}
-                icon={<TrendingUp className="w-4 h-4" />}
-              />
-              <Metric
-                label="Location"
-                value={summary.location}
-                icon={<MapPin className="w-4 h-4" />}
-              />
-              <Metric
-                label="Ticket"
-                value={summary.ticket}
-                icon={<Banknote className="w-4 h-4" />}
-              />
-              <Metric
-                label="Investor Fit"
-                value={summary.fit}
-                icon={<Sparkles className="w-4 h-4" />}
-              />
-            </div>
-          </div>
-        </div>
-
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-6">
             <div className="space-y-6">

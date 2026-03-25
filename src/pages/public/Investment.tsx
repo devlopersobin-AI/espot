@@ -4,11 +4,15 @@ import {
   ArrowRight,
   Banknote,
   BadgeCheck,
+  Briefcase,
   Building2,
   CalendarDays,
   ChartNoAxesCombined,
+  CheckCircle2,
+  GraduationCap,
   Handshake,
   Landmark,
+  Percent,
   Search,
   ShieldCheck,
   Sparkles,
@@ -24,6 +28,8 @@ export default function Investment() {
     "Opportunities",
     "Funding Stages",
     "Investor Network",
+    "Revenue Ecosystem",
+    "Investment Models",
     "Advisory",
   ];
   const [activeTab, setActiveTab] = useState(subNav[0]);
@@ -161,198 +167,6 @@ export default function Investment() {
           {activeTab === "Opportunities" && (
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-5 sm:gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="space-y-5">
-                {/* Insource and Outsource Venture Section */}
-                <div className="rounded-2xl border border-emerald-200 bg-white p-4 sm:p-6 mb-6">
-                  <h2 className="text-xl font-bold text-emerald-900 mb-2">
-                    Venture Types
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Link
-                      to="/investment/insource"
-                      className="bg-emerald-50 rounded-xl p-4 hover:shadow-lg transition-shadow block"
-                    >
-                      <h3 className="text-lg font-semibold text-emerald-800 mb-1">
-                        Insource Venture
-                      </h3>
-                      <p className="text-sm text-emerald-900">
-                        Venture projects and investments managed, operated, and
-                        executed within the E-SPOT platform and its core team.
-                        Full support, resources, and oversight are provided by
-                        our in-house experts.
-                      </p>
-                    </Link>
-                    <Link
-                      to="/investment/outsource"
-                      className="bg-cyan-50 rounded-xl p-4 hover:shadow-lg transition-shadow block"
-                    >
-                      <h3 className="text-lg font-semibold text-cyan-800 mb-1">
-                        Outsource Venture
-                      </h3>
-                      <p className="text-sm text-cyan-900">
-                        Venture projects and investments where E-SPOT acts as a
-                        facilitator, connecting external founders, teams, or
-                        partners to our investor network. Execution and
-                        management are handled by the external party with E-SPOT
-                        support.
-                      </p>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Investment Models Section */}
-                <div className="rounded-2xl border border-emerald-200 bg-white p-4 sm:p-6 mb-6">
-                  <h2 className="text-xl font-bold text-emerald-900 mb-2">
-                    Investment Models
-                  </h2>
-                  <div className="space-y-6">
-                    {/* SMPI */}
-                    <div>
-                      <h3 className="text-lg font-semibold text-emerald-800 mb-1">
-                        Standard Membership & Partnership Investment (SMPI)
-                      </h3>
-                      <ul className="list-disc pl-6 text-emerald-900 mb-2">
-                        <li>
-                          Available for Silver, Gold, Diamond, Platinum, Crown
-                        </li>
-                        <li>
-                          Includes: Membership, 5-Year Wellness Package,
-                          Partnership Ownership
-                        </li>
-                        <li>
-                          One-time investment, 5-year exit plan, estimated
-                          returns
-                        </li>
-                        <li>
-                          Access to Life & Business Ecosystem, Entrepreneur
-                          Arena
-                        </li>
-                      </ul>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div className="bg-emerald-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">Be Healthy</div>
-                          <ul className="list-disc pl-5">
-                            <li>Membership included</li>
-                            <li>5-Year Wellness Package</li>
-                          </ul>
-                        </div>
-                        <div className="bg-cyan-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">Be Wealthy</div>
-                          <ul className="list-disc pl-5">
-                            <li>One-time investment</li>
-                            <li>Partnership ownership</li>
-                            <li>5-year exit plan</li>
-                            <li>Estimated returns by tier</li>
-                          </ul>
-                        </div>
-                        <div className="bg-amber-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">Be Successful</div>
-                          <ul className="list-disc pl-5">
-                            <li>Life & business ecosystem access</li>
-                            <li>Entrepreneur participation</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    {/* EMPI */}
-                    <div>
-                      <h3 className="text-lg font-semibold text-emerald-800 mb-1 mt-6">
-                        Elite Membership & Partnership Investment (EMPI)
-                      </h3>
-                      <ul className="list-disc pl-6 text-emerald-900 mb-2">
-                        <li>Full-Time, Part-Time, Silent Partner options</li>
-                        <li>
-                          High-level discounts, strategic/business involvement,
-                          equity ownership
-                        </li>
-                        <li>Exit flexibility, share sale & transfer</li>
-                      </ul>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div className="bg-emerald-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">
-                            Full-Time Partner
-                          </div>
-                          <ul className="list-disc pl-5">
-                            <li>Active in daily business</li>
-                            <li>45% OFF annual membership</li>
-                            <li>35% OFF for 5 family/friends</li>
-                            <li>20% OFF other services</li>
-                          </ul>
-                        </div>
-                        <div className="bg-cyan-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">
-                            Part-Time Partner
-                          </div>
-                          <ul className="list-disc pl-5">
-                            <li>Strategic oversight</li>
-                            <li>Same discounts as Full-Time</li>
-                          </ul>
-                        </div>
-                        <div className="bg-amber-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">Silent Partner</div>
-                          <ul className="list-disc pl-5">
-                            <li>Capital participation only</li>
-                            <li>Same discounts as Full-Time</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    {/* PMPI */}
-                    <div>
-                      <h3 className="text-lg font-semibold text-emerald-800 mb-1 mt-6">
-                        Premium Membership & Partnership Investment (PMPI)
-                      </h3>
-                      <ul className="list-disc pl-6 text-emerald-900 mb-2">
-                        <li>Full-Time, Part-Time, Advisory Partner options</li>
-                        <li>
-                          Lower entry investment, management participation,
-                          profit-based returns
-                        </li>
-                        <li>5-Year Exit Plan, equity-based settlement</li>
-                      </ul>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div className="bg-emerald-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">
-                            Full-Time Partner
-                          </div>
-                          <ul className="list-disc pl-5">
-                            <li>Active management role</li>
-                            <li>40% OFF annual membership</li>
-                            <li>30% OFF for 5 family/friends</li>
-                            <li>20% OFF other services</li>
-                          </ul>
-                        </div>
-                        <div className="bg-cyan-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">
-                            Part-Time Partner
-                          </div>
-                          <ul className="list-disc pl-5">
-                            <li>Part-time management</li>
-                            <li>35% OFF annual membership</li>
-                            <li>30% OFF for 5 family/friends</li>
-                            <li>15% OFF other services</li>
-                          </ul>
-                        </div>
-                        <div className="bg-amber-50 rounded-xl p-4">
-                          <div className="font-bold mb-1">Advisory Partner</div>
-                          <ul className="list-disc pl-5">
-                            <li>Advisory role only</li>
-                            <li>25% OFF annual membership</li>
-                            <li>15% OFF for 5 family/friends</li>
-                            <li>12.5% OFF other services</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-8 flex flex-col items-center">
-                      <Link
-                        to="/auth?mode=signup&role=Partner"
-                        className="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg text-lg"
-                      >
-                        Explore Investment Plans
-                      </Link>
-                    </div>
-                  </div>
-                </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                     <label className="md:col-span-2">
@@ -651,6 +465,307 @@ export default function Investment() {
                   </div>
                 </article>
               ))}
+            </div>
+          )}
+
+          {activeTab === "Revenue Ecosystem" && (
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+               {/* VENTURE TYPES FOCUS */}
+               <div className="bg-slate-900 rounded-[2.5rem] p-12 text-white shadow-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -mr-48 -mt-48" />
+                  <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                     <div className="space-y-6">
+                        <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-500/20 backdrop-blur-md border border-blue-500/30 rounded-full">
+                           <ShieldCheck className="w-4 h-4 text-blue-400" />
+                           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-100">Core Strategy</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-none uppercase">Insource <br/> <span className="text-blue-400">Ventures</span></h2>
+                        <p className="text-slate-400 font-medium text-lg leading-relaxed">
+                          Venture projects and investments managed, operated, and executed within the E-SPOT platform and its core team. Full support, resources, and oversight are provided by our in-house experts to ensure maximum delivery fidelity.
+                        </p>
+                        <div className="flex items-center gap-4">
+                           <div className="px-6 py-3 bg-white/10 border border-white/10 rounded-2xl">
+                              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Status</p>
+                              <p className="text-sm font-bold text-white uppercase">Primary Focus</p>
+                           </div>
+                           <div className="px-6 py-3 bg-white/10 border border-white/10 rounded-2xl">
+                              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Oversight</p>
+                              <p className="text-sm font-bold text-white uppercase">100% In-House</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="bg-white/5 backdrop-blur-3xl rounded-[2rem] p-8 border border-white/10 space-y-6">
+                        <div className="flex items-center gap-4">
+                           <div className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+                              <TrendingUp className="w-6 h-6 text-white" />
+                           </div>
+                           <div>
+                              <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Growth Vector</p>
+                              <p className="text-lg font-black uppercase tracking-tight">Ecosystem Synergy</p>
+                           </div>
+                        </div>
+                        <p className="text-slate-400 text-sm font-medium leading-relaxed">
+                          By keeping ventures in-house, we leverage the full strength of our 10 user personas and unified membership model to drive recurring revenue and cross-platform value.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+
+               {/* OUTSOURCE VENTURES FOCUS */}
+               <div className="bg-white border border-slate-200 rounded-[2.5rem] p-12 shadow-2xl relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-600/5 rounded-full blur-[100px] -mr-48 -mt-48" />
+                  <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                     <div className="space-y-6">
+                        <div className="inline-flex items-center gap-3 px-4 py-2 bg-emerald-500/10 backdrop-blur-md border border-emerald-500/20 rounded-full">
+                           <Handshake className="w-4 h-4 text-emerald-600" />
+                           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-700">Strategic Partnerships</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-none uppercase text-slate-900">Outsource <br/> <span className="text-emerald-500">Ventures</span></h2>
+                        <p className="text-slate-500 font-medium text-lg leading-relaxed">
+                          Partner-led ventures where E-SPOT provides capital, platform reach, or infrastructure, but daily operations are managed by external founders and companies under joint agreements.
+                        </p>
+                        <div className="flex items-center gap-4">
+                           <div className="px-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                              <p className="text-sm font-bold text-slate-900 uppercase">Growth Engine</p>
+                           </div>
+                           <div className="px-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Oversight</p>
+                              <p className="text-sm font-bold text-slate-900 uppercase">Joint/Franchise</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100 space-y-6">
+                        <div className="flex items-center gap-4">
+                           <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                              <TrendingUp className="w-6 h-6 text-white" />
+                           </div>
+                           <div>
+                              <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Growth Vector</p>
+                              <p className="text-lg font-black text-slate-900 uppercase tracking-tight">Ecosystem Scale</p>
+                           </div>
+                        </div>
+                        <p className="text-slate-600 text-sm font-medium leading-relaxed">
+                          By partnering with proven operators globally, we rapidly scale the E-SPOT brand and diversify the investor revenue base without adding operational bottlenecks.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 shadow-2xl shadow-slate-200/50">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
+                     <div className="space-y-2">
+                        <h2 className="text-3xl font-black text-slate-900 tracking-tight uppercase">Platform Profitability</h2>
+                        <p className="text-slate-500 font-medium max-w-2xl">E-SPOT generates sustainable yields through a diversified ecosystem of high-premium services. Every sector below operates as a strategic revenue engine.</p>
+                     </div>
+                     <Link to="/services" className="px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-slate-200">View Catalog</Link>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {[
+                      { name: "Equestrian", path: "/services/equestrian", color: "from-amber-500/10 to-transparent", count: "12 Services", yield: "+18.2%", icon: Building2 },
+                      { name: "Beauty & Spa", path: "/services/beauty-spa", color: "from-rose-500/10 to-transparent", count: "08 Services", yield: "+22.4%", icon: Sparkles },
+                      { name: "Wellness & Fitness", path: "/services/wellness", color: "from-emerald-500/10 to-transparent", count: "15 Services", yield: "+14.8%", icon: Users },
+                      { name: "Tours & Travel", path: "/services/travel", color: "from-blue-500/10 to-transparent", count: "10 Services", yield: "+19.1%", icon: Landmark },
+                      { name: "Restaurants & Catering", path: "/services/restaurants", color: "from-orange-500/10 to-transparent", count: "06 Services", yield: "+15.5%", icon: Building2 },
+                      { name: "Multimedia Production", path: "/services/multimedia", color: "from-indigo-500/10 to-transparent", count: "04 Services", yield: "+28.2%", icon: Sparkles },
+                      { name: "Events & Wedding", path: "/services/events", color: "from-fuchsia-500/10 to-transparent", count: "09 Services", yield: "+24.6%", icon: CalendarDays },
+                      { name: "Global Outsourcing", path: "/services/outsourcing", color: "from-slate-500/10 to-transparent", count: "05 Services", yield: "+31.0%", icon: Handshake },
+                      { name: "Training Academy", path: "/training", color: "from-cyan-500/10 to-transparent", count: "50+ Courses", yield: "+12.4%", icon: GraduationCap },
+                    ].map((sector, i) => (
+                      <Link 
+                        key={i}
+                        to={sector.path}
+                        className="group relative overflow-hidden bg-white border border-slate-100 rounded-3xl p-8 hover:shadow-2xl hover:shadow-slate-200/80 transition-all duration-500 hover:-translate-y-2"
+                      >
+                         <div className={`absolute inset-0 bg-gradient-to-br ${sector.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+                         <div className="relative z-10 space-y-6">
+                            <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-white group-hover:scale-110 transition-all duration-500">
+                               <sector.icon className="w-6 h-6 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                            </div>
+                            <div>
+                               <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-1">{sector.name}</h3>
+                               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{sector.count}</p>
+                            </div>
+                            <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
+                               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Yield: {sector.yield}</span>
+                               <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" />
+                            </div>
+                         </div>
+                      </Link>
+                    ))}
+                  </div>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="bg-emerald-950 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-emerald-500/20 transition-all duration-1000" />
+                     <div className="relative z-10 space-y-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 rounded-full border border-emerald-500/30">
+                           <TrendingUp className="w-3 h-3 text-emerald-400" />
+                           <span className="text-[9px] font-black uppercase tracking-widest text-emerald-400">High Yield Asset</span>
+                        </div>
+                        <h3 className="text-2xl font-black uppercase tracking-tight">Equestrian Mastery</h3>
+                        <p className="text-emerald-100/70 text-sm font-medium leading-relaxed">Our flagship Equestrian division projects a 35% growth in elite memberships and stable management services over the next 18 months.</p>
+                        <button className="px-6 py-3 bg-white text-emerald-950 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-50 transition-all">Explore Asset</button>
+                     </div>
+                  </div>
+                  <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-blue-500/20 transition-all duration-1000" />
+                     <div className="relative z-10 space-y-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30">
+                           <ShieldCheck className="w-3 h-3 text-blue-400" />
+                           <span className="text-[9px] font-black uppercase tracking-widest text-blue-400">Core Infrastructure</span>
+                        </div>
+                        <h3 className="text-2xl font-black uppercase tracking-tight">Tech & Outsourcing</h3>
+                        <p className="text-blue-100/70 text-sm font-medium leading-relaxed">Platform-wide multimedia production and outsourcing services form the backbone of our recurring B2B service revenue model.</p>
+                        <button className="px-6 py-3 bg-white text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-50 transition-all">Review Portfolio</button>
+                     </div>
+                  </div>
+               </div>
+
+               {/* TRAINING ACADEMY HIGHLIGHT */}
+               <div className="grid grid-cols-1 mt-8">
+                  <div className="bg-cyan-950 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-cyan-500/20 transition-all duration-1000" />
+                     <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                        <div className="space-y-6 max-w-2xl">
+                           <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-500/30">
+                              <GraduationCap className="w-3 h-3 text-cyan-400" />
+                              <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400">Yield Generator</span>
+                           </div>
+                           <h3 className="text-3xl font-black uppercase tracking-tight">Training Academy Revenue</h3>
+                           <p className="text-cyan-100/70 text-sm font-medium leading-relaxed">The training E-SPOT provides is fully monetized, serving as a primary revenue generator. Advanced curriculums, investor certifications, and upskilling pathways form a high-margin business segment driving organic growth.</p>
+                        </div>
+                        <button className="px-8 py-4 bg-cyan-500 text-cyan-950 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-xl shadow-cyan-900">View Curriculum</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+          )}
+
+          {activeTab === "Investment Models" && (
+            <div className="space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-700">
+              {/* SMPI */}
+              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 shadow-2xl shadow-slate-200/50 overflow-hidden relative group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 transition-transform duration-1000 group-hover:scale-110" />
+                <div className="relative z-10 space-y-10">
+                  <header className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+                    <div className="space-y-4">
+                      <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-full border border-blue-100">
+                        <BadgeCheck className="w-4 h-4 text-blue-600" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-900">Tier: Entry to Professional</span>
+                      </div>
+                      <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter leading-none">Standard Membership & <br/> Partnership Investment (SMPI)</h2>
+                      <p className="text-slate-500 font-medium max-w-2xl text-lg">Available for Silver, Gold, Diamond, Platinum, and Crown tiers.</p>
+                    </div>
+                    <div className="text-right">
+                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Duration</p>
+                       <p className="text-3xl font-black text-slate-900">5-YEAR EXIT</p>
+                    </div>
+                  </header>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {[
+                      { title: "Be Healthy", icon: Sparkles, items: ["Membership Included", "5-Year Wellness Package"] },
+                      { title: "Be Wealthy", icon: Banknote, items: ["One-time Investment", "Partnership Ownership", "Estimated returns by tier"] },
+                      { title: "Be Successful", icon: TrendingUp, items: ["Life & Business Ecosystem", "Entrepreneur Participation", "Elite Arena Access"] },
+                    ].map((feature, i) => (
+                      <div key={i} className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100 hover:border-blue-200 transition-all">
+                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6">
+                           <feature.icon className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-4">{feature.title}</h3>
+                        <ul className="space-y-3">
+                           {feature.items.map((item, j) => (
+                             <li key={j} className="flex items-center gap-3 text-sm font-medium text-slate-600">
+                                <CheckCircle2 className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                                {item}
+                             </li>
+                           ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* EMPI & PMPI GRID */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                 {/* EMPI */}
+                 <div className="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-emerald-500/20 transition-all duration-1000" />
+                    <div className="relative z-10 space-y-8">
+                       <header className="space-y-4">
+                          <div className="inline-flex items-center gap-3 px-4 py-2 bg-emerald-500/20 backdrop-blur-md rounded-full border border-emerald-500/30">
+                            <Sparkles className="w-4 h-4 text-emerald-400" />
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-100">Tier: High Level Engagement</span>
+                          </div>
+                          <h3 className="text-3xl font-black uppercase tracking-tight leading-tight">Elite Membership & <br/> Partnership (EMPI)</h3>
+                          <p className="text-emerald-100/60 font-medium">Strategic/business involvement, equity ownership, and maximum exit flexibility.</p>
+                       </header>
+
+                       <div className="space-y-4">
+                          {[
+                            { role: "Full-Time Partner", desc: "Active in daily business", discount: "45% OFF membership", ext: "35% OFF family/friends" },
+                            { role: "Part-Time Partner", desc: "Strategic oversight", discount: "45% OFF membership", ext: "35% OFF family/friends" },
+                            { role: "Silent Partner", desc: "Capital participation only", discount: "45% OFF membership", ext: "35% OFF family/friends" },
+                          ].map((partner, i) => (
+                            <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
+                               <div className="flex items-center justify-between mb-3">
+                                  <h4 className="font-black uppercase tracking-tight text-emerald-400">{partner.role}</h4>
+                                  <div className="px-3 py-1 bg-emerald-500/20 rounded-lg text-[9px] font-black text-emerald-400 uppercase tracking-widest">{partner.desc}</div>
+                               </div>
+                               <div className="flex flex-wrap gap-4 mt-4">
+                                  <div className="flex items-center gap-2">
+                                     <Percent className="w-3.5 h-3.5 text-slate-500" />
+                                     <span className="text-xs font-bold text-slate-300">{partner.discount}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                     <Users className="w-3.5 h-3.5 text-slate-500" />
+                                     <span className="text-xs font-bold text-slate-300">{partner.ext}</span>
+                                  </div>
+                               </div>
+                            </div>
+                          ))}
+                       </div>
+                    </div>
+                 </div>
+
+                 {/* PMPI */}
+                 <div className="bg-white border border-slate-200 rounded-[3.rem] p-10 shadow-2xl shadow-slate-200/50 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full -mr-32 -mt-32 group-hover:bg-slate-100 transition-all duration-1000" />
+                    <div className="relative z-10 space-y-8">
+                       <header className="space-y-4">
+                          <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-full border border-blue-100">
+                            <Briefcase className="w-4 h-4 text-blue-600" />
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-900">Tier: Management Participation</span>
+                          </div>
+                          <h3 className="text-3xl font-black uppercase tracking-tight leading-tight text-slate-900">Premium Membership & <br/> Partnership (PMPI)</h3>
+                          <p className="text-slate-500 font-medium">Lower entry investment, management roles, and profit-based returns with 5-year exit.</p>
+                       </header>
+
+                       <div className="space-y-4">
+                          {[
+                            { role: "Full-Time Partner", desc: "Active management role", discount: "40% OFF annual", ext: "30% OFF family/friends" },
+                            { role: "Part-Time Partner", desc: "Part-time management", discount: "35% OFF annual", ext: "30% OFF family/friends" },
+                            { role: "Advisory Partner", desc: "Advisory role only", discount: "25% OFF annual", ext: "15% OFF family/friends" },
+                          ].map((partner, i) => (
+                            <div key={i} className="bg-slate-50 border border-slate-100 rounded-2xl p-6 hover:border-blue-200 transition-all">
+                               <div className="flex items-center justify-between mb-3">
+                                  <h4 className="font-black uppercase tracking-tight text-blue-600">{partner.role}</h4>
+                                  <div className="px-3 py-1 bg-blue-500/10 rounded-lg text-[9px] font-black text-blue-600 uppercase tracking-widest">{partner.desc}</div>
+                               </div>
+                               <div className="grid grid-cols-2 gap-4 mt-4 text-xs font-bold text-slate-500">
+                                  <div className="flex items-center gap-2"><Percent className="w-3.5 h-3.5" /> {partner.discount}</div>
+                                  <div className="flex items-center gap-2"><Users className="w-3.5 h-3.5" /> {partner.ext}</div>
+                               </div>
+                            </div>
+                          ))}
+                       </div>
+                    </div>
+                 </div>
+              </div>
             </div>
           )}
 
