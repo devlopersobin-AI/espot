@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   ArrowLeft,
   ShieldCheck,
+  ShoppingBag,
 } from "lucide-react";
 
 export default function UserProfile() {
@@ -67,6 +68,13 @@ export default function UserProfile() {
       offers: [
         { id: 1, title: isHospital ? "15% Off Health Screenings" : "20% Off Annual Contract", validUntil: "Dec 31, 2026" },
         { id: 2, title: "Free Initial Consultation", validUntil: "Sep 30, 2026" },
+      ],
+      products: isHospital ? [
+        { id: 1, name: "Home Health Monitor Kit", price: "₹2,499", image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=600&q=80" },
+        { id: 2, name: "Premium First Aid Station", price: "₹1,299", image: "https://images.unsplash.com/photo-1603398938378-e54eab446dde?auto=format&fit=crop&w=600&q=80" },
+      ] : [
+        { id: 1, name: "Enterprise Server Rack", price: "$4,999", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" },
+        { id: 2, name: "Network Security Appliance", price: "$1,899", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80" },
       ],
     };
     return (
@@ -204,6 +212,38 @@ export default function UserProfile() {
                       <button className="px-6 py-2.5 bg-emerald-600 text-white text-sm font-black rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-100">
                         Claim
                       </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Products Section */}
+              <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+                <div className="flex justify-between items-center mb-6">
+                   <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+                     <ShoppingBag className="w-6 h-6 text-blue-600" />
+                     Products & Merchandise
+                   </h2>
+                   <Link to="/product" className="text-sm font-bold text-blue-600 hover:text-blue-700">View All</Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {partnerData.products.map((product) => (
+                    <div
+                      key={product.id}
+                      className="group rounded-2xl border border-slate-100 bg-white overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all"
+                    >
+                      <div className="aspect-video w-full overflow-hidden bg-slate-50 relative">
+                        <img src={product.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={product.name} />
+                      </div>
+                      <div className="p-5 flex flex-col items-start gap-4">
+                        <div>
+                           <h3 className="font-black text-slate-900 line-clamp-1">{product.name}</h3>
+                           <p className="text-lg font-black text-blue-600">{product.price}</p>
+                        </div>
+                        <button className="w-full py-2.5 bg-slate-900 text-white text-sm font-black rounded-xl hover:bg-slate-800 transition">
+                          View details
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
