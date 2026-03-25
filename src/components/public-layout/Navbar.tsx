@@ -268,16 +268,16 @@ export default function Navbar({
               );
             })}
           </nav>
-          <form onSubmit={handleSearch} className="relative w-36 2xl:w-44">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2">
-              <Search className="h-3.5 w-3.5 text-slate-400" />
-            </div>
+          <form onSubmit={handleSearch} className="relative w-36 2xl:w-44 flex items-center">
+            <button type="submit" aria-label="Submit search" className="absolute left-3 top-1/2 -translate-y-1/2 z-10 p-1 hover:bg-slate-200/50 rounded-full cursor-pointer transition-colors">
+              <Search className="h-3.5 w-3.5 text-slate-400 hover:text-blue-500" />
+            </button>
             <input
               ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 bg-slate-50/60 font-sans"
+              className="w-full pl-9 pr-3 py-1.5 border border-slate-200 rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 bg-slate-50/60 font-sans"
               placeholder="Search... Ctrl+K"
             />
           </form>
