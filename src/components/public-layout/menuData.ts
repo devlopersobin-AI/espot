@@ -39,6 +39,7 @@ export const secondaryClubNav: NavItem[] = [
   { name: "Training", path: "/training" },
   { name: "Career", path: "/careers" },
   { name: "Events", path: "/events" },
+  { name: "Offers", path: "/offer" },
 ];
 
 export const secondaryNavItems: NavItem[] = [

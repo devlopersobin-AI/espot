@@ -8,6 +8,8 @@ export type AuthRole =
   | "Jobseeker"
   | "Trainer"
   | "Trainee"
+  | "Sponsor"
+  | "Donor"
   | "Admin";
 
 export type Permission =
@@ -34,7 +36,27 @@ const ALL_PERMISSIONS: Permission[] = [
 ];
 
 const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
-  Member: ["events.read", "membership.read", "membership.update", "profile.read", "profile.update"],
+  Member: [
+    "events.read",
+    "membership.read",
+    "membership.update",
+    "profile.read",
+    "profile.update",
+  ],
+  Sponsor: [
+    "events.read",
+    "membership.read",
+    "membership.update",
+    "profile.read",
+    "profile.update",
+  ],
+  Donor: [
+    "events.read",
+    "membership.read",
+    "membership.update",
+    "profile.read",
+    "profile.update",
+  ],
   Partner: [
     "events.read",
     "events.create",
@@ -71,7 +93,13 @@ const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
     "profile.read",
     "profile.update",
   ],
-  Scholar: ["events.read", "membership.read", "membership.update", "profile.read", "profile.update"],
+  Scholar: [
+    "events.read",
+    "membership.read",
+    "membership.update",
+    "profile.read",
+    "profile.update",
+  ],
   Jobseeker: [
     "events.read",
     "membership.read",
@@ -88,12 +116,20 @@ const ROLE_PERMISSIONS: Record<AuthRole, Permission[]> = {
     "profile.read",
     "profile.update",
   ],
-  Trainee: ["events.read", "membership.read", "membership.update", "profile.read", "profile.update"],
+  Trainee: [
+    "events.read",
+    "membership.read",
+    "membership.update",
+    "profile.read",
+    "profile.update",
+  ],
   Admin: ALL_PERMISSIONS,
 };
 
 const DASHBOARD_BY_ROLE: Record<AuthRole, string> = {
   Member: "/dashboard/member",
+  Sponsor: "/dashboard/sponsor",
+  Donor: "/dashboard/donor",
   Partner: "/dashboard/partner",
   Franchisee: "/dashboard/franchise",
   Entrepreneur: "/dashboard/member",

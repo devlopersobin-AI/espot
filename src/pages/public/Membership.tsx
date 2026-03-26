@@ -312,7 +312,7 @@ function TierDetailCard({ tier, planType, onUpgrade, onBack, onInvest }) {
       <div className="bg-white rounded-[3.5rem] shadow-[0_32px_128px_-16px_rgba(0,0,0,0.1)] overflow-hidden border border-slate-100 flex flex-col lg:flex-row min-h-[700px]">
         {/* Left Signature Sidebar */}
         <div className={`w-full lg:w-[420px] bg-gradient-to-br ${styles.from} ${styles.to} p-16 text-white flex flex-col items-center justify-center text-center relative overflow-hidden shrink-0`}>
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent)]" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent)] pointer-events-none" />
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -323,13 +323,13 @@ function TierDetailCard({ tier, planType, onUpgrade, onBack, onInvest }) {
           <h2 className="relative z-10 text-5xl font-black mb-2 tracking-tight">{tier.tier}</h2>
           <p className="relative z-10 text-white/70 font-black mb-10 uppercase tracking-[0.3em] text-[10px]">Elite Access Tier</p>
           
-          <p className="text-sm font-medium leading-relaxed mb-auto opacity-90 italic">
+          <p className="relative z-10 text-sm font-medium leading-relaxed mb-auto opacity-90 italic">
             "{tier.tagline}"
           </p>
 
           <button 
             onClick={onBack}
-            className="mt-8 flex items-center gap-2 text-white/70 hover:text-white font-bold transition-colors group"
+            className="relative z-10 mt-8 flex items-center gap-2 text-white/70 hover:text-white font-bold transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Switch Tier
@@ -337,7 +337,7 @@ function TierDetailCard({ tier, planType, onUpgrade, onBack, onInvest }) {
         </div>
 
         {/* Right Content Area */}
-        <div className="flex-1 p-8 md:p-12 relative bg-slate-50/50">
+        <div className="flex-1 min-w-0 p-8 md:p-12 relative bg-slate-50/50">
           <AnimatePresence mode="wait">
             {!selectedPackage ? (
               <motion.div
@@ -556,7 +556,7 @@ export default function Membership() {
           </div>
         </section>
       ) : (
-        <div className="max-w-2xl mx-auto">
+        <section className="relative w-full bg-gradient-to-br from-yellow-50 via-blue-50 to-white py-16 px-4 overflow-hidden">
           <TierDetailCard
             tier={selectedTier}
             planType={planType}
@@ -564,7 +564,7 @@ export default function Membership() {
             onBack={() => setSelectedTier(null)}
             onInvest={handleInvest}
           />
-        </div>
+        </section>
       )}
 
       {/* LEADERBOARD */}

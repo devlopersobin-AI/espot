@@ -27,7 +27,11 @@ import Carousel from "../../components/Carousel";
 import MinimalCardSection from "../../components/MinimalCardSection";
 import { products } from "../../data/products";
 import heroBanner from "../../assets/hero-banner.mp4";
+import heroBanner1 from "../../assets/hero-banner1.mp4";
+import heroBanner2 from "../../assets/image.jpg";
+import heroBanner3 from "../../assets/hero-banner.jpg";
 import bodybanner from "../../assets/hero-banner.jpg";
+import AutoVideoCarousel from "../../components/AutoVideoCarousel";
 
 type SpotlightItem = {
   title: string;
@@ -401,130 +405,154 @@ export default function Home() {
   ];
 
   // ── Carousel render helper ───────────────────────────────────────────────
-  const renderTopSection = (
+  const sectionStyles: Record<
+    string,
+    { card: string; badge: string; accent: string; img: string }
+  > = {
+    offer: {
+      card: "bg-gradient-to-br from-blue-50 to-emerald-50 border-blue-200",
+      badge: "bg-blue-600 text-white",
+      accent: "bg-blue-600",
+      img: "rounded-full border-2 border-blue-200",
+    },
+    product: {
+      card: "bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200",
+      badge: "bg-purple-600 text-white",
+      accent: "bg-purple-600",
+      img: "rounded-xl border-2 border-purple-200",
+    },
+    partner: {
+      card: "bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200",
+      badge: "bg-yellow-500 text-white",
+      accent: "bg-yellow-500",
+      img: "rounded-xl border-2 border-yellow-200",
+    },
+    member: {
+      card: "bg-gradient-to-br from-teal-50 to-cyan-50 border-teal-200",
+      badge: "bg-teal-600 text-white",
+      accent: "bg-teal-600",
+      img: "rounded-full border-2 border-teal-200",
+    },
+    franchise: {
+      card: "bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200",
+      badge: "bg-orange-600 text-white",
+      accent: "bg-orange-600",
+      img: "rounded-xl border-2 border-orange-200",
+    },
+    lucky: {
+      card: "bg-gradient-to-br from-pink-50 to-yellow-50 border-pink-200",
+      badge: "bg-pink-600 text-white",
+      accent: "bg-pink-600",
+      img: "rounded-full border-2 border-pink-200",
+    },
+    entrepreneur: {
+      card: "bg-gradient-to-br from-emerald-50 to-blue-50 border-emerald-200",
+      badge: "bg-emerald-600 text-white",
+      accent: "bg-emerald-600",
+      img: "rounded-xl border-2 border-emerald-200",
+    },
+    leader: {
+      card: "bg-gradient-to-br from-slate-50 to-indigo-50 border-slate-200",
+      badge: "bg-indigo-600 text-white",
+      accent: "bg-indigo-600",
+      img: "rounded-full border-2 border-indigo-200",
+    },
+  };
+
+  const getStyle = (type: string) => sectionStyles[type] || sectionStyles.offer;
+
+  function renderTopSection(
     title: string,
     items: SpotlightItem[],
     type: string,
-  ) => (
-    <div key={title}>
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-1 h-6 bg-blue-600 rounded-full" />
-        <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-          {title}
-        </h2>
-      </div>
-      <Carousel
-        title={title}
-        items={items}
-        renderItem={(item, index) => (
-          <Link
-            key={index}
-            to={`/profile/${type}/${index + 1}`}
-            className="min-w-[200px] sm:min-w-[220px] border border-slate-200 rounded-xl p-4 flex flex-col cursor-pointer hover:shadow-md transition-all bg-white"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-xs font-bold text-blue-600">
-                #{String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg">
-                {item.badge}
-              </span>
-            </div>
-            <div className="flex-1 flex flex-col items-center justify-center mb-4 gap-2">
+  ) {
+    return (
+      <div key={title}>
+        <div className="flex items-center gap-3 mb-5">
+          <div className={`w-1 h-6 ${getStyle(type).accent} rounded-full`} />
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+            {title}
+          </h2>
+        </div>
+        <Carousel
+          title={title}
+          items={items}
+          renderItem={(item, index) => (
+            <Link
+              key={index}
+              to={`/profile/${type}/${index + 1}`}
+              className="relative min-w-[320px] sm:min-w-[400px] h-[340px] rounded-2xl overflow-hidden group shadow-xl bg-black/80"
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "flex-start",
+              }}
+            >
               <img
-                src={`https://picsum.photos/seed/highlight${type}${index}/80/80`}
+                src={`https://picsum.photos/seed/highlight${type}${index}/600/340`}
                 alt="Highlight"
-                className="w-16 h-16 object-cover rounded-xl mb-1"
-                style={{ background: "#f1f5f9" }}
+                className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="w-14 h-6 bg-slate-100 rounded-xl flex items-center justify-center text-slate-800 font-semibold text-xs">
-                {item.initials}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" />
+              <div className="relative z-20 p-6 flex flex-col gap-2 w-full">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-bold bg-white/20 text-white px-3 py-1 rounded-full shadow">
+                    #{String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-xs font-semibold bg-white/10 text-white px-3 py-1 rounded-full">
+                    {item.badge}
+                  </span>
+                </div>
+                <h3 className="text-lg font-extrabold text-white drop-shadow mb-1 truncate">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-white/80 truncate">
+                  {item.subtitle}
+                </p>
               </div>
-            </div>
-            <div className="text-center">
-              <p className="font-semibold text-slate-900 text-sm truncate">
-                {item.title}
-              </p>
-              <p className="text-xs text-slate-500 mt-0.5 truncate">
-                {item.subtitle}
-              </p>
-            </div>
-          </Link>
-        )}
-      />
-    </div>
-  );
+            </Link>
+          )}
+        />
+      </div>
+    );
+  }
 
-  // Video ref for playback speed
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  React.useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75;
-    }
-  }, []);
+  // Video carousel sources
+  const heroVideos = [heroBanner, heroBanner1];
 
   return (
     <div className="flex flex-col bg-white text-slate-900">
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative bg-slate-900 overflow-hidden">
-        <video
-          ref={videoRef}
-          src={heroBanner}
-          className="absolute inset-0 w-full h-full object-cover opacity-90 pointer-events-none sharpened-lg"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/assets/main_page_espot_club.jpg"
-        >
-          <img
-            src="/assets/main_page_espot_club.jpg"
-            alt="E-Spot Club — Global Network Platform"
-            className="w-full h-full object-cover"
-          />
-        </video>
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 bg-white/10 backdrop-blur px-3 py-1.5 rounded-full mb-5">
-              <Star className="w-3.5 h-3.5" /> E-Spot Club · Global Network
-              Platform
-            </div>
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-[1.15] tracking-tight">
-              Build your network, business, and growth on one trusted platform.
-            </h1>
-            <p className="mt-5 text-base sm:text-lg text-white/70 max-w-xl leading-relaxed">
-              Connecting members, partners, entrepreneurs, and franchisees with
-              premium services, real events, and global investment
-              opportunities.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-8">
-              <Link
-                to="/auth?mode=signup&role=Member"
-                className="px-6 py-3 bg-white text-slate-900 text-sm font-semibold rounded-xl hover:bg-slate-100 transition-all flex items-center gap-2"
-              >
-                Join Now <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/auth?mode=signup&role=Partner"
-                className="px-6 py-3 bg-white/10 backdrop-blur text-white border border-white/20 text-sm font-semibold rounded-xl hover:bg-white/20 transition-all flex items-center gap-2"
-              >
-                Become a Partner
-              </Link>
-            </div>
+      <section className="relative bg-slate-900 overflow-hidden min-h-[70vh] w-full flex flex-col justify-center items-center">
+        <div className="absolute inset-0 w-full h-full z-0">
+          <AutoVideoCarousel videos={heroVideos} />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+        <div className="relative flex flex-col justify-center items-center z-10 w-full h-full px-4 py-24">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80 bg-white/10 backdrop-blur px-3 py-1.5 rounded-full mb-5">
+            <Star className="w-3.5 h-3.5" /> E-Spot Club · Global Network
+            Platform
           </div>
-
-          {/* Trust stats inline */}
-          <div className="mt-12 grid grid-cols-3 gap-4 max-w-lg">
-            {stats.map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                  {stat.value}
-                </p>
-                <p className="text-xs text-white/50 font-medium mt-1">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white text-center leading-tight drop-shadow-lg">
+            Build your network, business, and growth on one trusted platform.
+          </h1>
+          <p className="mt-6 text-lg sm:text-2xl text-white/80 max-w-2xl text-center leading-relaxed">
+            Connecting members, partners, entrepreneurs, and franchisees with
+            premium services, real events, and global investment opportunities.
+          </p>
+          <div className="flex flex-wrap gap-4 mt-10 justify-center">
+            <Link
+              to="/auth?mode=signup&role=Member"
+              className="px-8 py-4 bg-white text-slate-900 text-lg font-bold rounded-2xl hover:bg-slate-100 transition-all flex items-center gap-2 shadow-lg"
+            >
+              Join Now <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              to="/auth?mode=signup&role=Partner"
+              className="px-8 py-4 bg-white/10 backdrop-blur text-white border border-white/20 text-lg font-bold rounded-2xl hover:bg-white/20 transition-all flex items-center gap-2 shadow-lg"
+            >
+              Become a Partner
+            </Link>
           </div>
         </div>
       </section>

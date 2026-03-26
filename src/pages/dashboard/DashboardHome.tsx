@@ -418,6 +418,78 @@ export default function Home() {
         },
       ],
     },
+    Sponsor: {
+      title: "Sponsor Overview",
+      subtitle: "Track your sponsored initiatives and impact.",
+      primaryAction: "Browse Projects",
+      secondaryAction: "Impact Report",
+      metrics: [
+        {
+          title: "Projects Sponsored",
+          value: "12",
+          change: "+2",
+          trend: "up",
+          icon: Users,
+        },
+        {
+          title: "Total Impact",
+          value: "$240k",
+          change: "+15%",
+          trend: "up",
+          icon: DollarSign,
+        },
+        {
+          title: "Global Reach",
+          value: "14k",
+          change: "+1.2k",
+          trend: "up",
+          icon: Activity,
+        },
+        {
+          title: "Recognition Level",
+          value: "Gold",
+          change: "—",
+          trend: "up",
+          icon: Trophy,
+        },
+      ],
+    },
+    Donor: {
+      title: "Donor Overview",
+      subtitle: "Review your contributions and ecosystem support.",
+      primaryAction: "Give Again",
+      secondaryAction: "See History",
+      metrics: [
+        {
+          title: "Total Donated",
+          value: "$45k",
+          change: "+$5k",
+          trend: "up",
+          icon: DollarSign,
+        },
+        {
+          title: "Lives Impacted",
+          value: "2,400",
+          change: "+300",
+          trend: "up",
+          icon: Users,
+        },
+        {
+          title: "Ecosystem Karma",
+          value: "840",
+          change: "+120",
+          trend: "up",
+          icon: Activity,
+        },
+        {
+          title: "Donor Status",
+          value: "Elite",
+          change: "—",
+          trend: "up",
+          icon: Star,
+        },
+      ],
+    },
   };
 
 
@@ -493,6 +565,11 @@ export default function Home() {
 
   const [activeTier] = useState(() => {
     const stored = localStorage.getItem(`active-membership-tier-${role}`);
+    return stored || "Bronze";
+  });
+
+  const [investmentTier] = useState(() => {
+    const stored = localStorage.getItem(`investment-tier-${role}`);
     return stored || "Bronze";
   });
 
@@ -602,9 +679,9 @@ export default function Home() {
               
               <div className="space-y-4">
                 <h3 className="text-5xl font-black tracking-tight flex items-center gap-4">
-                  {activeTier} Tier 
+                  {investmentTier} Tier 
                   <span className="text-2xl font-medium text-slate-500">
-                    {role === "Partner" ? "Partner" : role === "Franchisee" ? "Franchisee" : "Member"}
+                    {role}
                   </span>
                 </h3>
                 <p className="text-slate-400 text-lg font-medium max-w-xl leading-relaxed">
@@ -615,6 +692,10 @@ export default function Home() {
               </div>
 
               <div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-3 px-6 py-3 bg-blue-600 text-white rounded-2xl border border-blue-500 text-xs font-black tracking-tight shadow-lg shadow-blue-900/40">
+                  <ShieldCheck className="w-4 h-4" />
+                  {activeTier} Package Active
+                </div>
                 {selectedPlans.length > 0 ? (
                   selectedPlans.map((plan) => (
                     <div key={plan} className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 text-xs font-black tracking-tight transition-all hover:bg-white/10 shadow-lg">

@@ -251,6 +251,7 @@ export default function Navbar({
                 "Training",
                 "Career",
                 "Events",
+                "Offers",
               ];
               const isBold = boldNames.includes(item.name);
               return (

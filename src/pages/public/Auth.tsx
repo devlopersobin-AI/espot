@@ -29,6 +29,8 @@ type Role =
   | "Jobseeker"
   | "Trainer"
   | "Trainee"
+  | "Sponsor"
+  | "Donor"
   | "Admin";
 type SignupRole = Exclude<Role, "Admin">;
 
@@ -42,11 +44,15 @@ const LOGIN_ROLES: Role[] = [
   "Jobseeker",
   "Trainer",
   "Trainee",
+  "Sponsor",
+  "Donor",
   "Admin",
 ];
-const SIGNUP_ROLES: SignupRole[] = [
-  "Member",
-  "Partner",
+// Only allow Member, Partner, Sponsor, Donor as main registration roles
+const SIGNUP_ROLES: SignupRole[] = ["Member", "Partner", "Sponsor", "Donor"];
+
+// Roles that a Member can add after registration (cannot add Partner)
+const SECONDARY_ROLES: SignupRole[] = [
   "Franchisee",
   "Entrepreneur",
   "Leader",
@@ -54,6 +60,8 @@ const SIGNUP_ROLES: SignupRole[] = [
   "Jobseeker",
   "Trainer",
   "Trainee",
+  "Sponsor",
+  "Donor",
 ];
 
 const DUMMY_CREDENTIALS: Record<Role, { email: string; password: string }> = {
@@ -66,6 +74,8 @@ const DUMMY_CREDENTIALS: Record<Role, { email: string; password: string }> = {
   Jobseeker: { email: "jobseeker@demo.com", password: "demo123" },
   Trainer: { email: "trainer@demo.com", password: "demo123" },
   Trainee: { email: "trainee@demo.com", password: "demo123" },
+  Sponsor: { email: "sponsor@demo.com", password: "demo123" },
+  Donor: { email: "donor@demo.com", password: "demo123" },
   Admin: { email: "admin@demo.com", password: "admin123" },
 };
 
@@ -190,7 +200,7 @@ type RoleFormField =
       required?: boolean;
     };
 
-const ROLE_STEP2_FIELDS: Record<SignupRole, RoleFormField[]> = {
+export const ROLE_STEP2_FIELDS: Record<SignupRole, RoleFormField[]> = {
   Partner: [
     {
       kind: "input",
@@ -557,7 +567,12 @@ export default function Auth() {
 
   const [isLogin, setIsLogin] = useState(!signupFromQuery);
   const [step, setStep] = useState(1);
-  const [role, setRole] = useState<SignupRole>(signupRoleFromQuery);
+  // If the role from query is not Member or Partner, default to Member
+  const [role, setRole] = useState<SignupRole>(
+    SIGNUP_ROLES.includes(signupRoleFromQuery) ? signupRoleFromQuery : "Member",
+  );
+  // For secondary roles (only for Member)
+  const [secondaryRoles, setSecondaryRoles] = useState<SignupRole[]>([]);
   const [loginRole, setLoginRole] = useState<Role>(roleFromQuery);
   const [authError, setAuthError] = useState("");
   // Store selected package for use in the form or next step
@@ -610,11 +625,19 @@ export default function Auth() {
       return;
     }
 
-    localStorage.setItem("authRole", role);
-    if (role === "Trainee") {
-      navigate("/trainee-course-register");
+    // Registration logic
+    if (role === "Partner") {
+      // Partner cannot add secondary roles
+      localStorage.setItem("authRole", "Partner");
+      navigate(getDashboardPathForRole("Partner"));
     } else {
-      navigate(getDashboardPathForRole(role));
+      // Member can add secondary roles (except Partner)
+      localStorage.setItem("authRole", "Member");
+      // Save secondary roles for demo (in real app, send to backend)
+      if (secondaryRoles.length > 0) {
+        localStorage.setItem("secondaryRoles", JSON.stringify(secondaryRoles));
+      }
+      navigate(getDashboardPathForRole("Member"));
     }
   };
 
@@ -775,36 +798,7 @@ export default function Auth() {
                 />
               </div>
 
-              {isLogin && (
-                <div className="sm:col-span-2">
-                  <label className="block text-sm font-bold text-gray-700 mb-1">
-                    Demo login role
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Briefcase className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <select
-                      value={loginRole}
-                      onChange={(e) => {
-                        setLoginRole(e.target.value as Role);
-                        setAuthError("");
-                      }}
-                      className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                    >
-                      {LOGIN_ROLES.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <p className="mt-2 text-xs text-slate-500">
-                    Demo credentials: {DUMMY_CREDENTIALS[loginRole].email} /{" "}
-                    {DUMMY_CREDENTIALS[loginRole].password}
-                  </p>
-                </div>
-              )}
+              {/* Role selection removed for login. Each login is unique to the user. */}
 
               {!isLogin && (
                 <div>
@@ -829,7 +823,10 @@ export default function Auth() {
                     </div>
                     <select
                       value={role}
-                      onChange={(e) => setRole(e.target.value as SignupRole)}
+                      onChange={(e) => {
+                        setRole(e.target.value as SignupRole);
+                        setSecondaryRoles([]); // Reset secondary roles if switching
+                      }}
                       className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                     >
                       {SIGNUP_ROLES.map((item) => (
@@ -839,6 +836,39 @@ export default function Auth() {
                       ))}
                     </select>
                   </div>
+                </div>
+              )}
+
+              {/* Show secondary roles only if Member is selected */}
+              {!isLogin && role === "Member" && (
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-bold text-gray-700 mb-1">
+                    Add additional roles (optional)
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {SECONDARY_ROLES.map((r) => (
+                      <label
+                        key={r}
+                        className="flex items-center gap-2 text-xs font-semibold bg-slate-100 px-3 py-2 rounded-xl cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={secondaryRoles.includes(r)}
+                          onChange={(e) => {
+                            setSecondaryRoles((prev) =>
+                              e.target.checked
+                                ? [...prev, r]
+                                : prev.filter((x) => x !== r),
+                            );
+                          }}
+                        />
+                        {r}
+                      </label>
+                    ))}
+                  </div>
+                  <p className="text-xs text-slate-400 mt-1">
+                    You can add more roles later from your profile.
+                  </p>
                 </div>
               )}
             </div>

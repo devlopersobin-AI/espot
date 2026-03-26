@@ -17,6 +17,92 @@ export default function UserProfile() {
   const { type, id } = useParams<{ type: string; id: string }>();
   const navigate = useNavigate();
 
+  // ── REUSABLE PROFILE SHELL ──────────────────────────────────
+  const ProfileShell = ({
+    data,
+    roleBadge,
+    accentColor,
+    children,
+  }: {
+    data: {
+      name: string;
+      avatar: string;
+      cover: string;
+      location: string;
+      joined: string;
+      verified: boolean;
+      about: string;
+      stats: { label: string; value: string }[];
+      badges: { label: string; color: string }[];
+    };
+    roleBadge: string;
+    accentColor: string;
+    children?: React.ReactNode;
+  }) => (
+    <div className="min-h-screen bg-slate-50 pb-24">
+      <div className="h-64 md:h-80 w-full relative">
+        <img src={data.cover} alt="Cover" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="absolute top-0 left-0 w-full p-4 sm:p-6 lg:p-8 z-20">
+          <div className="max-w-[1200px] mx-auto">
+            <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white bg-white/15 hover:bg-white/25 backdrop-blur-sm px-4 py-2 rounded-xl transition-colors font-medium">
+              <ArrowLeft className="w-5 h-5" /> Back
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
+        <div className="bg-white rounded-[2rem] shadow-2xl border border-slate-200/50 p-6 md:p-10 flex flex-col md:flex-row gap-8 items-start backdrop-blur-xl bg-white/95">
+          <img src={data.avatar} alt={data.name} className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] border-4 border-white shadow-2xl object-cover bg-white shrink-0" referrerPolicy="no-referrer" />
+          <div className="flex-1 pt-2 w-full">
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-6">
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <h1 className="text-3xl font-black text-slate-900 tracking-tight">{data.name}</h1>
+                  {data.verified && <CheckCircle2 className="w-6 h-6 text-blue-500 fill-blue-500/10" />}
+                </div>
+                <span className={`px-3 py-1 ${accentColor} font-bold text-[10px] uppercase tracking-widest rounded-full border`}>{roleBadge}</span>
+              </div>
+              <div className="flex gap-3 shrink-0">
+                <button className="px-7 py-3 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 hover:scale-105">Connect</button>
+                <button className="px-7 py-3 bg-white text-slate-700 font-bold rounded-2xl border border-slate-200 hover:bg-slate-50 transition-all shadow-md">Message</button>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-4 md:gap-10 text-sm text-slate-500 font-medium mb-6">
+              <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-slate-400" /><span>{data.location}</span></div>
+              <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-slate-400" /><span>Since {data.joined}</span></div>
+            </div>
+            <p className="text-slate-600 leading-relaxed text-lg">{data.about}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
+          <div className="lg:col-span-2 space-y-8">{children}</div>
+          <div className="space-y-8">
+            <div className="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-8 text-white shadow-2xl">
+              <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-400 mb-8 text-center">Platform Impact</h3>
+              <div className="space-y-8">
+                {data.stats.map((stat, idx) => (
+                  <div key={idx} className="text-center">
+                    <div className="text-4xl font-black mb-1">{stat.value}</div>
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+              <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3 mb-6"><ShieldCheck className="w-6 h-6 text-blue-500" /> E-SPOT Badges</h2>
+              <div className="flex flex-wrap gap-2">
+                {data.badges.map((badge, idx) => (
+                  <span key={idx} className={`px-4 py-2 rounded-xl text-xs font-black border border-slate-100 shadow-sm ${badge.color}`}>{badge.label}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // Render different layouts for each profile type
   if (type === "partner") {
     // Specialized partner data for health/hospitals
@@ -307,177 +393,84 @@ export default function UserProfile() {
   }
 
   if (type === "member") {
-    // Member profile layout
-    const memberData = {
+    const data = {
       name: "Jane Doe",
       avatar: `https://i.pravatar.cc/150?u=member${id}`,
-      cover:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      cover: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
       joined: "Feb 2023",
       location: "London, UK",
       verified: true,
-      about:
-        "Jane is an active member of the E-SPOT community, participating in events and contributing to member discussions.",
+      about: "Jane is an active Gold-tier member of the E-SPOT community. She regularly participates in networking events, leadership workshops, and investment meetups. A passionate advocate for sustainable entrepreneurship.",
       stats: [
-        { label: "Events Attended", value: "12" },
+        { label: "Events Attended", value: "24" },
         { label: "Membership Tier", value: "Gold" },
-        { label: "Connections", value: "58" },
-      ],
-      interests: ["Entrepreneurship", "Leadership", "Investment"],
-      achievements: [
-        {
-          title: "Attended 10+ Events",
-          icon: <Calendar className="w-5 h-5 text-green-500" />,
-        },
-        {
-          title: "Gold Tier Member",
-          icon: <Award className="w-5 h-5 text-amber-500" />,
-        },
+        { label: "Connections", value: "128" },
       ],
       badges: [
         { label: "Active Member", color: "bg-green-100 text-green-700" },
         { label: "Community Helper", color: "bg-emerald-100 text-emerald-700" },
+        { label: "Gold Tier", color: "bg-amber-100 text-amber-700" },
+      ],
+      interests: ["Entrepreneurship", "Leadership", "Investment", "Sustainability", "Networking", "Public Speaking"],
+      activity: [
+        { title: "Attended Entrepreneurs Arena", date: "Mar 15, 2026", type: "Event" },
+        { title: "Completed Leadership Fundamentals", date: "Feb 28, 2026", type: "Training" },
+        { title: "Connected with 12 new members", date: "Feb 10, 2026", type: "Networking" },
+        { title: "Upgraded to Gold Tier", date: "Jan 05, 2026", type: "Milestone" },
+      ],
+      achievements: [
+        "Attended 20+ Events",
+        "Gold Tier Member",
+        "Community Contributor",
+        "Networking Champion",
       ],
     };
     return (
-      <div className="min-h-screen bg-slate-50 pb-24">
-        {/* Cover Image */}
-        <div className="h-64 md:h-80 w-full relative">
-          <img
-            src={memberData.cover}
-            alt="Cover"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-          <div className="absolute top-0 left-0 w-full p-4 sm:p-6 lg:p-8 z-20">
-            <div className="max-w-[1200px] mx-auto">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center gap-2 text-white bg-white/15 hover:bg-white/25 backdrop-blur-sm px-4 py-2 rounded-xl transition-colors font-medium"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                Back
-              </button>
-            </div>
-          </div>
-          {/* Achievements Section */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
-            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
-              <Package className="w-5 h-5 text-green-500" />
-              Achievements
-            </h2>
-            <ul className="space-y-3">
-              {memberData.achievements.map((ach, idx) => (
-                <li key={idx} className="flex items-center gap-3">
-                  {ach.icon}
-                  <span className="font-medium text-slate-800">
-                    {ach.title}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {/* Badges Section */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
-            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
-              <CheckCircle2 className="w-5 h-5 text-green-500" />
-              Badges
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              {memberData.badges.map((badge, idx) => (
-                <span
-                  key={idx}
-                  className={`px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 ${badge.color}`}
-                >
-                  {badge.label}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 relative z-10 overflow-hidden">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start">
-            <img
-              src={memberData.avatar}
-              alt={memberData.name}
-              className="w-28 h-28 md:w-32 md:h-32 rounded-2xl border-2 border-white shadow-lg object-cover bg-white shrink-0"
-              referrerPolicy="no-referrer"
-            />
-            <div className="flex-1 pt-2 w-full">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <h1 className="text-2xl font-bold text-slate-900">
-                      {memberData.name}
-                    </h1>
-                    {memberData.verified && (
-                      <CheckCircle2 className="w-5 h-5 text-green-500" />
-                    )}
-                  </div>
-                  <p className="text-green-600 font-semibold tracking-wide uppercase text-xs">
-                    Member
-                  </p>
-                </div>
-                <div className="flex gap-2 shrink-0">
-                  <button className="px-5 py-2 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors shadow-sm">
-                    Message
-                  </button>
-                  <button className="px-5 py-2 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">
-                    Connect
-                  </button>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-3 md:gap-6 text-sm text-slate-600 mb-4">
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4" />
-                  <span>{memberData.location}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4" />
-                  <span>Joined {memberData.joined}</span>
-                </div>
-              </div>
-              <p className="text-slate-600 leading-relaxed">
-                {memberData.about}
-              </p>
-            </div>
-          </div>
-          {/* Stats Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 max-w-2xl mx-auto w-full">
-            {memberData.stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl p-4 border border-slate-200 text-center shadow-sm"
-              >
-                <div className="text-xl md:text-2xl font-bold text-slate-900 mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  {stat.label}
+      <ProfileShell data={data} roleBadge="Member" accentColor="bg-green-50 text-green-700 border-green-100">
+        {/* Activity Timeline */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Calendar className="w-6 h-6 text-green-600" /> Recent Activity
+          </h2>
+          <div className="space-y-6">
+            {data.activity.map((a, i) => (
+              <div key={i} className="relative pl-8 border-l-2 border-slate-200 pb-6 last:pb-0">
+                <div className="absolute -left-[9px] top-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white" />
+                <h3 className="text-lg font-black text-slate-900">{a.title}</h3>
+                <div className="flex items-center gap-3 mt-1 text-sm text-slate-500 font-medium">
+                  <span>{a.date}</span>
+                  <span className="text-xs bg-green-50 text-green-700 px-3 py-1 rounded-full font-bold">{a.type}</span>
                 </div>
               </div>
             ))}
           </div>
-          {/* Interests Section */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm mt-8">
-            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
-              <Package className="w-5 h-5 text-green-500" />
-              Interests
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              {memberData.interests.map((interest, idx) => (
-                <span
-                  key={idx}
-                  className="px-4 py-2 bg-green-50 text-green-700 rounded-xl text-sm font-medium border border-green-100"
-                >
-                  {interest}
-                </span>
-              ))}
-            </div>
+        </div>
+        {/* Achievements */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Award className="w-6 h-6 text-amber-500" /> Achievements
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {data.achievements.map((a, i) => (
+              <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50/50">
+                <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0" />
+                <span className="font-bold text-slate-800 text-sm">{a}</span>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+        {/* Interests */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Star className="w-6 h-6 text-green-500" /> Interests
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {data.interests.map((interest, idx) => (
+              <span key={idx} className="px-5 py-2.5 bg-green-50 text-green-700 rounded-xl text-sm font-bold border border-green-100">{interest}</span>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
     );
   }
 
@@ -700,6 +693,427 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
+    );
+  }
+
+
+
+  // ── ENTREPRENEUR PROFILE ──────────────────────────────────────
+  if (type === "entrepreneur") {
+    const data = {
+      name: "Priya Sharma",
+      avatar: `https://i.pravatar.cc/150?u=entrepreneur${id}`,
+      cover: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
+      location: "Bangalore, India",
+      joined: "Mar 2023",
+      verified: true,
+      about: "Founder & CEO of EcoBeauty — a sustainable cosmetics startup disrupting the beauty industry with eco-conscious, vegan-certified products. Serial entrepreneur with 2 prior exits.",
+      stats: [
+        { label: "Startups Founded", value: "3" },
+        { label: "Employees", value: "42" },
+        { label: "Funding Raised", value: "$2.1M" },
+      ],
+      badges: [
+        { label: "Verified Entrepreneur", color: "bg-purple-100 text-purple-700" },
+        { label: "Pitch Day Winner", color: "bg-amber-100 text-amber-700" },
+        { label: "Seed Funded", color: "bg-emerald-100 text-emerald-700" },
+      ],
+      ventures: [
+        { name: "EcoBeauty", status: "Active", stage: "Series A", industry: "Beauty & Wellness" },
+        { name: "GreenPack Solutions", status: "Exited", stage: "Acquired", industry: "Packaging" },
+        { name: "UrbanFarm.io", status: "Active", stage: "Pre-Seed", industry: "AgriTech" },
+      ],
+      skills: ["Product Strategy", "Fundraising", "Team Building", "Go-to-Market", "Sustainability"],
+    };
+    return (
+      <ProfileShell data={data} roleBadge="Entrepreneur" accentColor="bg-purple-50 text-purple-700 border-purple-100">
+        {/* Ventures Portfolio */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Package className="w-6 h-6 text-purple-600" /> Venture Portfolio
+          </h2>
+          <div className="space-y-4">
+            {data.ventures.map((v, i) => (
+              <div key={i} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-purple-200 hover:shadow-xl transition-all flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-black text-slate-900">{v.name}</h3>
+                  <p className="text-sm text-slate-500 font-medium">{v.industry}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{v.stage}</span>
+                  <span className={`text-xs font-black px-3 py-1 rounded-full ${v.status === "Active" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>{v.status}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Skills */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Star className="w-6 h-6 text-amber-500" /> Core Skills
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {data.skills.map((s, i) => (
+              <span key={i} className="px-5 py-2.5 bg-purple-50 text-purple-700 rounded-xl text-sm font-bold border border-purple-100">{s}</span>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
+    );
+  }
+
+  // ── LEADER PROFILE ────────────────────────────────────────────
+  if (type === "leader") {
+    const data = {
+      name: "David Rodriguez",
+      avatar: `https://i.pravatar.cc/150?u=leader${id}`,
+      cover: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=80",
+      location: "Singapore",
+      joined: "Jan 2022",
+      verified: true,
+      about: "CEO of InnovateX, keynote speaker, and leadership mentor. Passionate about building high-performance teams and transforming organizational cultures through servant leadership.",
+      stats: [
+        { label: "Teams Led", value: "15+" },
+        { label: "Keynote Talks", value: "48" },
+        { label: "Mentees", value: "120+" },
+      ],
+      badges: [
+        { label: "Certified Leader", color: "bg-amber-100 text-amber-700" },
+        { label: "Keynote Speaker", color: "bg-blue-100 text-blue-700" },
+        { label: "Top Mentor", color: "bg-emerald-100 text-emerald-700" },
+      ],
+      expertise: ["Servant Leadership", "Strategic Planning", "Change Management", "Executive Coaching", "Conflict Resolution", "Team Building"],
+      speaking: [
+        { title: "The Future of Servant Leadership", event: "ESpot Global Summit 2025", date: "Nov 2025" },
+        { title: "Building 10x Teams", event: "TEDx Innovation Week", date: "Sep 2025" },
+        { title: "Leading Through Uncertainty", event: "World Business Forum", date: "Jun 2025" },
+      ],
+    };
+    return (
+      <ProfileShell data={data} roleBadge="Leader" accentColor="bg-amber-50 text-amber-700 border-amber-100">
+        {/* Speaking Engagements */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Award className="w-6 h-6 text-amber-500" /> Speaking Engagements
+          </h2>
+          <div className="space-y-4">
+            {data.speaking.map((s, i) => (
+              <div key={i} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-amber-200 hover:shadow-xl transition-all">
+                <h3 className="text-lg font-black text-slate-900">{s.title}</h3>
+                <div className="flex items-center gap-4 mt-2 text-sm text-slate-500 font-medium">
+                  <span>{s.event}</span>
+                  <span className="text-xs bg-slate-100 px-3 py-1 rounded-full font-bold">{s.date}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Expertise */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Star className="w-6 h-6 text-amber-500" /> Expertise Areas
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {data.expertise.map((e, i) => (
+              <span key={i} className="px-5 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-sm font-bold border border-amber-100">{e}</span>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
+    );
+  }
+
+  // ── TRAINER PROFILE ───────────────────────────────────────────
+  if (type === "trainer") {
+    const data = {
+      name: "Michael Chang",
+      avatar: `https://i.pravatar.cc/150?u=trainer${id}`,
+      cover: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80",
+      location: "Kathmandu, Nepal",
+      joined: "Aug 2022",
+      verified: true,
+      about: "Certified Agile Coach and Scrum Master with 12+ years of experience. Specializes in team transformation, DevOps practices, and upskilling tech professionals for the modern workplace.",
+      stats: [
+        { label: "Courses Taught", value: "24" },
+        { label: "Students Trained", value: "3,200+" },
+        { label: "Avg Rating", value: "4.9★" },
+      ],
+      badges: [
+        { label: "Certified Trainer", color: "bg-cyan-100 text-cyan-700" },
+        { label: "Top Rated", color: "bg-amber-100 text-amber-700" },
+        { label: "1000+ Students", color: "bg-emerald-100 text-emerald-700" },
+      ],
+      courses: [
+        { name: "Agile & Scrum Mastery", students: 820, rating: 4.9, price: "₹2,999" },
+        { name: "DevOps Fundamentals", students: 640, rating: 4.8, price: "₹3,499" },
+        { name: "Leadership for Tech Teams", students: 380, rating: 4.7, price: "₹1,999" },
+        { name: "Product Management 101", students: 510, rating: 4.8, price: "₹2,499" },
+      ],
+      certifications: ["Certified Scrum Master (CSM)", "AWS Solutions Architect", "PMP Certified", "Google Cloud Professional"],
+    };
+    return (
+      <ProfileShell data={data} roleBadge="Trainer" accentColor="bg-cyan-50 text-cyan-700 border-cyan-100">
+        {/* Courses */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Package className="w-6 h-6 text-cyan-600" /> Courses & Programs
+          </h2>
+          <div className="space-y-4">
+            {data.courses.map((c, i) => (
+              <div key={i} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-cyan-200 hover:shadow-xl transition-all flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-black text-slate-900">{c.name}</h3>
+                  <div className="flex items-center gap-3 mt-1 text-sm text-slate-500 font-medium">
+                    <span>{c.students} students</span>
+                    <span className="flex items-center gap-1"><Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" /> {c.rating}</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-xl font-black text-cyan-600">{c.price}</span>
+                  <button className="block mt-2 px-5 py-2 bg-cyan-600 text-white text-xs font-black rounded-xl hover:bg-cyan-700 transition">Enroll</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Certifications */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <ShieldCheck className="w-6 h-6 text-cyan-600" /> Certifications Held
+          </h2>
+          <div className="space-y-3">
+            {data.certifications.map((c, i) => (
+              <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50/50">
+                <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0" />
+                <span className="font-bold text-slate-800">{c}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
+    );
+  }
+
+  // ── JOBSEEKER PROFILE ─────────────────────────────────────────
+  if (type === "jobseeker") {
+    const data = {
+      name: "Emily Chen",
+      avatar: `https://i.pravatar.cc/150?u=jobseeker${id}`,
+      cover: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+      location: "San Francisco, USA",
+      joined: "Jun 2023",
+      verified: true,
+      about: "Senior Frontend Developer with 6+ years of experience building scalable web applications. Proficient in React, TypeScript, and Node.js. Seeking remote-first opportunities with innovative teams.",
+      stats: [
+        { label: "Experience", value: "6+ yrs" },
+        { label: "Projects", value: "32" },
+        { label: "Certifications", value: "5" },
+      ],
+      badges: [
+        { label: "Open to Work", color: "bg-green-100 text-green-700" },
+        { label: "Verified Skills", color: "bg-blue-100 text-blue-700" },
+        { label: "Remote Ready", color: "bg-purple-100 text-purple-700" },
+      ],
+      skills: ["React", "TypeScript", "Node.js", "GraphQL", "AWS", "Figma", "Docker", "CI/CD"],
+      experience: [
+        { role: "Senior Frontend Developer", company: "TechFlow Inc.", duration: "2021 – Present", desc: "Led the frontend team of 8, built a design system serving 200+ components." },
+        { role: "Frontend Developer", company: "StartupHub", duration: "2019 – 2021", desc: "Built customer-facing dashboards for 50K+ users using React and Redux." },
+        { role: "Junior Developer", company: "WebCraft Studio", duration: "2017 – 2019", desc: "Developed responsive websites and e-commerce platforms for SMB clients." },
+      ],
+      preferences: ["Remote First", "Full-Time", "$120K – $160K", "Product Teams"],
+    };
+    return (
+      <ProfileShell data={data} roleBadge="Jobseeker" accentColor="bg-green-50 text-green-700 border-green-100">
+        {/* Experience */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Package className="w-6 h-6 text-green-600" /> Work Experience
+          </h2>
+          <div className="space-y-6">
+            {data.experience.map((e, i) => (
+              <div key={i} className="relative pl-8 border-l-2 border-slate-200 pb-6 last:pb-0">
+                <div className="absolute -left-[9px] top-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white" />
+                <h3 className="text-lg font-black text-slate-900">{e.role}</h3>
+                <p className="text-sm font-bold text-green-600">{e.company} · {e.duration}</p>
+                <p className="text-sm text-slate-500 mt-2 font-medium">{e.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Skills */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Star className="w-6 h-6 text-amber-500" /> Technical Skills
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {data.skills.map((s, i) => (
+              <span key={i} className="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold">{s}</span>
+            ))}
+          </div>
+        </div>
+        {/* Preferences */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Tag className="w-6 h-6 text-blue-600" /> Job Preferences
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {data.preferences.map((p, i) => (
+              <span key={i} className="px-5 py-2.5 bg-green-50 text-green-700 rounded-xl text-sm font-bold border border-green-100">{p}</span>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
+    );
+  }
+
+  // ── JOB GIVER PROFILE ─────────────────────────────────────────
+  if (type === "jobgiver") {
+    const data = {
+      name: "TechCorp Innovations",
+      avatar: `https://i.pravatar.cc/150?u=jobgiver${id}`,
+      cover: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+      location: "Austin, Texas, USA",
+      joined: "Feb 2022",
+      verified: true,
+      about: "TechCorp Innovations is a leading enterprise software company building AI-powered solutions for Fortune 500 clients. We're scaling rapidly and always looking for exceptional talent.",
+      stats: [
+        { label: "Open Positions", value: "18" },
+        { label: "Team Size", value: "350+" },
+        { label: "Avg Rating", value: "4.7★" },
+      ],
+      badges: [
+        { label: "Verified Employer", color: "bg-blue-100 text-blue-700" },
+        { label: "Top Employer 2025", color: "bg-amber-100 text-amber-700" },
+        { label: "Fast Growing", color: "bg-emerald-100 text-emerald-700" },
+      ],
+      openings: [
+        { title: "Senior React Developer", type: "Full-Time · Remote", salary: "$130K – $170K" },
+        { title: "Product Manager", type: "Full-Time · Hybrid", salary: "$120K – $150K" },
+        { title: "DevOps Engineer", type: "Full-Time · On-site", salary: "$110K – $140K" },
+        { title: "UX Designer", type: "Contract · Remote", salary: "$90K – $120K" },
+      ],
+      benefits: ["Remote-first culture", "Equity & stock options", "Unlimited PTO", "Health & dental insurance", "Learning budget ($2K/yr)", "Annual team retreats"],
+    };
+    return (
+      <ProfileShell data={data} roleBadge="Job Giver / Employer" accentColor="bg-blue-50 text-blue-700 border-blue-100">
+        {/* Job Openings */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Package className="w-6 h-6 text-blue-600" /> Open Positions
+          </h2>
+          <div className="space-y-4">
+            {data.openings.map((j, i) => (
+              <div key={i} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-blue-200 hover:shadow-xl transition-all flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-black text-slate-900">{j.title}</h3>
+                  <p className="text-sm text-slate-500 font-medium mt-1">{j.type}</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm font-black text-blue-600">{j.salary}</span>
+                  <button className="block mt-2 px-5 py-2 bg-blue-600 text-white text-xs font-black rounded-xl hover:bg-blue-700 transition">Apply</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Company Benefits */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Star className="w-6 h-6 text-amber-500" /> Company Benefits
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {data.benefits.map((b, i) => (
+              <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-slate-100 bg-slate-50/50">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                <span className="font-bold text-slate-800 text-sm">{b}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
+    );
+  }
+
+  // ── SCHOLAR PROFILE ───────────────────────────────────────────
+  if (type === "scholar") {
+    const data = {
+      name: "Anika Patel",
+      avatar: `https://i.pravatar.cc/150?u=scholar${id}`,
+      cover: "https://images.unsplash.com/photo-1523050854058-8df90110c476?auto=format&fit=crop&w=1200&q=80",
+      location: "London, UK",
+      joined: "Sep 2023",
+      verified: true,
+      about: "PhD candidate in Computational Neuroscience at Imperial College London. ESpot Scholar Award recipient 2025. Research focuses on AI-driven brain-computer interfaces for medical applications.",
+      stats: [
+        { label: "Publications", value: "8" },
+        { label: "Citations", value: "142" },
+        { label: "GPA", value: "3.95" },
+      ],
+      badges: [
+        { label: "ESpot Scholar", color: "bg-violet-100 text-violet-700" },
+        { label: "Research Fellow", color: "bg-blue-100 text-blue-700" },
+        { label: "Dean's List", color: "bg-amber-100 text-amber-700" },
+      ],
+      research: [
+        { title: "Neural Decoding with Transformer Architectures", journal: "Nature Neuroscience", year: "2025" },
+        { title: "Low-Latency BCI for Motor Control", journal: "IEEE Trans. on BME", year: "2024" },
+        { title: "Federated Learning in Medical Imaging", journal: "Medical Image Analysis", year: "2024" },
+      ],
+      scholarships: [
+        { name: "ESpot Global Scholar Award", amount: "₹5,00,000", year: "2025" },
+        { name: "Imperial College Research Bursary", amount: "£12,000", year: "2024" },
+        { name: "British Council STEM Scholarship", amount: "£8,000", year: "2023" },
+      ],
+      interests: ["AI/ML", "Neuroscience", "Brain-Computer Interfaces", "Medical Devices", "Open Source"],
+    };
+    return (
+      <ProfileShell data={data} roleBadge="Scholar" accentColor="bg-violet-50 text-violet-700 border-violet-100">
+        {/* Research Publications */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Package className="w-6 h-6 text-violet-600" /> Research & Publications
+          </h2>
+          <div className="space-y-4">
+            {data.research.map((r, i) => (
+              <div key={i} className="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:border-violet-200 hover:shadow-xl transition-all">
+                <h3 className="text-lg font-black text-slate-900">{r.title}</h3>
+                <div className="flex items-center gap-3 mt-2 text-sm text-slate-500 font-medium">
+                  <span className="text-violet-600 font-bold">{r.journal}</span>
+                  <span className="text-xs bg-slate-100 px-3 py-1 rounded-full font-bold">{r.year}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Scholarships Won */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Award className="w-6 h-6 text-amber-500" /> Scholarships & Awards
+          </h2>
+          <div className="space-y-4">
+            {data.scholarships.map((s, i) => (
+              <div key={i} className="flex items-center justify-between p-5 rounded-2xl border border-amber-100 bg-amber-50/30">
+                <div>
+                  <h3 className="font-black text-slate-900">{s.name}</h3>
+                  <p className="text-sm text-slate-500 font-medium mt-1">{s.year}</p>
+                </div>
+                <span className="text-xl font-black text-amber-600">{s.amount}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Research Interests */}
+        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl">
+          <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <Star className="w-6 h-6 text-violet-500" /> Research Interests
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            {data.interests.map((s, i) => (
+              <span key={i} className="px-5 py-2.5 bg-violet-50 text-violet-700 rounded-xl text-sm font-bold border border-violet-100">{s}</span>
+            ))}
+          </div>
+        </div>
+      </ProfileShell>
     );
   }
 

@@ -7,16 +7,41 @@ import {
 } from "react-router-dom";
 import React, { useLayoutEffect } from "react";
 import type { ReactElement } from "react";
-import PublicLayout from "./components/PublicLayout";
-import DashboardLayout from "./components/DashboardLayout";
 
-// Public Pages
+// Helper for dashboard role routes
+const dashboardRoleRoutes = [
+  "member",
+  "partner",
+  "franchise",
+  "leader",
+  "scholar",
+  "trainee",
+  "sponsor",
+  "donor",
+] as const;
+
+const allowedMap: Record<string, AuthRole[]> = {
+  member: ["Member", "Entrepreneur", "Jobseeker", "Trainer"],
+  partner: ["Partner"],
+  franchise: ["Franchisee"],
+  leader: ["Leader"],
+  scholar: ["Scholar"],
+  trainee: ["Trainee"],
+  sponsor: ["Sponsor"],
+  donor: ["Donor"],
+};
+import DashboardLayout from "./components/DashboardLayout";
+import WellbeingSponsorship from "./pages/public/WellbeingSponsorship";
+import Sponsorship from "./pages/public/Sponsorship";
+import Payment from "./pages/public/Payment";
+import PublicLayout from "./components/PublicLayout";
 import {
+  Auth,
   Home,
   Events,
   Membership,
+  Investment,
   Search,
-  Auth,
   UserProfile,
   Partner,
   Franchise,
@@ -25,23 +50,19 @@ import {
   Scholar,
   Leadership,
   Product,
-  ProductDetail,
   Showcase,
   Offer,
   Entrepreneurship,
   Profiles,
   Contact,
-  Investment,
+  ProductDetail,
+  InvestmentDetail,
+  TraineeCourseRegister,
   OfferDetail,
+  FactorDetail,
 } from "./pages/public";
-import FactorDetail from "./pages/public/FactorDetail";
 import Insource from "./pages/public/investment/Insource";
 import Outsource from "./pages/public/investment/Outsource";
-import Payment from "./pages/public/Payment"; // New import for Payment
-import TraineeCourseRegister from "./pages/public/TraineeCourseRegister";
-import InvestmentDetail from "./pages/public/InvestmentDetail";
-import WellbeingSponsorship from "./pages/public/WellbeingSponsorship";
-import Sponsorship from "./pages/public/Sponsorship";
 
 // Dashboard Pages
 import {
@@ -135,7 +156,10 @@ export default function App() {
             <Route path="profiles" element={<Profiles />} />
             <Route path="contact" element={<Contact />} />
             <Route path="sponsorship" element={<Sponsorship />} />
-            <Route path="sponsorship/wellbeing" element={<WellbeingSponsorship />} />
+            <Route
+              path="sponsorship/wellbeing"
+              element={<WellbeingSponsorship />}
+            />
             <Route path="sponsorship/scholarship" element={<Scholar />} />
             <Route path="services" element={<Services />} />
             {/* Service Category Routes */}
@@ -167,47 +191,28 @@ export default function App() {
           </Route>
 
           {/* Role-based Dashboards — all use the same dynamic DashboardLayout */}
-          {(
-            [
-              "member",
-              "partner",
-              "franchise",
-              "leader",
-              "scholar",
-              "trainee",
-            ] as const
-          ).map((slug) => {
-            const allowedMap: Record<string, AuthRole[]> = {
-              member: ["Member", "Entrepreneur", "Jobseeker", "Trainer"],
-              partner: ["Partner"],
-              franchise: ["Franchisee"],
-              leader: ["Leader"],
-              scholar: ["Scholar"],
-              trainee: ["Trainee"],
-            };
-            return (
-              <React.Fragment key={slug}>
+          {dashboardRoleRoutes.map((slug) => (
+            <React.Fragment key={slug}>
+              <Route
+                path={`/dashboard/${slug}`}
+                element={
+                  <RequireRole allowed={allowedMap[slug]}>
+                    <DashboardLayout />
+                  </RequireRole>
+                }
+              >
+                <Route index element={<DashboardHome />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="events" element={<DashboardEvents />} />
+                <Route path="membership" element={<DashboardMembership />} />
+                <Route path=":feature" element={<RoleFeaturePage />} />
                 <Route
-                  path={`/dashboard/${slug}`}
-                  element={
-                    <RequireRole allowed={allowedMap[slug]}>
-                      <DashboardLayout />
-                    </RequireRole>
-                  }
-                >
-                  <Route index element={<DashboardHome />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="events" element={<DashboardEvents />} />
-                  <Route path="membership" element={<DashboardMembership />} />
-                  <Route path=":feature" element={<RoleFeaturePage />} />
-                  <Route
-                    path="*"
-                    element={<Navigate to={`/dashboard/${slug}`} replace />}
-                  />
-                </Route>
-              </React.Fragment>
-            );
-          })}
+                  path="*"
+                  element={<Navigate to={`/dashboard/${slug}`} replace />}
+                />
+              </Route>
+            </React.Fragment>
+          ))}
         </Routes>
       </BrowserRouter>
     </div>
