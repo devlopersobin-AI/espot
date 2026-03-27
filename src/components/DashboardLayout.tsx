@@ -44,40 +44,44 @@ function buildNav(base: string, profileLabel = "My Profile"): NavItem[] {
 }
 
 const DASHBOARD_CONFIG: Record<string, { title: string; nav: NavItem[] }> = {
-    Sponsor: {
-      title: "Sponsor Hub",
-      nav: [
-        {
-          name: "Sponsor Dashboard",
-          path: "/dashboard/sponsor",
-          icon: LayoutDashboard,
-        },
-        {
-          name: "Sponsor Profile",
-          path: "/dashboard/sponsor/profile",
-          icon: Users,
-        },
-        { name: "Sponsored Events", path: "/dashboard/sponsor/events", icon: Calendar },
-        { name: "Impact Reports", path: "/dashboard/sponsor/impact", icon: Star },
-      ],
-    },
-    Donor: {
-      title: "Donor Hub",
-      nav: [
-        {
-          name: "Donor Dashboard",
-          path: "/dashboard/donor",
-          icon: LayoutDashboard,
-        },
-        {
-          name: "Donor Profile",
-          path: "/dashboard/donor/profile",
-          icon: Users,
-        },
-        { name: "Donations", path: "/dashboard/donor/donations", icon: Gem },
-        { name: "Supported Causes", path: "/dashboard/donor/causes", icon: Star },
-      ],
-    },
+  Sponsor: {
+    title: "Sponsor Hub",
+    nav: [
+      {
+        name: "Sponsor Dashboard",
+        path: "/dashboard/sponsor",
+        icon: LayoutDashboard,
+      },
+      {
+        name: "Sponsor Profile",
+        path: "/dashboard/sponsor/profile",
+        icon: Users,
+      },
+      {
+        name: "Sponsored Events",
+        path: "/dashboard/sponsor/events",
+        icon: Calendar,
+      },
+      { name: "Impact Reports", path: "/dashboard/sponsor/impact", icon: Star },
+    ],
+  },
+  Donor: {
+    title: "Donor Hub",
+    nav: [
+      {
+        name: "Donor Dashboard",
+        path: "/dashboard/donor",
+        icon: LayoutDashboard,
+      },
+      {
+        name: "Donor Profile",
+        path: "/dashboard/donor/profile",
+        icon: Users,
+      },
+      { name: "Donations", path: "/dashboard/donor/donations", icon: Gem },
+      { name: "Supported Causes", path: "/dashboard/donor/causes", icon: Star },
+    ],
+  },
   Admin: {
     title: "Command Center",
     nav: [

@@ -1,9 +1,28 @@
 import { useEffect, useState } from "react";
-import { Check, Shield, Zap, Users, ArrowRight, Trophy, Crown, Gem, Award, Star, TrendingUp } from "lucide-react";
+import {
+  Check,
+  Shield,
+  Zap,
+  Users,
+  ArrowRight,
+  Trophy,
+  Crown,
+  Gem,
+  Award,
+  Star,
+  TrendingUp,
+} from "lucide-react";
 import { getAuthRole, hasPermission } from "../../auth/permissions";
 import type { AuthRole } from "../../auth/permissions";
 
-type MembershipTier = "None" | "Bronze" | "Silver" | "Gold" | "Diamond" | "Platinum" | "Crown";
+type MembershipTier =
+  | "None"
+  | "Bronze"
+  | "Silver"
+  | "Gold"
+  | "Diamond"
+  | "Platinum"
+  | "Crown";
 type SubscriptionState = "Active" | "Paused" | "Cancelled";
 
 type TierSetting = {
@@ -93,18 +112,36 @@ export default function Membership() {
   const [selectedPlans, setSelectedPlans] = useState<string[]>(() => {
     const stored = localStorage.getItem(planStorageKey);
     const valid = [
-      "Bronze", "Bronze Networking Package", "Bronze Community Package",
-      "Silver", "Silver Equestrian Package", "Silver Events Package", "Silver Beauty & Spa Package", "Silver Wellness & Fitness Package",
-      "Gold", "Gold Mentorship Package", "Gold Premium Resources", "Gold Strategy Session",
-      "Diamond", "Diamond Executive Coaching", "Diamond VIP Global Access", "Diamond Private Equity",
-      "Platinum", "Platinum Concierge Plus", "Platinum Lifestyle Events", "Platinum Global Forums",
-      "Crown", "Crown Board Council", "Crown Lifetime Estate", "Crown Ultimate Legacy"
+      "Bronze",
+      "Bronze Networking Package",
+      "Bronze Community Package",
+      "Silver",
+      "Silver Equestrian Package",
+      "Silver Events Package",
+      "Silver Beauty & Spa Package",
+      "Silver Wellness & Fitness Package",
+      "Gold",
+      "Gold Mentorship Package",
+      "Gold Premium Resources",
+      "Gold Strategy Session",
+      "Diamond",
+      "Diamond Executive Coaching",
+      "Diamond VIP Global Access",
+      "Diamond Private Equity",
+      "Platinum",
+      "Platinum Concierge Plus",
+      "Platinum Lifestyle Events",
+      "Platinum Global Forums",
+      "Crown",
+      "Crown Board Council",
+      "Crown Lifetime Estate",
+      "Crown Ultimate Legacy",
     ];
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed)) {
-          return parsed.filter(p => valid.includes(p));
+          return parsed.filter((p) => valid.includes(p));
         }
       } catch (e) {
         if (valid.includes(stored)) return [stored];
@@ -112,7 +149,7 @@ export default function Membership() {
     }
     return ["Bronze"];
   });
-  
+
   const [activeTier, setActiveTier] = useState<MembershipTier>(() => {
     const stored = localStorage.getItem(`active-membership-tier-${role}`);
     return (stored as MembershipTier) || "Bronze";
@@ -123,19 +160,23 @@ export default function Membership() {
     return (stored as MembershipTier) || "Bronze";
   });
 
-  const [activeTab, setActiveTab] = useState<"packages" | "investment">("packages");
+  const [activeTab, setActiveTab] = useState<"packages" | "investment">(
+    "packages",
+  );
 
   const togglePlan = (planName: string, tierName: MembershipTier) => {
-    if (activeTier !== tierName) {
-      // Switching tiers: clear old sub-packages and set new tier
-      setActiveTier(tierName);
+    // Only set Platinum tier if e-spot investment is selected
+    const isEspotInvestment = planName === "Early Bird Platinum SMPI";
+    if (isEspotInvestment) {
+      setActiveTier("Platinum");
       setSelectedPlans([planName]);
     } else {
-      // Same tier: toggle sub-package
-      setSelectedPlans(prev => 
-        prev.includes(planName) 
-          ? prev.filter(p => p !== planName) 
-          : [...prev, planName]
+      // For all other packages, allow selection but do not change tier from Bronze
+      setActiveTier("Bronze");
+      setSelectedPlans((prev) =>
+        prev.includes(planName)
+          ? prev.filter((p) => p !== planName)
+          : [...prev, planName],
       );
     }
   };
@@ -271,7 +312,7 @@ export default function Membership() {
       subPackages: [
         { name: "Bronze Networking Package", desc: "Basic Networking" },
         { name: "Bronze Community Package", desc: "Community Access" },
-      ]
+      ],
     },
     {
       name: "Silver",
@@ -289,8 +330,11 @@ export default function Membership() {
         { name: "Silver Equestrian Package", desc: "Equestrian" },
         { name: "Silver Events Package", desc: "Events" },
         { name: "Silver Beauty & Spa Package", desc: "Beauty & Spa" },
-        { name: "Silver Wellness & Fitness Package", desc: "Wellness & Fitness" }
-      ]
+        {
+          name: "Silver Wellness & Fitness Package",
+          desc: "Wellness & Fitness",
+        },
+      ],
     },
     {
       name: "Gold",
@@ -307,8 +351,8 @@ export default function Membership() {
       subPackages: [
         { name: "Gold Mentorship Package", desc: "1-on-1 Mentorship" },
         { name: "Gold Premium Resources", desc: "Exclusive Content" },
-        { name: "Gold Strategy Session", desc: "Quarterly Planning" }
-      ]
+        { name: "Gold Strategy Session", desc: "Quarterly Planning" },
+      ],
     },
     {
       name: "Diamond",
@@ -326,8 +370,8 @@ export default function Membership() {
       subPackages: [
         { name: "Diamond Executive Coaching", desc: "Monthly 1-on-1" },
         { name: "Diamond VIP Global Access", desc: "Unlimited VIP" },
-        { name: "Diamond Private Equity", desc: "Exclusive Deals" }
-      ]
+        { name: "Diamond Private Equity", desc: "Exclusive Deals" },
+      ],
     },
     {
       name: "Platinum",
@@ -345,8 +389,8 @@ export default function Membership() {
       subPackages: [
         { name: "Platinum Concierge Plus", desc: "24/7 Assistance" },
         { name: "Platinum Lifestyle Events", desc: "Ultra-Private" },
-        { name: "Platinum Global Forums", desc: "Elite Networking" }
-      ]
+        { name: "Platinum Global Forums", desc: "Elite Networking" },
+      ],
     },
     {
       name: "Crown",
@@ -364,8 +408,8 @@ export default function Membership() {
       subPackages: [
         { name: "Crown Board Council", desc: "Strategic Influence" },
         { name: "Crown Lifetime Estate", desc: "Global Privileges" },
-        { name: "Crown Ultimate Legacy", desc: "Name Recognition" }
-      ]
+        { name: "Crown Ultimate Legacy", desc: "Name Recognition" },
+      ],
     },
   ];
 
@@ -377,8 +421,12 @@ export default function Membership() {
       description: "Entry to Professional Tier",
       buyIn: "$5,000",
       exit: "5-Year Exit",
-      benefits: ["5-Year Wellness Package", "Partnership Ownership", "Elite Arena Access"],
-      color: "blue"
+      benefits: [
+        "5-Year Wellness Package",
+        "Partnership Ownership",
+        "Elite Arena Access",
+      ],
+      color: "blue",
     },
     {
       id: "PMPI",
@@ -387,8 +435,12 @@ export default function Membership() {
       description: "Management Participation Tier",
       buyIn: "$15,000",
       exit: "5-Year Exit",
-      benefits: ["Management Roles", "Profit-Based Returns", "35% OFF Annual Benefits"],
-      color: "indigo"
+      benefits: [
+        "Management Roles",
+        "Profit-Based Returns",
+        "35% OFF Annual Benefits",
+      ],
+      color: "indigo",
     },
     {
       id: "EMPI",
@@ -397,9 +449,13 @@ export default function Membership() {
       description: "High Level Engagement Tier",
       buyIn: "$50,000",
       exit: "Flexible Exit",
-      benefits: ["Equity Ownership", "Full-Time Part-Time Options", "45% OFF All Memberships"],
-      color: "amber"
-    }
+      benefits: [
+        "Equity Ownership",
+        "Full-Time Part-Time Options",
+        "45% OFF All Memberships",
+      ],
+      color: "amber",
+    },
   ];
 
   const setAccountValue = (
@@ -447,7 +503,8 @@ export default function Membership() {
           Portfolio & Standing
         </h2>
         <p className="text-base text-gray-500 mt-3 font-medium">
-          Manage your active benefit packages and explore investment models to upgrade your global member status.
+          Manage your active benefit packages and explore investment models to
+          upgrade your global member status.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-6">
@@ -493,14 +550,19 @@ export default function Membership() {
           <div className="max-w-4xl mx-auto px-4 mb-12">
             <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-2xl shadow-slate-200/50 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="flex-1">
-                <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-2">Current Benefit Standing</p>
+                <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-2">
+                  Current Benefit Standing
+                </p>
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl font-black text-slate-900">{activeTier} Package</span>
+                  <span className="text-2xl font-black text-slate-900">
+                    {activeTier} Package
+                  </span>
                   {selectedPlans.length > 0 && (
                     <span className="text-slate-300">/</span>
                   )}
                   <span className="text-slate-500 font-bold text-sm">
-                    {selectedPlans.length} Active {selectedPlans.length === 1 ? 'Service' : 'Services'}
+                    {selectedPlans.length} Active{" "}
+                    {selectedPlans.length === 1 ? "Service" : "Services"}
                   </span>
                 </div>
                 {selectedPlans.length > 0 && (
@@ -510,17 +572,19 @@ export default function Membership() {
                 )}
               </div>
               <div className="text-right border-l border-slate-100 pl-8">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Portfolio Cost ({billingCycle})</p>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                  Portfolio Cost ({billingCycle})
+                </p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-black text-slate-900">
-                    ${plans.find(p => p.name === activeTier)?.price || 0}
+                    ${plans.find((p) => p.name === activeTier)?.price || 0}
                   </span>
                   <span className="text-sm font-bold text-slate-400">
                     /{billingCycle === "annual" ? "yr" : "mo"}
                   </span>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => {
                   alert("Benefit packages updated successfully!");
                 }}
@@ -532,196 +596,257 @@ export default function Membership() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
-          {plans.map((plan) => {
-            const planColors: Record<string, string> = {
-              amber: "from-amber-50 to-orange-50 border-amber-200 text-amber-700",
-              slate: "from-slate-50 to-gray-50 border-slate-200 text-slate-700",
-              yellow: "from-yellow-50 to-orange-50 border-yellow-200 text-yellow-700",
-              cyan: "from-cyan-50 to-sky-50 border-cyan-200 text-cyan-700",
-              indigo: "from-indigo-50 to-blue-50 border-indigo-200 text-indigo-700",
-              rose: "from-rose-50 to-pink-50 border-rose-200 text-rose-700",
-            };
-            
-            const accentColors: Record<string, string> = {
-              amber: "bg-amber-100 text-amber-600",
-              slate: "bg-slate-100 text-slate-600",
-              yellow: "bg-yellow-100 text-yellow-600",
-              cyan: "bg-cyan-100 text-cyan-600",
-              indigo: "bg-indigo-100 text-indigo-600",
-              rose: "bg-rose-100 text-rose-600",
-            };
+            {plans.map((plan) => {
+              const planColors: Record<string, string> = {
+                amber:
+                  "from-amber-50 to-orange-50 border-amber-200 text-amber-700",
+                slate:
+                  "from-slate-50 to-gray-50 border-slate-200 text-slate-700",
+                yellow:
+                  "from-yellow-50 to-orange-50 border-yellow-200 text-yellow-700",
+                cyan: "from-cyan-50 to-sky-50 border-cyan-200 text-cyan-700",
+                indigo:
+                  "from-indigo-50 to-blue-50 border-indigo-200 text-indigo-700",
+                rose: "from-rose-50 to-pink-50 border-rose-200 text-rose-700",
+              };
 
-            const buttonColors: Record<string, string> = {
-              amber: "bg-amber-600 hover:bg-amber-700",
-              slate: "bg-slate-600 hover:bg-slate-700",
-              yellow: "bg-yellow-600 hover:bg-yellow-700",
-              cyan: "bg-cyan-600 hover:bg-cyan-700",
-              indigo: "bg-indigo-600 hover:bg-indigo-700",
-              rose: "bg-rose-600 hover:bg-rose-700",
-            };
+              const accentColors: Record<string, string> = {
+                amber: "bg-amber-100 text-amber-600",
+                slate: "bg-slate-100 text-slate-600",
+                yellow: "bg-yellow-100 text-yellow-600",
+                cyan: "bg-cyan-100 text-cyan-600",
+                indigo: "bg-indigo-100 text-indigo-600",
+                rose: "bg-rose-100 text-rose-600",
+              };
 
-            return (
-              <div
-                key={plan.name}
-                className={`bg-white rounded-[2.5rem] p-10 flex flex-col relative transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border ${
-                  activeTier === plan.name
-                    ? "border-blue-500 shadow-2xl ring-8 ring-blue-50"
-                    : "border-slate-100 shadow-sm"
-                }`}
-              >
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${planColors[plan.color]} opacity-10 rounded-tr-3xl rounded-bl-[100px] pointer-events-none`} />
-                
-                {plan.recommended && (
-                  <div className="absolute top-0 left-10 -translate-y-1/2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-xl">
-                    Popular Choice
-                  </div>
-                )}
+              const buttonColors: Record<string, string> = {
+                amber: "bg-amber-600 hover:bg-amber-700",
+                slate: "bg-slate-600 hover:bg-slate-700",
+                yellow: "bg-yellow-600 hover:bg-yellow-700",
+                cyan: "bg-cyan-600 hover:bg-cyan-700",
+                indigo: "bg-indigo-600 hover:bg-indigo-700",
+                rose: "bg-rose-600 hover:bg-rose-700",
+              };
 
-                <div className="flex items-center gap-4 mb-8">
-                  <div className={`w-12 h-12 rounded-2xl ${accentColors[plan.color]} shadow-inner flex items-center justify-center`}>
-                    <plan.icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-gray-900 tracking-tight">{plan.name} Package</h3>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{plan.description}</p>
-                  </div>
-                </div>
+              return (
+                <div
+                  key={plan.name}
+                  className={`bg-white rounded-[2.5rem] p-10 flex flex-col relative transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border ${
+                    activeTier === plan.name
+                      ? "border-blue-500 shadow-2xl ring-8 ring-blue-50"
+                      : "border-slate-100 shadow-sm"
+                  }`}
+                >
+                  <div
+                    className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${planColors[plan.color]} opacity-10 rounded-tr-3xl rounded-bl-[100px] pointer-events-none`}
+                  />
 
-                <div className="mb-10 flex items-baseline gap-1 pt-6 border-t border-slate-50">
-                  <span className="text-5xl font-black text-slate-900 tracking-tighter">
-                    ${plan.price}
-                  </span>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                    /{billingCycle === "annual" ? "year" : "month"}
-                  </span>
-                </div>
+                  {plan.recommended && (
+                    <div className="absolute top-0 left-10 -translate-y-1/2 bg-slate-900 text-white text-[9px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-xl">
+                      Popular Choice
+                    </div>
+                  )}
 
-                <div className="space-y-4 mb-10 flex-1">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Core Benefits</p>
-                  {plan.features.map((feature, i) => (
+                  <div className="flex items-center gap-4 mb-8">
                     <div
-                      key={i}
-                      className="flex items-center gap-3 text-xs font-bold text-slate-600 group"
+                      className={`w-12 h-12 rounded-2xl ${accentColors[plan.color]} shadow-inner flex items-center justify-center`}
                     >
-                      <div className={`w-5 h-5 rounded-lg flex items-center justify-center transition-colors ${activeTier === plan.name ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-400'}`}>
-                        <Check className="w-3 h-3" />
-                      </div>
-                      <span className="group-hover:text-slate-900 transition-colors">{feature}</span>
+                      <plan.icon className="w-6 h-6" />
                     </div>
-                  ))}
-                </div>
-
-                {canUpdateMembership ? (
-                  <div className="space-y-3 mt-auto pt-8 border-t border-slate-50">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">
-                       {plan.name === "Bronze" ? "Account Base" : "Select Service(s)"}
-                    </p>
-                    <div className="grid grid-cols-1 gap-2.5">
-                      {plan.name === "Bronze" ? (
-                        <button
-                          onClick={() => {
-                            setActiveTier("Silver");
-                            setSelectedPlans(["Silver Equestrian Package"]);
-                          }}
-                          className="w-full p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white flex items-center justify-between group shadow-xl hover:shadow-slate-300 transition-all"
-                        >
-                          <div className="flex flex-col text-left">
-                            <span className="text-xs font-black uppercase tracking-widest">Upgrade to Silver</span>
-                            <span className="text-[9px] text-white/40 font-bold uppercase mt-0.5">Unlock Premium Services</span>
-                          </div>
-                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                      ) : (
-                        plan.subPackages.map((sp) => {
-                          const isSelected = selectedPlans.includes(sp.name);
-                          return (
-                            <button
-                              key={sp.name}
-                              onClick={() => togglePlan(sp.name, plan.name as MembershipTier)}
-                              className={`group w-full p-4 rounded-2xl text-left transition-all duration-300 border shadow-sm relative overflow-hidden ${
-                                isSelected
-                                  ? `${buttonColors[plan.color]} border-transparent text-white shadow-xl`
-                                  : "bg-slate-50 border-slate-100 text-slate-700 hover:border-slate-200 hover:bg-white"
-                              }`}
-                            >
-                              <div className="relative z-10 flex items-center justify-between">
-                                <div className="flex flex-col">
-                                  <span className="text-xs font-black leading-tight uppercase tracking-tight">{sp.name}</span>
-                                  <span className={`text-[9px] ${isSelected ? "text-white/60" : "text-slate-400"} font-black uppercase mt-1 tracking-widest`}>{sp.desc}</span>
-                                </div>
-                                {isSelected && <Check className="w-4 h-4 text-white" />}
-                              </div>
-                            </button>
-                          );
-                        })
-                      )}
+                    <div>
+                      <h3 className="text-xl font-black text-gray-900 tracking-tight">
+                        {plan.name} Package
+                      </h3>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        {plan.description}
+                      </p>
                     </div>
                   </div>
-                ) : (
-                  <button
-                    disabled
-                    className="w-full py-4 px-6 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 bg-slate-100 text-slate-400 cursor-not-allowed mt-auto"
-                  >
-                    <Shield className="w-4 h-4" />
-                    View Only
-                  </button>
-                )}
-              </div>
-            );
-          })}
+
+                  <div className="mb-10 flex items-baseline gap-1 pt-6 border-t border-slate-50">
+                    <span className="text-5xl font-black text-slate-900 tracking-tighter">
+                      ${plan.price}
+                    </span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      /{billingCycle === "annual" ? "year" : "month"}
+                    </span>
+                  </div>
+
+                  <div className="space-y-4 mb-10 flex-1">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">
+                      Core Benefits
+                    </p>
+                    {plan.features.map((feature, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 text-xs font-bold text-slate-600 group"
+                      >
+                        <div
+                          className={`w-5 h-5 rounded-lg flex items-center justify-center transition-colors ${activeTier === plan.name ? "bg-blue-100 text-blue-600" : "bg-slate-100 text-slate-400"}`}
+                        >
+                          <Check className="w-3 h-3" />
+                        </div>
+                        <span className="group-hover:text-slate-900 transition-colors">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {canUpdateMembership ? (
+                    <div className="space-y-3 mt-auto pt-8 border-t border-slate-50">
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">
+                        {plan.name === "Bronze"
+                          ? "Account Base"
+                          : "Select Service(s)"}
+                      </p>
+                      <div className="grid grid-cols-1 gap-2.5">
+                        {plan.name === "Bronze" ? (
+                          <button
+                            onClick={() => {
+                              setActiveTier("Silver");
+                              setSelectedPlans(["Silver Equestrian Package"]);
+                            }}
+                            className="w-full p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white flex items-center justify-between group shadow-xl hover:shadow-slate-300 transition-all"
+                          >
+                            <div className="flex flex-col text-left">
+                              <span className="text-xs font-black uppercase tracking-widest">
+                                Upgrade to Silver
+                              </span>
+                              <span className="text-[9px] text-white/40 font-bold uppercase mt-0.5">
+                                Unlock Premium Services
+                              </span>
+                            </div>
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                          </button>
+                        ) : (
+                          plan.subPackages.map((sp) => {
+                            const isSelected = selectedPlans.includes(sp.name);
+                            return (
+                              <button
+                                key={sp.name}
+                                onClick={() =>
+                                  togglePlan(
+                                    sp.name,
+                                    plan.name as MembershipTier,
+                                  )
+                                }
+                                className={`group w-full p-4 rounded-2xl text-left transition-all duration-300 border shadow-sm relative overflow-hidden ${
+                                  isSelected
+                                    ? `${buttonColors[plan.color]} border-transparent text-white shadow-xl`
+                                    : "bg-slate-50 border-slate-100 text-slate-700 hover:border-slate-200 hover:bg-white"
+                                }`}
+                              >
+                                <div className="relative z-10 flex items-center justify-between">
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-black leading-tight uppercase tracking-tight">
+                                      {sp.name}
+                                    </span>
+                                    <span
+                                      className={`text-[9px] ${isSelected ? "text-white/60" : "text-slate-400"} font-black uppercase mt-1 tracking-widest`}
+                                    >
+                                      {sp.desc}
+                                    </span>
+                                  </div>
+                                  {isSelected && (
+                                    <Check className="w-4 h-4 text-white" />
+                                  )}
+                                </div>
+                              </button>
+                            );
+                          })
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      disabled
+                      className="w-full py-4 px-6 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 bg-slate-100 text-slate-400 cursor-not-allowed mt-auto"
+                    >
+                      <Shield className="w-4 h-4" />
+                      View Only
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </>
       )}
 
       {!isAdmin && activeTab === "investment" && (
         <div className="max-w-7xl mx-auto px-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
-           <div className="bg-slate-900 rounded-[3rem] p-12 text-white mb-12 shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] -mr-64 -mt-64" />
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                 <div className="space-y-8">
-                    <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full">
-                       <TrendingUp className="w-4 h-4 text-blue-400" />
-                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-200">Ecosystem Standing</span>
-                    </div>
-                    <h2 className="text-5xl font-black tracking-tighter leading-none uppercase">Identity <br/> <span className="text-blue-500">Investment</span></h2>
-                    <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-xl">
-                      Your Identity Tier is separate from your monthly benefits. Real members invest in the ecosystem to unlock permanent global standing, governance rights, and high-yield returns.
+          <div className="bg-slate-900 rounded-[3rem] p-12 text-white mb-12 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] -mr-64 -mt-64" />
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full">
+                  <TrendingUp className="w-4 h-4 text-blue-400" />
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-200">
+                    Ecosystem Standing
+                  </span>
+                </div>
+                <h2 className="text-5xl font-black tracking-tighter leading-none uppercase">
+                  Identity <br />{" "}
+                  <span className="text-blue-500">Investment</span>
+                </h2>
+                <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-xl">
+                  Your Identity Tier is separate from your monthly benefits.
+                  Real members invest in the ecosystem to unlock permanent
+                  global standing, governance rights, and high-yield returns.
+                </p>
+                <div className="flex items-center gap-6">
+                  <div className="bg-white/5 border border-white/10 p-6 rounded-[1.5rem] flex-1">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">
+                      My Current Standing
                     </p>
-                    <div className="flex items-center gap-6">
-                       <div className="bg-white/5 border border-white/10 p-6 rounded-[1.5rem] flex-1">
-                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">My Current Standing</p>
-                          <p className="text-2xl font-black text-white">{investmentTier} Tier</p>
-                       </div>
-                    </div>
-                 </div>
-                 <div className="space-y-6">
-                    {investmentPlans.map((plan) => (
-                      <div key={plan.id} className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-8 hover:bg-white/10 transition-all group/plan">
-                         <div className="flex items-center justify-between mb-4">
-                            <h4 className="text-xl font-black uppercase tracking-tight">{plan.name}</h4>
-                            <span className="text-[10px] font-black text-blue-400 border border-blue-400/30 px-3 py-1 rounded-lg uppercase tracking-widest">{plan.exit}</span>
-                         </div>
-                         <p className="text-slate-400 text-sm font-medium mb-6">{plan.description}</p>
-                         <div className="flex items-center justify-between">
-                            <div className="flex flex-col">
-                               <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Buy-In Amount</span>
-                               <span className="text-2xl font-black text-white">{plan.buyIn}</span>
-                            </div>
-                            <button 
-                              onClick={() => {
-                                setInvestmentTier(plan.tier);
-                                alert(`Upgraded to ${plan.tier} Investment Tier!`);
-                              }}
-                              className="px-8 py-3 bg-white text-slate-900 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-xl"
-                            >
-                               Upgrade Identity
-                            </button>
-                         </div>
-                      </div>
-                    ))}
-                 </div>
+                    <p className="text-2xl font-black text-white">
+                      {investmentTier} Tier
+                    </p>
+                  </div>
+                </div>
               </div>
-           </div>
+              <div className="space-y-6">
+                {investmentPlans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-8 hover:bg-white/10 transition-all group/plan"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-xl font-black uppercase tracking-tight">
+                        {plan.name}
+                      </h4>
+                      <span className="text-[10px] font-black text-blue-400 border border-blue-400/30 px-3 py-1 rounded-lg uppercase tracking-widest">
+                        {plan.exit}
+                      </span>
+                    </div>
+                    <p className="text-slate-400 text-sm font-medium mb-6">
+                      {plan.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">
+                          Buy-In Amount
+                        </span>
+                        <span className="text-2xl font-black text-white">
+                          {plan.buyIn}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setInvestmentTier(plan.tier);
+                          alert(`Upgraded to ${plan.tier} Investment Tier!`);
+                        }}
+                        className="px-8 py-3 bg-white text-slate-900 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-500 hover:text-white transition-all shadow-xl"
+                      >
+                        Upgrade Identity
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

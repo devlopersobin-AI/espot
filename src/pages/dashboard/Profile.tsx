@@ -285,37 +285,7 @@ export default function Profile() {
   return (
     <>
       {/* DEBUG: Show current role */}
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          background: "#fffa",
-          color: "#333",
-          zIndex: 9999,
-          padding: "6px 16px",
-          fontWeight: "bold",
-          fontSize: 13,
-        }}
-      >
-        Debug: Current role = {role}
-      </div>
       {/* DEBUG: Show secondaryRoles array */}
-      <div
-        style={{
-          position: "fixed",
-          top: 30,
-          right: 0,
-          background: "#fffa",
-          color: "#333",
-          zIndex: 9999,
-          padding: "6px 16px",
-          fontWeight: "bold",
-          fontSize: 13,
-        }}
-      >
-        Debug: secondaryRoles = {JSON.stringify(secondaryRoles)}
-      </div>
       <div className="bg-[#f8f9fa] min-h-screen -m-5 md:-m-8 p-5 md:p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           {/* ── Top Info Row ───────────────────────────────────────────── */}
@@ -324,19 +294,22 @@ export default function Profile() {
               <h1 className="text-xl font-bold text-gray-900">
                 {role} Profile
               </h1>
-              {/* Show current secondary roles BELOW the name */}
-              {role === "Member" && secondaryRoles.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {secondaryRoles.map((r) => (
+              <div className="flex items-center gap-2 mt-1">
+                <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-bold rounded-xl uppercase tracking-wide">
+                  MEMBER
+                </span>
+                {/* Show current secondary roles BESIDE the Member badge */}
+                {role === "Member" &&
+                  secondaryRoles.length > 0 &&
+                  secondaryRoles.map((r) => (
                     <span
                       key={r}
-                      className="px-3 py-1 bg-slate-200 text-xs font-bold rounded-xl text-slate-700"
+                      className="inline-block px-2 py-0.5 bg-slate-200 text-xs font-bold rounded-xl text-slate-700 uppercase tracking-wide"
                     >
                       {r}
                     </span>
                   ))}
-                </div>
-              )}
+              </div>
               {/* Add Role button for Members only */}
               {role === "Member" && (
                 <button
@@ -545,12 +518,23 @@ export default function Profile() {
 
               <div className="mt-4 flex-1">
                 <div className="flex items-center gap-4">
-                  <h2 className="text-4xl font-black text-gray-900 tracking-tight">
+                  <h2 className="text-4xl font-black text-gray-900 tracking-tight flex items-center gap-2">
                     {user.name}
+                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase rounded-lg border border-blue-100">
+                      {user.role}
+                    </span>
+                    {/* Show current secondary roles BESIDE the Member badge in the card */}
+                    {role === "Member" &&
+                      secondaryRoles.length > 0 &&
+                      secondaryRoles.map((r) => (
+                        <span
+                          key={r}
+                          className="px-3 py-1 bg-slate-200 text-[10px] font-black uppercase rounded-lg border border-slate-200 text-slate-700"
+                        >
+                          {r}
+                        </span>
+                      ))}
                   </h2>
-                  <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase rounded-lg border border-blue-100">
-                    {user.role}
-                  </span>
                 </div>
                 <p className="text-sm text-gray-500 mt-2 max-w-3xl leading-relaxed font-medium">
                   {user.bio}
